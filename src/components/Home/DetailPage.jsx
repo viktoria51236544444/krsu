@@ -32,6 +32,7 @@ const DetailPage = () => {
                         <ListGroup.Item><span className="title_text">Формат закупки:</span> {contestDetails.format_purchase}</ListGroup.Item>
                         <ListGroup.Item><span className="title_text">Тип закупки:</span> {contestDetails.type_purchase}</ListGroup.Item>
                         <ListGroup.Item><span className="title_text">Планируемая сумма:</span> {contestDetails.planned_summ} сом</ListGroup.Item>
+                        <ListGroup.Item><span className="title_text">Статус конкурса:</span> {contestDetails.status_contest}</ListGroup.Item>
                         <ListGroup.Item><span className="title_text">Окончание закупки:</span> {new Date(contestDetails.end_date).toLocaleDateString()}</ListGroup.Item>
                     </ListGroup>
                 </Col>
