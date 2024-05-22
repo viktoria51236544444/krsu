@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import { Button, Modal, Form } from 'react-bootstrap';
-import { UseRegister } from '../../Context/ContextProviderRegister';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass } from "@phosphor-icons/react";
+import React, {useState, useEffect} from 'react';
+import {Button, Modal, Form} from 'react-bootstrap';
+import {UseRegister} from '../../Context/ContextProviderRegister';
+import {Link, useNavigate} from 'react-router-dom';
+import {ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass} from "@phosphor-icons/react";
 import './homePage.css'
+import axios from "axios";
 
 const Ads = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [pageInput, setPageInput] = useState("");
     const [showPageList, setShowPageList] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const { publick, createOrder, message, getOrderDetails } = UseRegister();
+    const {publick, createOrder, message, getOrderDetails} = UseRegister();
 
     const [User, setUser] = useState({
         userId: 0,
@@ -117,12 +118,12 @@ const Ads = () => {
 
     const handleSubmit2 = async () => {
         try {
-            const response = await fetch(`${apiUrl}?searchText=${encodeURIComponent(searchText)}`);
+            const response = await axios.get(`${apiUrl}?searchText=${encodeURIComponent(searchText)}`);
             console.log(response);
-            if (!response.ok) {
+            if (response.status !==200 ) {
                 throw new Error('Network response was not ok');
             }
-            const data = await response.json();
+            const data = response.data.result.result
             setSearchResults(data);
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -131,7 +132,7 @@ const Ads = () => {
 
     return (
         <div className="container-fluid">
-            <div className="card" style={{ border: "none" }}>
+            <div className="card" style={{border: "none"}}>
                 <div className="card-body">
                     <div className="input-group mb-3 search-panel">
                         <input
@@ -143,27 +144,28 @@ const Ads = () => {
                         />
                         <div className="input-group-append">
                             <Button className="btn btn-secondary search_button" onClick={handleSubmit2}>
-                                <MagnifyingGlass size={25} color="#fdf7f7" weight="bold" />
+                                <MagnifyingGlass size={25} color="#fdf7f7" weight="bold"/>
                             </Button>
                         </div>
                     </div>
-                    <hr />
+                    <hr/>
                     <div className="table-responsive">
                         <table className="table table-striped">
                             <thead>
-                                <tr>
-                                    <th>№</th>
-                                    <th>Организация</th>
-                                    <th>Способ закупки</th>
-                                    <th>Предмет закупки</th>
-                                    <th>Начало закупки</th>
-                                    <th>Окончание закупки</th>
-                                    {isAuthenticated && <th>Действия</th>}
-                                </tr>
+                            <tr>
+                                <th>№</th>
+                                <th>Организация</th>
+                                <th>Способ закупки</th>
+                                <th>Предмет закупки</th>
+                                <th>Начало закупки</th>
+                                <th>Окончание закупки</th>
+                                {isAuthenticated && <th>Действия</th>}
+                            </tr>
                             </thead>
                             <tbody>
+                            {searchResults?.length == 0 ? <>
                                 {currentPageData.map((ad, index) => (
-                                    <tr key={index} onClick={() => handleClick(ad.codeid)} style={{ cursor: "pointer" }}>
+                                    <tr key={index} onClick={() => handleClick(ad.codeid)} style={{cursor: "pointer"}}>
                                         <td>{index + 1}</td>
                                         <td>{ad.contest_name}</td>
                                         <td>{ad.method_purchase}</td>
@@ -172,27 +174,53 @@ const Ads = () => {
                                         <td>{new Date(ad.end_date).toLocaleDateString()}</td>
                                         {isAuthenticated && (
                                             <td>
-                                                <Button variant="primary" style={{ width: "150px", height: "auto" }} size='small' onClick={() => handleApplyClick(ad)}>Подать заявку</Button>
+                                                <Button variant="primary" style={{width: "150px", height: "auto"}}
+                                                        size='small' onClick={() => handleApplyClick(ad)}>Подать
+                                                    заявку</Button>
                                             </td>
                                         )}
 
                                     </tr>
                                 ))}
+                            </> : <> {searchResults?.map((ad, index) => (
+                                <tr key={index} onClick={() => handleClick(ad.codeid)} style={{cursor: "pointer"}}>
+                                    <td>{index + 1}</td>
+                                    <td>{ad.contest_name}</td>
+                                    <td>{ad.method_purchase}</td>
+                                    <td>{ad.contest_description}</td>
+                                    <td>{ad.start_date}</td>
+                                    <td>{new Date(ad.end_date).toLocaleDateString()}</td>
+                                    {isAuthenticated && (
+                                        <td>
+                                            <Button variant="primary" style={{width: "150px", height: "auto"}}
+                                                    size='small' onClick={() => handleApplyClick(ad)}>Подать
+                                                заявку</Button>
+                                        </td>
+                                    )}
+
+                                </tr>
+                            ))}</>}
+
+
                             </tbody>
                         </table>
                     </div>
                     <div className="pagination-wrapper ">
                         <ul className="pagination justify-content-center pagination-panel">
-                            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`} onClick={() => handlePageChange(currentPage - 1)}>
-                                                                <CaretLeft size={24} color="#212121" weight="bold" />
+                            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
+                                onClick={() => handlePageChange(currentPage - 1)}>
+                                <CaretLeft size={24} color="#212121" weight="bold"/>
                             </li>
                             {pageNumbers.map((number) => (
-                                <li className={`dt-paging-button page-item ${number === currentPage ? 'active' : ''}`} key={number}>
-                                    <a className="page-link" onClick={() => handlePageChange(number)} style={{ borderRadius: 10 }}>{number}</a>
+                                <li className={`dt-paging-button page-item ${number === currentPage ? 'active' : ''}`}
+                                    key={number}>
+                                    <a className="page-link" onClick={() => handlePageChange(number)}
+                                       style={{borderRadius: 10}}>{number}</a>
                                 </li>
                             ))}
-                            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`} onClick={() => handlePageChange(currentPage + 1)}>
-                                <CaretRight size={24} color="#212121" weight="bold" />
+                            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
+                                onClick={() => handlePageChange(currentPage + 1)}>
+                                <CaretRight size={24} color="#212121" weight="bold"/>
                             </li>
                         </ul>
                     </div>
@@ -206,11 +234,13 @@ const Ads = () => {
                     <Form>
                         <Form.Group>
                             <Form.Label>Комментарий</Form.Label>
-                            <Form.Control as="textarea" rows={3} value={comment} onChange={(e) => setComment(e.target.value)} />
+                            <Form.Control as="textarea" rows={3} value={comment}
+                                          onChange={(e) => setComment(e.target.value)}/>
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Сумма</Form.Label>
-                            <Form.Control type="number" value={summValue} onChange={(e) => setSummValue(e.target.value)} />
+                            <Form.Control type="number" value={summValue}
+                                          onChange={(e) => setSummValue(e.target.value)}/>
                         </Form.Group>
                         <Form.Group>
                             <Form.Check
