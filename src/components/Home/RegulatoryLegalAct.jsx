@@ -2,6 +2,7 @@ import React from 'react';
 import {Button} from 'react-bootstrap';
 import "./Info.css"
 import {DownloadSimple, Eye} from "@phosphor-icons/react";
+import Footer from './Footer';
 
 
 const RegulatoryLegalAct = () => {
@@ -78,6 +79,7 @@ const RegulatoryLegalAct = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }

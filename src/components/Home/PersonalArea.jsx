@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Footer from './Footer';
 
 const PersonalArea = () => {
     const [userInfos, setUserInfos] = useState([]);
@@ -44,6 +45,7 @@ const PersonalArea = () => {
                     <p style={{ color: '#333', fontSize: '16px', marginBottom: '8px' }}><strong>Веб-сайт:</strong> {userInfo.web_site}</p>
                 </div>
             ))}
+            <Footer/>
         </div>
     );
 };

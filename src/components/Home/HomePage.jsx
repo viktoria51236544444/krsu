@@ -5,7 +5,7 @@ import Footer from './Footer';
 
 const HomePage = () => {
     return (
-        <Container className="home-container">
+        <Container className="home-container" style={{marginTop: "7vw"}}>
             <Row className="justify-content-start align-items-start text-center">
                 <Col>
                     <h1 className="home-title">Добро пожаловать на портал Закупок КНАУ им. К.И. Скрябина!</h1>

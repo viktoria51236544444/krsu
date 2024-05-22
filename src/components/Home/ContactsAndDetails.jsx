@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Button } from 'react-bootstrap';
+import Footer from './Footer';
 
 
 const ContactsAndDetails = () => {
@@ -53,6 +54,7 @@ const ContactsAndDetails = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }

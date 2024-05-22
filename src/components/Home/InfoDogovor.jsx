@@ -1,4 +1,5 @@
 import React from 'react';
+import Footer from './Footer';
 
 
 const InfoDogovor = () => {
@@ -96,6 +97,7 @@ const InfoDogovor = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }
