@@ -1,0 +1,26 @@
+.home-container {
+    padding-top: 60px;
+}
+
+.home-title {
+    font-size: 2.5rem;
+    color: #007bff;
+    margin-bottom: 20px;
+}
+
+.map-card,
+.description-card {
+    border: 1px solid #f4f4f4;
+    background-color: #ffffff;
+    margin-top: 20px;
+    height: 250px !important;
+}
+
+.map-image-container {
+    overflow: hidden;
+}
+
+.map-image {
+    width: 100%;
+    height: auto;
+}

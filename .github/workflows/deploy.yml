@@ -1,0 +1,67 @@
+name: Deploy to Server
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploing:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - name: Get Code Repository
+        uses: actions/checkout@master
+
+      - name: Setup Nodejs
+        uses: actions/setup-node@master
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build
+        run: |
+          CI=true npm run build
+
+      - name: Create deploy tar file
+        run: |
+          ls -la
+          tar -cvf deploy.tar build/          
+
+      - name: Copy Build to Server via SSH
+        uses: appleboy/scp-action@master
+        with:
+        #указывается хост где находиться наш проект
+          host: 212.112.105.196
+          username: root
+          #порт
+          port: 2457
+          password: Afina954120
+          source:  "deploy.tar"
+          # и место нахождение нашего проекта
+          target: "root /mttp/build/"
+          tar_dereference: true
+          rm: true
+
+      - name: Unzip build tar file
+        uses: appleboy/ssh-action@master
+        with:
+        #так же здесь все эти параметры
+          host: 212.112.105.196
+          username: root
+          port: 2457
+          password: Afina954120
+          script: |
+            whoami
+            ls -la
+            cd ..
+            cd root root /mttp/build/
+            ls -la
+            tar -xvf deploy.tar
+            systemctl restart nginx

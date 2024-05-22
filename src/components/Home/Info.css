@@ -1,0 +1,9 @@
+.reest{
+    display: flex;
+    justify-content: center;
+    align-items:center;
+    margin-bottom: 1vw;
+}
+.table5 th{
+text-align: center;
+}

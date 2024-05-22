@@ -1,0 +1,19 @@
+.sidebar a {
+    color: black !important;
+}
+
+.flex-column {
+    margin-top: 3vw;
+    margin-left: 1.5vw;
+}
+
+.sidebar h5 {
+    color: #c1c1c1;
+}
+
+/* Roles start */
+.container_information_client label{
+ font-size: 16px;
+
+}
+/* Roles finish */

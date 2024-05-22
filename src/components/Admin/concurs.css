@@ -1,0 +1,190 @@
+.navbar {
+    border-bottom: 1px solid rgb(169, 169, 169);
+    padding: 0.7rem;
+    width: 100%;
+}
+
+.form-control {
+    height: 2rem;
+    width: 33%;
+}
+
+/*search navbar start*/
+.search-counter {
+    width: 100%;
+}
+
+.search-counter-input_container button {
+    border: none;
+}
+
+.search-counter-input_container button:hover {
+    background-color: transparent;
+}
+
+.search-counter-input {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-right: 1rem;
+}
+
+.search-counter-input p {
+    margin-bottom: 0;
+    margin-right: 1rem;
+}
+
+.search-counter-input_container {
+    display: flex;
+    align-items: center;
+}
+
+/*search navbar end*/
+/*class color start*/
+.class_red {
+    color: red;
+}
+
+.class_green {
+    color: green;
+}
+
+.class_gray {
+    color: gray;
+}
+
+.class_white {
+    color: white;
+}
+
+.class_button_none {
+    background-color: transparent;
+    border: none;
+}
+
+/*class color end*/
+
+/*information client start*/
+.container_information_client {
+    overflow-y: auto;
+}
+
+.client_account_information:nth-of-type(even) button {
+    background-color: #f2f2f2;
+    /* Цвет фона для каждой второй кнопки в каждой второй строке */
+}
+
+.client_account_information button {
+    background-color: white;
+    /* Цвет серого фона */
+}
+
+.client_account_information p {
+    font-size: x-small;
+    margin: 0;
+}
+
+.client_account hr {
+    margin: 0;
+}
+
+/*information client end*/
+/*table start*/
+
+.table th {
+    font-size: small;
+}
+
+.table td {
+    font-size: small;
+}
+
+.table_button button {
+    background-color: transparent;
+    border: none;
+}
+
+/*table end*/
+
+/* oll sistem start*/
+
+.oll_sistem {
+    display: flex;
+}
+
+.navbar_container {
+    width: 100%;
+    height: 10%;
+    background-color: white;
+}
+
+.sidebar {
+    height: 100vh;
+    width: 13rem;
+}
+
+.class_grey_color {
+    color: gray;
+}
+
+.sidebar-nav {
+    margin-top: 2vw;
+}
+
+/* oll sistem end*/
+
+/* adaptiv sidbar start*/
+.button_sidbar {
+    border: none;
+    border-radius: 5px;
+    /*position: fixed;*/
+    display: none;
+}
+
+#button_sidebar_close {
+    display: none;
+}
+
+@media (max-width: 991.98px) {
+
+    /*.sidebar:not(.sidebar-end):not(.show) {*/
+    /*     margin-left: 0;*/
+    /*}*/
+    .button_sidbar {
+        display: block;
+        /* Показываем кнопку */
+    }
+
+    #button_sidebar_close {
+        display: block;
+        margin-left: 90%;
+    }
+}
+
+/* adaptiv sidbar end*/
+
+/*    adaptive */
+
+@media screen and (max-width: 605px) {
+    .search-counter-input {
+        display: block;
+    }
+
+    .search-counter-button {
+        margin-top: 1rem;
+    }
+}
+
+.user {
+    font-size: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1%;
+}
+.search-counter-button{
+    display: flex;
+    align-items: center;
+    gap: 2vw;
+}
