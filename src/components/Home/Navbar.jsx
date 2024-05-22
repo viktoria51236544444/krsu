@@ -92,7 +92,7 @@ function NavScrollExample() {
                                 Контакты и реквизиты
                             </Nav.Link>
                             <Nav.Link as={Link} to="/regulatory" className={`nav-link ${activeTab === "/regulatory" ? "active" : ""}`}>
-                                Нормативный правовой акт
+                                Нормативные правовые акты
                             </Nav.Link>
                             {email && (
                                 <Nav.Link onClick={handlePersonaClick} className="nav-link">Личный кабинет</Nav.Link>

@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
-import {Link, useNavigate} from 'react-router-dom';
-import {ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass} from "@phosphor-icons/react";
-import  './homePage.css'
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass } from "@phosphor-icons/react";
+import './homePage.css'
 
 const Ads = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -84,7 +84,6 @@ const Ads = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, publick ? publick.length : 0);
     const currentPageData = publick ? publick.slice(startIndex, endIndex) : [];
-    console.log(currentPageData)
 
     const handleApplyClick = (contest) => {
         setSelectedContest(contest);
@@ -112,14 +111,38 @@ const Ads = () => {
         setUseCurrentData(false);
     };
 
+    const [searchText, setSearchText] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
+    const apiUrl = 'http://212.112.105.196:3457/api/contest/getSearchContest';
+
+    const handleSubmit2 = async () => {
+        try {
+            const response = await fetch(`${apiUrl}?searchText=${encodeURIComponent(searchText)}`);
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            const data = await response.json();
+            setSearchResults(data);
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        }
+    };
+
     return (
         <div className="container-fluid">
             <div className="card" style={{ border: "none" }}>
                 <div className="card-body">
                     <div className="input-group mb-3 search-panel">
-                        <input type="text" className="form-control " placeholder="По наименованию объявления, закупающей организации, по № объявления" />
-                        <div className="input-group-append" >
-                            <Button className="btn btn-secondary search_button" onClick={handleSubmit}>
+                        <input
+                            type="text"
+                            className="form-control"
+                            placeholder="По наименованию объявления, закупающей организации, по № объявления"
+                            value={searchText}
+                            onChange={(e) => setSearchText(e.target.value)}
+                        />
+                        <div className="input-group-append">
+                            <Button className="btn btn-secondary search_button" onClick={handleSubmit2}>
                                 <MagnifyingGlass size={25} color="#fdf7f7" weight="bold" />
                             </Button>
                         </div>
@@ -133,23 +156,23 @@ const Ads = () => {
                                     <th>Организация</th>
                                     <th>Способ закупки</th>
                                     <th>Предмет закупки</th>
-                                     <th>Начало закупки</th>
+                                    <th>Начало закупки</th>
                                     <th>Окончание закупки</th>
                                     {isAuthenticated && <th>Действия</th>}
                                 </tr>
                             </thead>
                             <tbody>
                                 {currentPageData.map((ad, index) => (
-                                    <tr key={index} onClick={()=>handleClick(ad.codeid)} style={{cursor: "pointer"}}>
+                                    <tr key={index} onClick={() => handleClick(ad.codeid)} style={{ cursor: "pointer" }}>
                                         <td>{index + 1}</td>
                                         <td>{ad.contest_name}</td>
                                         <td>{ad.method_purchase}</td>
                                         <td>{ad.contest_description}</td>
-                                         <td>{ad.start_date}</td>
+                                        <td>{ad.start_date}</td>
                                         <td>{new Date(ad.end_date).toLocaleDateString()}</td>
                                         {isAuthenticated && (
                                             <td>
-                                                <Button variant="primary" style={{ width: "150px", height: "auto" }} onClick={() => handleApplyClick(ad)}>Подать заявку</Button>
+                                                <Button variant="primary" style={{ width: "150px", height: "auto" }} size='small' onClick={() => handleApplyClick(ad)}>Подать заявку</Button>
                                             </td>
                                         )}
 
@@ -161,11 +184,11 @@ const Ads = () => {
                     <div className="pagination-wrapper ">
                         <ul className="pagination justify-content-center pagination-panel">
                             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`} onClick={() => handlePageChange(currentPage - 1)}>
-                                <CaretLeft size={24} color="#212121" weight="bold" />
+                                                                <CaretLeft size={24} color="#212121" weight="bold" />
                             </li>
                             {pageNumbers.map((number) => (
                                 <li className={`dt-paging-button page-item ${number === currentPage ? 'active' : ''}`} key={number}>
-                                    <a className="page-link" onClick={() => handlePageChange(number)} style={{borderRadius: 10}}>{number}</a>
+                                    <a className="page-link" onClick={() => handlePageChange(number)} style={{ borderRadius: 10 }}>{number}</a>
                                 </li>
                             ))}
                             <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`} onClick={() => handlePageChange(currentPage + 1)}>
@@ -202,7 +225,7 @@ const Ads = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={() => setShowModal(false)}>Закрыть</Button>
-                    <Button variant="primary" onClick={handleSubmitOrder} >Подать заявку</Button>
+                    <Button variant="primary" onClick={handleSubmitOrder}>Подать заявку</Button>
                 </Modal.Footer>
             </Modal>
         </div>
@@ -210,3 +233,4 @@ const Ads = () => {
 }
 
 export default Ads;
+
