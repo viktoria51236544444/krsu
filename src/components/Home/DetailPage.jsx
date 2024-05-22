@@ -9,6 +9,7 @@ const DetailPage = () => {
     const { publick, detailUsers } = UseRegister();
     const [contestDetails, setContestDetails] = useState(null);
 
+    console.log(contestDetails)
     useEffect(() => {
         if (publick && publick.length > 0) {
             const contest = publick.find(item => item.codeid.toString() === id);
