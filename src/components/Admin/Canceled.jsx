@@ -1,47 +1,18 @@
 import React, { useEffect } from 'react';
-import { Button, Accordion, Nav, NavItem, NavLink, CloseButton, Table } from 'react-bootstrap';
+import { Accordion } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
+import { Nav, NavItem, NavLink, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-const Public = () => {
-    const { compled, contestFilter, updateContestStatus } = UseRegister();
-    // console.log(compled);
-
+const Canceled = () => {
+    const { compled, contestFilter } = UseRegister();
     useEffect(() => {
-        contestFilter(2);
-
+        contestFilter(4);
     }, []);
-
-    const handlePublish = async (contestId) => {
-        const publicData = {
-            contest_id: contestId,
-            contest_status: 3
-        };
-
-        try {
-            await updateContestStatus(publicData);
-            contestFilter(3)
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
-
-    const handlePublish2 = async (contestId) => {
-        const publicData = {
-            contest_id: contestId,
-            contest_status: 4
-        };
-
-        try {
-            await updateContestStatus(publicData);
-            contestFilter()
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
 
     if (!compled) {
         return <div>Loading...</div>;
+
     }
 
     return (
@@ -83,16 +54,14 @@ const Public = () => {
 
             </div>
             <div className="navbar_container">
-
-
                 <div className="navbar">
                     <form class="search-counter" role="search">
                         <div class="search-counter-container" style={{ justifyContent: "space-between" }}>
                             <div class="search-counter-button">
                                 <Link to={"/concurs"}> <button >Черновики</button></Link>
-                                <Link to={"/public"}>  <button onClick={() => contestFilter(2)} style={{ color: "blue" }}> Опубликованные</button></Link>
+                                <Link to={"/public"}>  <button onClick={() => contestFilter(2)}>Опубликованные</button></Link>
                                 <Link to="/completed"><button onClick={() => contestFilter(3)} >Завершенные</button> </Link>
-                                <Link to="/canceled"> <button onClick={() => contestFilter(4)}>Отмененные</button></Link>
+                                <Link to="/canceled"> <button style={{ color: "blue" }} onClick={() => contestFilter(4)}>Отмененные</button></Link>
                                 <Link to={"/archive"}> <button >Архив</button></Link>
                             </div>
                             <div class="user">
@@ -110,6 +79,7 @@ const Public = () => {
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Название</th>
                                     <th>Описание</th>
                                     <th>Дата публикации</th>
@@ -125,9 +95,10 @@ const Public = () => {
                             </thead>
                             <tbody>
                                 {compled
-                                    .filter(contest => contest.contest_status === 2)
-                                    .map(contest => (
+                                    .filter(contest => contest.contest_status === 4)
+                                    .map((contest, index) => (
                                         <tr key={contest.codeid}>
+                                            <td>{index + 1}</td>
                                             <td>{contest.contest_name}</td>
                                             <td>{contest.contest_description}</td>
                                             <td>{contest.start_date}</td>
@@ -138,7 +109,7 @@ const Public = () => {
                                             <td>{contest.type_purchase}</td>
                                             <td>{contest.year}</td>
                                             <td>{contest.planned_summ}</td>
-                                           <td>
+                                            <td>
                                             {contest.files.length > 0 && contest.files.map((file, index) => (
                                                 <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
                                                     <a href={`http://212.112.105.196:3457/${file.path}`} download={file.name} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
@@ -151,16 +122,11 @@ const Public = () => {
                                                 </div>
                                             ))}
                                         </td>
-                                            <td>
-                                                <CloseButton onClick={() => handlePublish(contest.codeid)} />
-                                            </td>
-                                            <td>
-                                                <Button variant="secondary" size="sm" onClick={() => handlePublish2(contest.codeid)}>Деактивировать</Button>
-                                            </td>
                                         </tr>
                                     ))}
                             </tbody>
                         </Table>
+
                     </div>
                 </div>
             </div>
@@ -168,4 +134,7 @@ const Public = () => {
     );
 }
 
-export default Public;
+
+
+
+export default Canceled

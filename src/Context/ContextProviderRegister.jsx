@@ -14,6 +14,7 @@ const ContextProviderRegister = ({ children }) => {
     const [compled, SetCompled] = useState(null);
     const [message, SetMessage] = useState(null);
     const [detailUsers, SetDetailUsers] = useState(null);
+    const [users, SetUsers] = useState(null);
     const navigate = useNavigate()
 
     // console.log(concurs);
@@ -104,8 +105,16 @@ const ContextProviderRegister = ({ children }) => {
         }
         getUserInfo()
     }, [])
-
-
+   
+        const getUserList = async () => {
+            try {
+                const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserList`)
+                SetUsers(data.users.users);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+   
 
 
     // ! КОНКУРСЫ 
@@ -184,11 +193,11 @@ const ContextProviderRegister = ({ children }) => {
 
 
     //* стягивание конкурсов по id
-
     const contestFilter = async (codeId) => {
         try {
             const { data } = await axios.get(`http://212.112.105.196:3457/api/contest/contestFilter/${codeId}`)
             SetCompled(data.result.data);
+            // console.log(data.result.data);
         } catch (error) {
             console.log(error);
         }
@@ -204,7 +213,7 @@ const ContextProviderRegister = ({ children }) => {
         }
     };
 
-
+    //* детальный просмотр конкурса 
     const getOrderDetails = async (codeId) => {
         try {
             const { data } = await axios.get(`http://212.112.105.196:3457/api/orders/getOrderDetails/${codeId}`)
@@ -229,8 +238,10 @@ const ContextProviderRegister = ({ children }) => {
         compled,
         createOrder,
         message,
-        getOrderDetails, 
-        detailUsers
+        getOrderDetails,
+        detailUsers,
+        users,
+        getUserList
     };
     return (
         <contextProviderRegister.Provider value={values}>

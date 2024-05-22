@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Accordion } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
-import { Nav, NavItem, NavLink } from 'react-bootstrap';
+import { Nav, NavItem, NavLink, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 const Completed = () => {
-    const { compled,contestFilter } = UseRegister();
+    const { compled, contestFilter } = UseRegister();
+    useEffect(() => {
+        contestFilter(3);
+    }, []);
 
     if (!compled) {
         return <div>Loading...</div>;
@@ -15,7 +18,7 @@ const Completed = () => {
     return (
         <div className="oll_sistem">
             <div class="sidebar_container">
-                <div className="sidebar" style={{ borderRight: '1px solid #ddd', paddingRight: '15px', display: 'flex', flexDirection: 'column', width: "15vw" }}>
+                <div className="sidebar" style={{ borderRight: '1px solid #ddd', paddingRight: '15px', display: 'flex', flexDirection: 'column' }}>
                     <h5>КНАУ</h5>
                     <Nav className="flex-column">
                         <NavItem style={{ display: "flex", alignItems: "center", }}>
@@ -28,7 +31,7 @@ const Completed = () => {
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-bounding-box-circles" viewBox="0 0 16 16">
                                 <path d="M2 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2M0 2a2 2 0 0 1 3.937-.5h8.126A2 2 0 1 1 14.5 3.937v8.126a2 2 0 1 1-2.437 2.437H3.937A2 2 0 1 1 1.5 12.063V3.937A2 2 0 0 1 0 2m2.5 1.937v8.126c.703.18 1.256.734 1.437 1.437h8.126a2 2 0 0 1 1.437-1.437V3.937A2 2 0 0 1 12.063 2.5H3.937A2 2 0 0 1 2.5 3.937M14 1a1 1 0 1 0 0 2 1 1 0 0 0 0-2M2 13a1 1 0 1 0 0 2 1 1 0 0 0 0-2m12 0a1 1 0 1 0 0 2 1 1 0 0 0 0-2" />
                             </svg>
-                            <NavLink href="/participants">Участники</NavLink>
+                            <NavLink href="/participants">Контрагенты</NavLink>
                         </NavItem>
                         <NavItem style={{ display: "flex", alignItems: "center" }}>
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-layout-text-window-reverse" viewBox="0 0 16 16">
@@ -52,57 +55,81 @@ const Completed = () => {
             </div>
             <div className="navbar_container">
                 <div className="navbar">
-                    <div class="navbar">
-                        <form class="search-counter" role="search">
-                            <div class="search-counter-container" style={{ justifyContent: "space-between" }}>
-                                <div class="search-counter-button">
-                                    <Link to={"/concurs"}> <button >Черновики</button></Link>
-                                    <Link to={"/public"}>  <button>Опубликованные</button></Link>
-                                    <Link to="/completed"><button onClick={() => contestFilter(3)} >Завершенные</button> </Link>
-                                    <button class="tablinks" onclick="openTab(event, 'canceled')">Отмененные</button>
-                                    <button class="tablinks" onclick="openTab(event, 'archive')">Архив</button>
-                                    <button class="tablinks" onclick="openTab(event, 'add')">Добавить нормативный правовой акт</button>
-                                </div>
-                                <div class="user">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                                    </svg>
-                                    <p> @victoria@gmail.com</p>
-                                </div>
+
+                    <form class="search-counter" role="search">
+                        <div class="search-counter-container" style={{ justifyContent: "space-between" }}>
+                            <div class="search-counter-button">
+                                <Link to={"/concurs"}> <button >Черновики</button></Link>
+                                <Link to={"/public"}>  <button onClick={() => contestFilter(2)}>Опубликованные</button></Link>
+                                <Link to="/completed"><button style={{ color: "blue" }} onClick={() => contestFilter(3)} >Завершенные</button> </Link>
+                                <Link to="/canceled"> <button onClick={() => contestFilter(4)}>Отмененные</button></Link>
+                                <Link to={"/archive"}> <button >Архив</button></Link>
                             </div>
-                        </form>
-                    </div>
+                            <div class="user">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
+                                </svg>
+                                <p> @victoria@gmail.com</p>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
                 <div className="container_information_client"></div>
-                <div className="container">
-                    <Accordion className="mt-4">
-                        {compled
-                            .filter(contest => contest.contest_status === 3)
-                            .map(contest => (
-                                <Accordion.Item key={contest.codeid} eventKey={contest.codeid}>
-                                    <Accordion.Header>{contest.contest_name}</Accordion.Header>
-                                    <Accordion.Body>
-                                        <p><strong>Description:</strong> {contest.contest_description}</p>
-                                        <p><strong>End Date:</strong> {contest.formatted_end_date}</p>
-                                        <p><strong>Format:</strong> {contest.format_purchase}</p>
-                                        <p><strong>Method:</strong> {contest.method_purchase}</p>
-                                        <p><strong>Status:</strong> {contest.status_contest}</p>
-                                        <p><strong>Type:</strong> {contest.type_purchase}</p>
-                                        <p><strong>Year:</strong> {contest.year}</p>
-                                        <div>
-                                            <strong>Files:</strong>
-                                            <ul>
-                                                {contest.files.map(file => (
-                                                    <li key={file.codeid}>
-                                                        <a href={file.path} rel="noopener noreferrer">{file.path}</a>
-                                                    </li>
+                <div >
+                    <div className="table-responsive mt-4">
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Название</th>
+                                    <th>Описание</th>
+                                    <th>Дата публикации</th>
+                                    <th>Дата окончания</th>
+                                    <th>Формат</th>
+                                    <th>Метод</th>
+                                    <th>Статус</th>
+                                    <th>Тип</th>
+                                    <th>Год</th>
+                                    <th>Планируемая сумма</th>
+                                    <th>Файлы</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {compled
+                                    .filter(contest => contest.contest_status === 3)
+                                    .map((contest, index) => (
+                                        <tr key={contest.codeid}>
+                                            <td>{index + 1}</td>
+                                            <td>{contest.contest_name}</td>
+                                            <td>{contest.contest_description}</td>
+                                            <td>{contest.start_date}</td>
+                                            <td>{contest.formatted_end_date}</td>
+                                            <td>{contest.format_purchase}</td>
+                                            <td>{contest.method_purchase}</td>
+                                            <td>{contest.status_contest}</td>
+                                            <td>{contest.type_purchase}</td>
+                                            <td>{contest.year}</td>
+                                            <td>{contest.planned_summ}</td>
+                                            <td>
+                                                {contest.files.length > 0 && contest.files.map((file, index) => (
+                                                    <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
+                                                        <a href={`http://212.112.105.196:3457/${file.path}`} download={file.name} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16" style={{ cursor: 'pointer' }}>
+                                                                <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z" />
+                                                                <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
+                                                            </svg>
+                                                            <span style={{ visibility: 'hidden' }}>{file.path}</span>
+                                                        </a>
+                                                    </div>
                                                 ))}
-                                            </ul>
-                                        </div>
-                                    </Accordion.Body>
-                                </Accordion.Item>
-                            ))}
-                    </Accordion>
+                                            </td>
+                                        </tr>
+                                    ))}
+                            </tbody>
+                        </Table>
+
+                    </div>
                 </div>
             </div>
         </div>

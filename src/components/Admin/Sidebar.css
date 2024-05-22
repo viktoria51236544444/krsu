@@ -17,3 +17,12 @@
 
 }
 /* Roles finish */
+
+.modal__detail-user p{
+color: rgb(0, 0, 0);
+}
+
+.modal__detail-user strong{
+    color: rgb(112, 112, 112);
+    font-size: 15px;
+    }

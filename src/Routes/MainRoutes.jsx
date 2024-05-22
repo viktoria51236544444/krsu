@@ -18,6 +18,8 @@ import PersonalArea from '../components/Home/PersonalArea'
 import Public from '../components/Admin/Public'
 import Completed from '../components/Admin/Completed'
 import DetailPage from '../components/Home/DetailPage'
+import Canceled from '../components/Admin/Canceled'
+import Archive from '../components/Admin/Archive'
 
 const MainRoutes = () => {
     return (
@@ -38,6 +40,8 @@ const MainRoutes = () => {
             <Route path="/public" element={<Public />} /> 
             <Route path="/completed" element={<Completed />} /> 
             <Route path="/detail/:id" element={<DetailPage />} />
+            <Route path="/canceled" element={<Canceled />} />
+            <Route path="/archive" element={<Archive />} />
         </Routes>
     )
 }

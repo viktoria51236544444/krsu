@@ -1,48 +1,26 @@
-import React, { useEffect } from 'react';
-import { Button, Accordion, Nav, NavItem, NavLink, CloseButton, Table } from 'react-bootstrap';
-import { UseRegister } from '../../Context/ContextProviderRegister';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { Nav, NavItem, NavLink, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { UseRegister } from '../../Context/ContextProviderRegister';
 
-const Public = () => {
-    const { compled, contestFilter, updateContestStatus } = UseRegister();
-    // console.log(compled);
+const Archive = () => {
+    const { contestFilter } = UseRegister()
+    const [contestList, setContestList] = useState([]);
 
     useEffect(() => {
-        contestFilter(2);
-
+        getContestList();
     }, []);
 
-    const handlePublish = async (contestId) => {
-        const publicData = {
-            contest_id: contestId,
-            contest_status: 3
-        };
-
+    const getContestList = async () => {
         try {
-            await updateContestStatus(publicData);
-            contestFilter(3)
+            const response = await axios.get('http://212.112.105.196:3457/api/contest/getContestList');
+            const contests = response.data.result.data;
+            setContestList(contests);
         } catch (error) {
-            console.log(error.message);
+            console.log('Ошибка при получении списка конкурсов:', error);
         }
     };
-
-    const handlePublish2 = async (contestId) => {
-        const publicData = {
-            contest_id: contestId,
-            contest_status: 4
-        };
-
-        try {
-            await updateContestStatus(publicData);
-            contestFilter()
-        } catch (error) {
-            console.log(error.message);
-        }
-    };
-
-    if (!compled) {
-        return <div>Loading...</div>;
-    }
 
     return (
         <div className="oll_sistem">
@@ -83,17 +61,16 @@ const Public = () => {
 
             </div>
             <div className="navbar_container">
-
-
                 <div className="navbar">
+
                     <form class="search-counter" role="search">
                         <div class="search-counter-container" style={{ justifyContent: "space-between" }}>
                             <div class="search-counter-button">
                                 <Link to={"/concurs"}> <button >Черновики</button></Link>
-                                <Link to={"/public"}>  <button onClick={() => contestFilter(2)} style={{ color: "blue" }}> Опубликованные</button></Link>
+                                <Link to={"/public"}>  <button onClick={() => contestFilter(2)}>Опубликованные</button></Link>
                                 <Link to="/completed"><button onClick={() => contestFilter(3)} >Завершенные</button> </Link>
                                 <Link to="/canceled"> <button onClick={() => contestFilter(4)}>Отмененные</button></Link>
-                                <Link to={"/archive"}> <button >Архив</button></Link>
+                                <Link to={"/archive"}> <button style={{ color: "blue" }}>Архив</button></Link>
                             </div>
                             <div class="user">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
@@ -103,6 +80,7 @@ const Public = () => {
                             </div>
                         </div>
                     </form>
+
                 </div>
                 <div className="container_information_client"></div>
                 <div >
@@ -110,6 +88,7 @@ const Public = () => {
                         <Table striped bordered hover>
                             <thead>
                                 <tr>
+                                    <th>#</th>
                                     <th>Название</th>
                                     <th>Описание</th>
                                     <th>Дата публикации</th>
@@ -124,21 +103,20 @@ const Public = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {compled
-                                    .filter(contest => contest.contest_status === 2)
-                                    .map(contest => (
-                                        <tr key={contest.codeid}>
-                                            <td>{contest.contest_name}</td>
-                                            <td>{contest.contest_description}</td>
-                                            <td>{contest.start_date}</td>
-                                            <td>{contest.formatted_end_date}</td>
-                                            <td>{contest.format_purchase}</td>
-                                            <td>{contest.method_purchase}</td>
-                                            <td>{contest.status_contest}</td>
-                                            <td>{contest.type_purchase}</td>
-                                            <td>{contest.year}</td>
-                                            <td>{contest.planned_summ}</td>
-                                           <td>
+                                {contestList.map((contest, index) => (
+                                    <tr key={contest.codeid}>
+                                        <td>{index + 1}</td>
+                                        <td>{contest.contest_name}</td>
+                                        <td>{contest.contest_description}</td>
+                                        <td>{contest.start_date}</td>
+                                        <td>{contest.end_date}</td>
+                                        <td>{contest.format}</td>
+                                        <td>{contest.method}</td>
+                                        <td>{contest.status}</td>
+                                        <td>{contest.type}</td>
+                                        <td>{contest.year}</td>
+                                        <td>{contest.planned_summ}</td>
+                                        <td>
                                             {contest.files.length > 0 && contest.files.map((file, index) => (
                                                 <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
                                                     <a href={`http://212.112.105.196:3457/${file.path}`} download={file.name} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
@@ -151,21 +129,19 @@ const Public = () => {
                                                 </div>
                                             ))}
                                         </td>
-                                            <td>
-                                                <CloseButton onClick={() => handlePublish(contest.codeid)} />
-                                            </td>
-                                            <td>
-                                                <Button variant="secondary" size="sm" onClick={() => handlePublish2(contest.codeid)}>Деактивировать</Button>
-                                            </td>
-                                        </tr>
-                                    ))}
+
+
+
+
+                                    </tr>
+                                ))}
                             </tbody>
                         </Table>
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
     );
-}
+};
 
-export default Public;
+export default Archive;

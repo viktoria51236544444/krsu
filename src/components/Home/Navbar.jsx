@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
+import logo from "./image/кнау.png"
 
 function NavScrollExample() {
     const [activeTab, setActiveTab] = useState("");
@@ -20,7 +21,6 @@ function NavScrollExample() {
                 setEmail(userEmail);
             } else if (codeid) {
                 setEmail(userEmail); 
-                // Проверяем, что userInfo ещё не сохранён в localStorage
                 const storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
                 if (!storedUserInfo) {
                     getUserInfo(codeid);
@@ -65,13 +65,13 @@ function NavScrollExample() {
         }
     };
 
-    const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed"].includes(activeTab);
+    const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive"].includes(activeTab);
 
     return (
         !isNavBarHidden && (
             <Navbar expand="lg" className="bg-white border-bottom">
                 <Container fluid>
-                    <Navbar.Brand as={Link} to="/" className="text-dark">КНАУ</Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/" className="text-dark" ><img style={{width: "2vw"}} src={logo} alt="" /></Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav

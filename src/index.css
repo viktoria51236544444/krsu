@@ -133,3 +133,14 @@ body {
   font-size: 14px;
   margin: 0;
 }
+
+
+.custom-modal .modal-dialog {
+  max-width: 80%;
+}
+
+@media (min-width: 1200px) {
+  .custom-modal .modal-dialog {
+    max-width: 60%;
+  }
+}
