@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
+import {ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass} from "@phosphor-icons/react";
+import  './homePage.css'
 
 const Ads = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -9,7 +11,6 @@ const Ads = () => {
     const [showPageList, setShowPageList] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const { publick, createOrder, message, getOrderDetails } = UseRegister();
-    console.log(publick);
 
     const [User, setUser] = useState({
         userId: 0,
@@ -24,6 +25,14 @@ const Ads = () => {
     const [summValue, setSummValue] = useState('');
     const [useCurrentData, setUseCurrentData] = useState(false);
     const userId = localStorage.getItem('codeid');
+
+    const navigate = useNavigate()
+
+
+    const handleClick = (codeid) => {
+        getOrderDetails(codeid)
+        navigate(`/detail/${codeid}`)
+    };
 
     useEffect(() => {
         if (publick && publick.length > 0) {
@@ -75,6 +84,7 @@ const Ads = () => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = Math.min(startIndex + itemsPerPage, publick ? publick.length : 0);
     const currentPageData = publick ? publick.slice(startIndex, endIndex) : [];
+    console.log(currentPageData)
 
     const handleApplyClick = (contest) => {
         setSelectedContest(contest);
@@ -106,10 +116,12 @@ const Ads = () => {
         <div className="container-fluid">
             <div className="card" style={{ border: "none" }}>
                 <div className="card-body">
-                    <div className="input-group mb-3">
-                        <input type="text" className="form-control" placeholder="По наименованию объявления, закупающей организации, по № объявления" />
-                        <div className="input-group-append">
-                            <Button className="btn btn-secondary" onClick={handleSubmit}>Поиск</Button>
+                    <div className="input-group mb-3 search-panel">
+                        <input type="text" className="form-control " placeholder="По наименованию объявления, закупающей организации, по № объявления" />
+                        <div className="input-group-append" >
+                            <Button className="btn btn-secondary search_button" onClick={handleSubmit}>
+                                <MagnifyingGlass size={25} color="#fdf7f7" weight="bold" />
+                            </Button>
                         </div>
                     </div>
                     <hr />
@@ -117,25 +129,24 @@ const Ads = () => {
                         <table className="table table-striped">
                             <thead>
                                 <tr>
+                                    <th>№</th>
                                     <th>Организация</th>
                                     <th>Способ закупки</th>
                                     <th>Предмет закупки</th>
-                                    {/* <th>Начало закупки</th> */}
+                                     <th>Начало закупки</th>
                                     <th>Окончание закупки</th>
                                     {isAuthenticated && <th>Действия</th>}
                                 </tr>
                             </thead>
                             <tbody>
                                 {currentPageData.map((ad, index) => (
-                                    <tr key={index}>
+                                    <tr key={index} onClick={()=>handleClick(ad.codeid)} style={{cursor: "pointer"}}>
+                                        <td>{index + 1}</td>
                                         <td>{ad.contest_name}</td>
                                         <td>{ad.method_purchase}</td>
                                         <td>{ad.contest_description}</td>
-                                        {/* <td>{new Date(ad.start_date).toLocaleDateString()}</td> */}
+                                         <td>{ad.start_date}</td>
                                         <td>{new Date(ad.end_date).toLocaleDateString()}</td>
-                                        <td>
-                                            <Link to={`/detail/${ad.codeid}`} onClick={()=>getOrderDetails(ad.codeid)} className="btn btn-primary">Просмотр</Link>
-                                        </td>
                                         {isAuthenticated && (
                                             <td>
                                                 <Button variant="primary" style={{ width: "150px", height: "auto" }} onClick={() => handleApplyClick(ad)}>Подать заявку</Button>
@@ -147,18 +158,18 @@ const Ads = () => {
                             </tbody>
                         </table>
                     </div>
-                    <div className="pagination-wrapper">
-                        <ul className="pagination justify-content-center">
-                            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}>
-                                <button className="page-link" onClick={() => handlePageChange(currentPage - 1)}>Предыдущая</button>
+                    <div className="pagination-wrapper ">
+                        <ul className="pagination justify-content-center pagination-panel">
+                            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`} onClick={() => handlePageChange(currentPage - 1)}>
+                                <CaretLeft size={24} color="#212121" weight="bold" />
                             </li>
                             {pageNumbers.map((number) => (
-                                <li className={`page-item ${number === currentPage ? 'active' : ''}`} key={number}>
-                                    <button className="page-link" onClick={() => handlePageChange(number)}>{number}</button>
+                                <li className={`dt-paging-button page-item ${number === currentPage ? 'active' : ''}`} key={number}>
+                                    <a className="page-link" onClick={() => handlePageChange(number)} style={{borderRadius: 10}}>{number}</a>
                                 </li>
                             ))}
-                            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}>
-                                <button className="page-link" onClick={() => handlePageChange(currentPage + 1)}>Следующая</button>
+                            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`} onClick={() => handlePageChange(currentPage + 1)}>
+                                <CaretRight size={24} color="#212121" weight="bold" />
                             </li>
                         </ul>
                     </div>

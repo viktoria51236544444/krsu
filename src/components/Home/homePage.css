@@ -24,3 +24,24 @@
     width: 100%;
     height: auto;
 }
+
+.search-panel{
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+}
+
+.search_button {
+    height: 34px;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.pagination-panel{
+    display: flex;
+    flex-direction:  row;
+    gap: 5px;
+}
