@@ -11,12 +11,11 @@
     color: #c1c1c1;
 }
 
-/* Roles start */
 .container_information_client label{
  font-size: 16px;
 
 }
-/* Roles finish */
+
 
 .modal__detail-user p{
 color: rgb(0, 0, 0);

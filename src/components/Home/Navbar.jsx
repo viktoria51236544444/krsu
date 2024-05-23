@@ -20,7 +20,7 @@ function NavScrollExample() {
             if (userEmail && !codeid) {
                 setEmail(userEmail);
             } else if (codeid) {
-                setEmail(userEmail); 
+                setEmail(userEmail);
                 const storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
                 if (!storedUserInfo) {
                     getUserInfo(codeid);
@@ -56,7 +56,7 @@ function NavScrollExample() {
             console.log('Ошибка при получении информации о пользователе:', error);
         }
     };
-    
+
 
     const handlePersonaClick = () => {
         const codeid = localStorage.getItem('codeid');
@@ -71,31 +71,59 @@ function NavScrollExample() {
         !isNavBarHidden && (
             <Navbar expand="lg" className="bg-white border-bottom">
                 <Container fluid>
-                    <Navbar.Brand as={Link} to="/" className="text-dark" ><img style={{width: "2vw"}} src={logo} alt="" /></Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/" className="text-dark" ><img style={{ width: "2vw" }} src={logo} alt="" /> <span>КНАУ</span></Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
-                        <Nav
-                            className="me-auto my-2 my-lg-0"
-                            style={{ maxHeight: '100px' }}
-                            navbarScroll
-                        >
+                        <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
                             <NavDropdown title="Объявления" id="navbarScrollingDropdown">
-                                <NavDropdown.Item as={Link} to="/ads" className={`nav-link ${activeTab === "/ads" ? "active" : ""}`}>Всего объявлений</NavDropdown.Item>
-                                <NavDropdown.Item as={Link} to="/cancele" className={`nav-link ${activeTab === "/cancele" ? "active" : ""}`}>
-                                    Отмененные объявления
+                                <NavDropdown.Item
+                                    as={Link}
+                                    to="/ads"
+                                    className={`nav-link ${activeTab === "/ads" ? "active" : ""}`}
+                                    style={{
+                                        color: activeTab === "/ads" ? '#0D6EFD' : 'black',
+                                        backgroundColor: 'white'
+                                    }}
+                                >
+                                    Все объявления
+                                </NavDropdown.Item>
+                                <NavDropdown.Item
+                                    as={Link}
+                                    to="/cancele"
+                                    className={`nav-link ${activeTab === "/cancele" ? "active" : ""}`}
+                                    style={{
+                                        color: activeTab === "/cancele" ? '#0D6EFD' : 'black',
+                                        backgroundColor: 'white'
+                                    }}
+                                >
+                                    Деактивированные объявления
                                 </NavDropdown.Item>
                             </NavDropdown>
-                            <Nav.Link as={Link} to="/info" className={`nav-link ${activeTab === "/info" ? "active" : ""}`}>
+                            <Nav.Link
+                                as={Link}
+                                to="/info"
+                                className={`nav-link ${activeTab === "/info" ? "active" : ""}`}
+                            >
                                 Информация о заключенных договорах
                             </Nav.Link>
-                            <Nav.Link as={Link} to="/contact" className={`nav-link ${activeTab === "/contact" ? "active" : ""}`}>
+                            <Nav.Link
+                                as={Link}
+                                to="/contact"
+                                className={`nav-link ${activeTab === "/contact" ? "active" : ""}`}
+                            >
                                 Контакты и реквизиты
                             </Nav.Link>
-                            <Nav.Link as={Link} to="/regulatory" className={`nav-link ${activeTab === "/regulatory" ? "active" : ""}`}>
+                            <Nav.Link
+                                as={Link}
+                                to="/regulatory"
+                                className={`nav-link ${activeTab === "/regulatory" ? "active" : ""}`}
+                            >
                                 Нормативные правовые акты
                             </Nav.Link>
                             {email && (
-                                <Nav.Link onClick={handlePersonaClick} className="nav-link">Личный кабинет</Nav.Link>
+                                <Nav.Link onClick={()=>handlePersonaClick} className="nav-link">
+                                    Личный кабинет
+                                </Nav.Link>
                             )}
                         </Nav>
                         <Form className="d-flex align-items-center">
@@ -105,7 +133,7 @@ function NavScrollExample() {
                                     <Button variant="outline-dark" onClick={signout}>Выход</Button>
                                 </>
                             ) : (
-                                <div style={{display :"flex", alignItems :"center", gap: "1rem"}}>
+                                <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
                                     <Link to="/auth" style={{ textDecoration: "none", color: 'black' }}><p>Войти</p></Link>
                                     <Link to="/register" style={{ textDecoration: "none", color: 'black' }}><p>Регистрация</p></Link>
                                 </div>

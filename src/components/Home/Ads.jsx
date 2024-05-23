@@ -29,7 +29,6 @@ const Ads = () => {
 
     const navigate = useNavigate()
 
-
     const handleClick = (codeid) => {
         getOrderDetails(codeid)
         navigate(`/detail/${codeid}`)
@@ -49,7 +48,7 @@ const Ads = () => {
     }, [publick]);
 
     const handleMessageError = () => {
-        if (message == "Вы уже подали заявку на участие в этом конкурсе, вы можете обновить ставку") {
+        if (message === "Вы уже подали заявку на участие в этом конкурсе, вы можете обновить ставку") {
             alert(`${message}`)
         }
     }
@@ -120,13 +119,19 @@ const Ads = () => {
         try {
             const response = await axios.get(`${apiUrl}?searchText=${encodeURIComponent(searchText)}`);
             console.log(response);
-            if (response.status !==200 ) {
+            if (response.status !== 200) {
                 throw new Error('Network response was not ok');
             }
-            const data = response.data.result.result
+            const data = response.data.result.result;
             setSearchResults(data);
         } catch (error) {
             console.error('Error fetching data:', error);
+        }
+    };
+
+    const handleKeyPress = (event) => {
+        if (event.key === 'Enter') {
+            handleSubmit2();
         }
     };
 
@@ -141,12 +146,8 @@ const Ads = () => {
                             placeholder="По наименованию объявления, закупающей организации, по № объявления"
                             value={searchText}
                             onChange={(e) => setSearchText(e.target.value)}
+                            onKeyPress={handleKeyPress}
                         />
-                        <div className="input-group-append">
-                            <Button className="btn btn-secondary search_button" onClick={handleSubmit2}>
-                                <MagnifyingGlass size={25} color="#fdf7f7" weight="bold"/>
-                            </Button>
-                        </div>
                     </div>
                     <hr/>
                     <div className="table-responsive">
@@ -163,8 +164,8 @@ const Ads = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {searchResults?.length == 0 ? <>
-                                {currentPageData.map((ad, index) => (
+                            {searchResults.length === 0 ? (
+                                currentPageData.map((ad, index) => (
                                     <tr key={index} onClick={() => handleClick(ad.codeid)} style={{cursor: "pointer"}}>
                                         <td>{index + 1}</td>
                                         <td>{ad.contest_name}</td>
@@ -179,33 +180,31 @@ const Ads = () => {
                                                     заявку</Button>
                                             </td>
                                         )}
-
                                     </tr>
-                                ))}
-                            </> : <> {searchResults?.map((ad, index) => (
-                                <tr key={index} onClick={() => handleClick(ad.codeid)} style={{cursor: "pointer"}}>
-                                    <td>{index + 1}</td>
-                                    <td>{ad.contest_name}</td>
-                                    <td>{ad.method_purchase}</td>
-                                    <td>{ad.contest_description}</td>
-                                    <td>{ad.start_date}</td>
-                                    <td>{new Date(ad.end_date).toLocaleDateString()}</td>
-                                    {isAuthenticated && (
-                                        <td>
-                                            <Button variant="primary" style={{width: "150px", height: "auto"}}
-                                                    size='small' onClick={() => handleApplyClick(ad)}>Подать
-                                                заявку</Button>
-                                        </td>
-                                    )}
-
-                                </tr>
-                            ))}</>}
-
-
+                                ))
+                            ) : (
+                                searchResults.map((ad, index) => (
+                                    <tr key={index} onClick={() => handleClick(ad.codeid)} style={{cursor: "pointer"}}>
+                                        <td>{index + 1}</td>
+                                        <td>{ad.contest_name}</td>
+                                        <td>{ad.method_purchase}</td>
+                                        <td>{ad.contest_description}</td>
+                                        <td>{ad.start_date}</td>
+                                        <td>{new Date(ad.end_date).toLocaleDateString()}</td>
+                                        {isAuthenticated && (
+                                            <td>
+                                                <Button variant="primary" style={{width: "150px", height: "auto"}}
+                                                        size='small' onClick={() => handleApplyClick(ad)}>Подать
+                                                    заявку</Button>
+                                            </td>
+                                        )}
+                                    </tr>
+                                ))
+                            )}
                             </tbody>
                         </table>
                     </div>
-                    <div className="pagination-wrapper ">
+                    <div className="pagination-wrapper">
                         <ul className="pagination justify-content-center pagination-panel">
                             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
                                 onClick={() => handlePageChange(currentPage - 1)}>
@@ -263,4 +262,3 @@ const Ads = () => {
 }
 
 export default Ads;
-

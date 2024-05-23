@@ -144,3 +144,35 @@ body {
     max-width: 60%;
   }
 }
+
+.pills-outline {
+  display: flex;
+  gap: 10px; /* Расстояние между табами */
+}
+
+.tab-link {
+  text-decoration: none;
+}
+
+.tab-button {
+  background-color: white;
+  color: black;
+  border: 1px solid lightgray;
+  padding: 10px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-radius: 5px;
+  font-size: 14px;
+}
+
+.tab-button:hover {
+  background-color: #f0f0f0; 
+}
+
+.odd-row {
+  background-color: #17148D; 
+}
+.form-control::placeholder{
+font-size: 12px;
+color: #ccc
+}
