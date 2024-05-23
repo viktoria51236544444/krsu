@@ -10,6 +10,17 @@ body {
   color: blue !important;
 }
 
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-weight: 400;
+}
+
+.container-fluid{
+  padding: 0 !important;
+}
 .table span{
  display: flex;
 }
@@ -166,11 +177,11 @@ body {
 }
 
 .tab-button:hover {
-  background-color: #f0f0f0; 
+  background-color: #f0f0f0;
 }
 
 .odd-row {
-  background-color: #17148D; 
+  background-color: #17148D;
 }
 .form-control::placeholder{
 font-size: 12px;
