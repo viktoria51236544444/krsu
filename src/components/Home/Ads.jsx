@@ -5,6 +5,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass} from "@phosphor-icons/react";
 import './homePage.css'
 import axios from "axios";
+import Footer from "./Footer";
 
 const Ads = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -155,27 +156,35 @@ const Ads = () => {
                             <thead>
                             <tr>
                                 <th>№</th>
+                                <th>Номер</th>
                                 <th>Организация</th>
-                                <th>Способ закупки</th>
                                 <th>Предмет закупки</th>
+                                <th>Способ закупа</th>
+                                <th>Формат закупа</th>
+                                <th>Планируемая сумма</th>
                                 <th>Начало закупки</th>
                                 <th>Окончание закупки</th>
                                 {isAuthenticated && <th>Действия</th>}
+
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody className='main-table'>
                             {searchResults.length === 0 ? (
                                 currentPageData.map((ad, index) => (
-                                    <tr key={index} onClick={() => handleClick(ad.codeid)} style={{cursor: "pointer"}}>
-                                        <td>{index + 1}</td>
-                                        <td>{ad.contest_name}</td>
-                                        <td>{ad.method_purchase}</td>
-                                        <td>{ad.contest_description}</td>
-                                        <td>{ad.start_date}</td>
-                                        <td>{new Date(ad.end_date).toLocaleDateString()}</td>
+                                    <tr key={index} style={{cursor: "pointer"}}>
+                                        <td onClick={() => handleClick(ad.codeid)}>{index + 1}</td>
+                                        <td onClick={() => handleClick(ad.codeid)}>{ad.codeid + ad.year + index + 1}</td>
+                                        <td onClick={() => handleClick(ad.codeid)}>{ad.contest_name}</td>
+                                        <td onClick={() => handleClick(ad.codeid)}>{ad.contest_description}</td>
+                                        <td onClick={() => handleClick(ad.codeid)}>{ad.method_purchase}</td>
+                                        <td onClick={() => handleClick(ad.codeid)}>{ad.format_purchase}</td>
+                                        <td onClick={() => handleClick(ad.codeid)}>{ad.planned_summ} сом</td>
+                                        <td onClick={() => handleClick(ad.codeid)}>{ad.start_date}</td>
+                                        <td onClick={() => handleClick(ad.codeid)}>{new Date(ad.end_date).toLocaleDateString()}</td>
                                         {isAuthenticated && (
                                             <td>
-                                                <Button variant="primary" style={{width: "150px", height: "auto"}}
+                                                <Button variant="primary"
+                                                        style={{width: "120px", height: "auto", fontSize: 12,}}
                                                         size='small' onClick={() => handleApplyClick(ad)}>Подать
                                                     заявку</Button>
                                             </td>
@@ -257,6 +266,7 @@ const Ads = () => {
                     <Button variant="primary" onClick={handleSubmitOrder}>Подать заявку</Button>
                 </Modal.Footer>
             </Modal>
+            <Footer/>
         </div>
     );
 }

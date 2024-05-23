@@ -1,5 +1,5 @@
 .footer {
-    background-color: #ffffff;
+    background-color: rgba(173, 168, 168, 0.49);
     border-top: 1px solid #ccc;
     padding: 20px 0;
     position: fixed;
@@ -7,13 +7,15 @@
     width: 100%;
 }
 
+
+
 .footer-container {
     display: flex;
     justify-content: space-around;
 }
 
 .footer-block {
-    text-align: center;
+    text-align: start;
 }
 
 .footer-block h4 {
@@ -22,10 +24,54 @@
 
 .footer-block p {
     margin: 5px 0;
+    cursor: pointer;
 }
 
 @media (max-width: 768px) {
     .footer {
         padding: 10px 0;
     }
+}
+
+.contact-title{
+    display: flex;
+    justify-content: flex-start;
+}
+.contacts{
+    display: flex;
+    flex-direction: column;
+}
+
+.contacts_inner{
+    display: flex;
+    gap: 50px
+}
+
+.social{
+    display: flex;
+    gap: 5px;
+}
+
+.logo-image{
+    height: 70px;
+    width: 70px;
+}
+
+.copiright{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 40px;
+}
+
+.copiright > p {
+    font-size: 14px;
+}
+
+.logo-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 15px
 }

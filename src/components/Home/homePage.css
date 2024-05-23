@@ -45,3 +45,8 @@
     flex-direction:  row;
     gap: 5px;
 }
+
+
+.main-table > tr > td {
+    font-size: 12px;
+}

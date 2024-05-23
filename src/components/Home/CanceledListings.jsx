@@ -3,6 +3,8 @@ import {CaretLeft, CaretRight} from "@phosphor-icons/react";
 import axios from "axios";
 import {UseRegister} from "../../Context/ContextProviderRegister";
 import {useNavigate} from "react-router-dom";
+import './Info.css'
+import Footer from "./Footer";
 
 const CanceledListings = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -92,7 +94,7 @@ const CanceledListings = () => {
                                 <th>Планируемая сумма</th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody className='main-table'>
                             {currentPageData.map((ad, index) => (
                                 <tr key={index} onClick={()=>handleClick(ad.codeid)} style={{cursor: "pointer"}}>
                                     <td>{index + 1}</td>
@@ -103,9 +105,9 @@ const CanceledListings = () => {
                                     <td>{ad.start_date}</td>
                                     <td>{ad.formatted_end_date}</td>
                                     <td>{ad.planned_summ} сом</td>
-                                    {ad.canceled && (
+                                    {/*{ad.canceled && (*/}
                                         <td> <div style={{color: 'red', border: '1px solid red', width: 80, height: 30, display: "flex", justifyContent: 'center', alignItems: "center", borderRadius: 8}}>Отменено</div></td>
-                                    )}
+                                    {/*)}*/}
                                 </tr>
                             ))}
                             </tbody>
@@ -132,6 +134,7 @@ const CanceledListings = () => {
                     </div>
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }
