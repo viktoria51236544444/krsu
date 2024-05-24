@@ -31,7 +31,7 @@ const Register = () => {
         password_manager: '',
         files: []
     });
-// console.log(formState);
+
     const [errors, setErrors] = useState({
         organization_type_id: '',
         email: '',
@@ -103,9 +103,6 @@ const Register = () => {
 
             formData.append("files", formState?.files)
 
-
-            // console.log(formState?.files, "formState?.files?.[0]");
-
             try {
                 await registerUser(formData);
                 console.log('Данные успешно отправлены на сервер!');
@@ -164,7 +161,7 @@ const Register = () => {
             case 1:
                 return [
                     'organization_type_id',
-                    'email_manager',
+                    'email',
                     'password',
                     'inn',
                     'name_organization',
@@ -176,7 +173,7 @@ const Register = () => {
                     'fact_address'
                 ];
             case 2:
-                return ['banc ', 'deposot_account', 'bik'];
+                return ['banc', 'deposot_account', 'bik'];
             case 3:
                 return [
                     'web_site',
@@ -185,7 +182,7 @@ const Register = () => {
                     'position',
                     'phone_manager',
                     'work_phone_number_manager',
-                    'email',
+                    'email_manager',
                     'password_manager',
                     'files'
                 ];
@@ -193,7 +190,6 @@ const Register = () => {
                 return [];
         }
     };
-
 
     return (
         <div className="container mt-5">
@@ -295,10 +291,12 @@ const Register = () => {
                                         value={formState.pin_manager}
                                         onChange={handleChange}
                                     />
-                                    {errors.pin_manager && <div className="text-danger">{errors.pin_manager}</div>}
+                                    {errors.pin_manager && (
+                                        <div className="text-danger">{errors.pin_manager}</div>
+                                    )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">ФИО</label>
+                                    <label className="form-label">ФИО руководителя</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -306,10 +304,12 @@ const Register = () => {
                                         value={formState.fio_manager}
                                         onChange={handleChange}
                                     />
-                                    {errors.fio_manager && <div className="text-danger">{errors.fio_manager}</div>}
+                                    {errors.fio_manager && (
+                                        <div className="text-danger">{errors.fio_manager}</div>
+                                    )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Должность</label>
+                                    <label className="form-label">Должность руководителя</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -330,7 +330,9 @@ const Register = () => {
                                         value={formState.ur_address}
                                         onChange={handleChange}
                                     />
-                                    {errors.ur_address && <div className="text-danger">{errors.ur_address}</div>}
+                                    {errors.ur_address && (
+                                        <div className="text-danger">{errors.ur_address}</div>
+                                    )}
                                 </div>
                                 <div className="col-md-6">
                                     <label className="form-label">Фактический адрес</label>
@@ -341,10 +343,12 @@ const Register = () => {
                                         value={formState.fact_address}
                                         onChange={handleChange}
                                     />
-                                    {errors.fact_address && <div className="text-danger">{errors.fact_address}</div>}
+                                    {errors.fact_address && (
+                                        <div className="text-danger">{errors.fact_address}</div>
+                                    )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Почтовый адрес</label>
+                                    <label className="form-label">Адрес компании</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -354,13 +358,18 @@ const Register = () => {
                                     />
                                     {errors.address && <div className="text-danger">{errors.address}</div>}
                                 </div>
+                                <div className="col-md-6">
+                                    <button type="button" className="btn btn-primary" onClick={nextStep}>
+                                        Далее
+                                    </button>
+                                </div>
                             </div>
                         )}
 
                         {currentStep === 2 && (
                             <div className="row g-3">
                                 <div className="col-md-6">
-                                    <label className="form-label">Банк</label>
+                                    <label className="form-label">Название банка</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -371,7 +380,7 @@ const Register = () => {
                                     {errors.banc && <div className="text-danger">{errors.banc}</div>}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Номер расчетного счета</label>
+                                    <label className="form-label">Расчетный счет</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -394,6 +403,14 @@ const Register = () => {
                                     />
                                     {errors.bik && <div className="text-danger">{errors.bik}</div>}
                                 </div>
+                                <div className="col-md-6">
+                                    <button type="button" className="btn btn-secondary" onClick={prevStep}>
+                                        Назад
+                                    </button>
+                                    <button type="button" className="btn btn-primary ms-2" onClick={nextStep}>
+                                        Далее
+                                    </button>
+                                </div>
                             </div>
                         )}
 
@@ -408,7 +425,9 @@ const Register = () => {
                                         value={formState.web_site}
                                         onChange={handleChange}
                                     />
-                                    {errors.web_site && <div className="text-danger">{errors.web_site}</div>}
+                                    {errors.web_site && (
+                                        <div className="text-danger">{errors.web_site}</div>
+                                    )}
                                 </div>
                                 <div className="col-md-6">
                                     <label className="form-label">ПИН менеджера по продажам</label>
@@ -424,7 +443,7 @@ const Register = () => {
                                     )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">ФИО</label>
+                                    <label className="form-label">ФИО менеджера по продажам</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -435,7 +454,7 @@ const Register = () => {
                                     {errors.fio && <div className="text-danger">{errors.fio}</div>}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Должность</label>
+                                    <label className="form-label">Должность менеджера по продажам</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -443,10 +462,12 @@ const Register = () => {
                                         value={formState.position}
                                         onChange={handleChange}
                                     />
-                                    {errors.position && <div className="text-danger">{errors.position}</div>}
+                                    {errors.position && (
+                                        <div className="text-danger">{errors.position}</div>
+                                    )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Номер телефона</label>
+                                    <label className="form-label">Телефон менеджера по продажам</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -459,7 +480,7 @@ const Register = () => {
                                     )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Рабочий номер телефона</label>
+                                    <label className="form-label">Рабочий телефон менеджера по продажам</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -472,7 +493,7 @@ const Register = () => {
                                     )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Электронная почта</label>
+                                    <label className="form-label">Электронная почта менеджера по продажам</label>
                                     <input
                                         type="text"
                                         className="form-control"
@@ -480,10 +501,12 @@ const Register = () => {
                                         value={formState.email_manager}
                                         onChange={handleChange}
                                     />
-                                    {errors.email_manager && <div className="text-danger">{errors.email_manager}</div>}
+                                    {errors.email_manager && (
+                                        <div className="text-danger">{errors.email_manager}</div>
+                                    )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Пароль</label>
+                                    <label className="form-label">Пароль менеджера по продажам</label>
                                     <input
                                         type="password"
                                         className="form-control"
@@ -496,35 +519,25 @@ const Register = () => {
                                     )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Загрузите файлы</label>
+                                    <label className="form-label">Файлы</label>
                                     <input
                                         type="file"
                                         className="form-control"
-                                        name="files"
                                         multiple
                                         onChange={handleFileChange}
                                     />
                                     {errors.files && <div className="text-danger">{errors.files}</div>}
                                 </div>
+                                <div className="col-md-6">
+                                    <button type="button" className="btn btn-secondary" onClick={prevStep}>
+                                        Назад
+                                    </button>
+                                    <button type="submit" className="btn btn-primary ms-2">
+                                        Регистрация
+                                    </button>
+                                </div>
                             </div>
                         )}
-
-                        <div className="mt-4">
-                            {/* {currentStep > 1 && (
-                <button type="button" className="btn btn-secondary me-2" onClick={prevStep}>
-                  Назад
-                </button>
-              )} */}
-                            {currentStep < 4 ? (
-                                <button type="button" className="btn btn-primary" onClick={nextStep}>
-                                    Продолжить
-                                </button>
-                            ) : (
-                                <button type="submit" className="btn btn-success">
-                                    Зарегистрироваться
-                                </button>
-                            )}
-                        </div>
                     </form>
                 </div>
             </div>

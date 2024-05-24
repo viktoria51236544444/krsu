@@ -16,6 +16,7 @@ const Completed = () => {
 
     }
 
+
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -83,7 +84,7 @@ const Completed = () => {
                                                                 </div>
                                                             ))}
                                                         </td>
-                                                        <td> <Button variant="success" size="sm" >Архив</Button></td>
+                                                        <td> <Button variant="success" size="sm" >В архив</Button></td>
                                                     </tr>
                                                 ))}
                                         </tbody>

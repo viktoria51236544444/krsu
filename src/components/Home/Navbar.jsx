@@ -50,18 +50,25 @@ function NavScrollExample() {
             const storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
             if (!storedUserInfo) {
                 const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeid}`);
+                console.log(data);
                 localStorage.setItem('userInfo', JSON.stringify(data.user.user));
+           
             }
         } catch (error) {
             console.log('Ошибка при получении информации о пользователе:', error);
         }
     };
 
-
     const handlePersonaClick = () => {
         const userInfo = localStorage.getItem('userInfo');
         if (userInfo) {
             navigate('/persona');
+        } else {
+            const codeid = localStorage.getItem('codeid');
+            if (codeid) {
+                getUserInfo(codeid);
+                navigate('/persona');
+            }
         }
     };
 
@@ -69,9 +76,9 @@ function NavScrollExample() {
 
     return (
         !isNavBarHidden && (
-            <Navbar expand="lg" className="bg-white border-bottom">
+            <Navbar expand="lg" className="bg-rgba(173, 168, 168, 0.49) border-bottom">
                 <Container fluid>
-                    <Navbar.Brand as={Link} to="/" className="text-dark" ><img style={{ width: "2vw" }} src={logo} alt="" /> <span>КНАУ</span></Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/" className="text-dark"><img style={{ width: "2vw" }} src={logo} alt="" /> <span>КНАУ</span></Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
@@ -121,7 +128,7 @@ function NavScrollExample() {
                                 Нормативно правовые акты
                             </Nav.Link>
                             {email && (
-                                <Nav.Link onClick={()=>handlePersonaClick} className="nav-link">
+                                <Nav.Link onClick={handlePersonaClick} className="nav-link">
                                     Личный кабинет
                                 </Nav.Link>
                             )}

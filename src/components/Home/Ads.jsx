@@ -1,8 +1,8 @@
-import React, {useState, useEffect} from 'react';
-import {Button, Modal, Form} from 'react-bootstrap';
-import {UseRegister} from '../../Context/ContextProviderRegister';
-import {Link, useNavigate} from 'react-router-dom';
-import {ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass} from "@phosphor-icons/react";
+import React, { useState, useEffect } from 'react';
+import { Button, Modal, Form } from 'react-bootstrap';
+import { UseRegister } from '../../Context/ContextProviderRegister';
+import { Link, useNavigate } from 'react-router-dom';
+import { ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass } from "@phosphor-icons/react";
 import './homePage.css'
 import axios from "axios";
 import Footer from "./Footer";
@@ -12,14 +12,16 @@ const Ads = () => {
     const [pageInput, setPageInput] = useState("");
     const [showPageList, setShowPageList] = useState(false);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const {publick, createOrder, message, getOrderDetails} = UseRegister();
+    const { publick, createOrder, message, getOrderDetails } = UseRegister();
 
     const [User, setUser] = useState({
         userId: 0,
         contest_id: 0,
         cover_later: "",
         summ: 0,
+        files: []
     });
+    
 
     const [showModal, setShowModal] = useState(false);
     const [selectedContest, setSelectedContest] = useState(null);
@@ -74,6 +76,14 @@ const Ads = () => {
     const togglePageList = () => {
         setShowPageList(!showPageList);
     };
+    const handleFileChange = (e) => {
+        const files = Array.from(e.target.files);
+        setUser((prevState) => ({
+            ...prevState,
+            files: [...prevState.files, ...files]
+        }));
+    };
+    
 
     const itemsPerPage = 20;
     const totalPages = publick ? Math.ceil(publick.length / itemsPerPage) : 0;
@@ -91,26 +101,32 @@ const Ads = () => {
         setShowModal(true);
     };
 
-    const handleSubmitOrder = () => {
+    const handleSubmitOrder = async () => {
         if (!selectedContest) {
             return;
         }
-
-        const orderData = {
-            userId: useCurrentData ? parseInt(userId) : User.userId,
-            contest_id: selectedContest.codeid,
-            cover_later: comment,
-            summ: parseFloat(summValue),
-        };
-
-        console.log(orderData);
-        createOrder(orderData);
-
-        setShowModal(false);
-        setComment('');
-        setSummValue('');
-        setUseCurrentData(false);
+    
+        const formData = new FormData();
+        formData.append('userId', useCurrentData ? parseInt(userId) : User.userId);
+        formData.append('contest_id', selectedContest.codeid);
+        formData.append('cover_later', comment);
+        formData.append('summ', parseFloat(summValue));
+        User.files.forEach(file => {
+            formData.append('files', file);
+        });
+    
+        try {
+            await createOrder(formData);
+            console.log('Order submitted successfully!');
+            setShowModal(false);
+            setComment('');
+            setSummValue('');
+            setUseCurrentData(false);
+        } catch (error) {
+            console.error('Error submitting order:', error);
+        }
     };
+    
 
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -138,7 +154,7 @@ const Ads = () => {
 
     return (
         <div className="container-fluid">
-            <div className="card" style={{border: "none"}}>
+            <div className="card" style={{ border: "none" }}>
                 <div className="card-body">
                     <div className="input-group mb-3 search-panel">
                         <input
@@ -150,66 +166,66 @@ const Ads = () => {
                             onKeyPress={handleKeyPress}
                         />
                     </div>
-                    <hr/>
+                    <hr />
                     <div className="table-responsive">
                         <table className="table table-striped">
                             <thead>
-                            <tr>
-                                <th>№</th>
-                                <th>Номер</th>
-                                <th>Организация</th>
-                                <th>Предмет закупки</th>
-                                <th>Способ закупа</th>
-                                <th>Формат закупа</th>
-                                <th>Планируемая сумма</th>
-                                <th>Начало закупки</th>
-                                <th>Окончание закупки</th>
-                                {isAuthenticated && <th>Действия</th>}
+                                <tr>
+                                    <th>№</th>
+                                    <th>Номер</th>
+                                    <th>Организация</th>
+                                    <th>Предмет закупки</th>
+                                    <th>Способ закупа</th>
+                                    <th>Формат закупа</th>
+                                    <th>Планируемая сумма</th>
+                                    <th>Начало закупки</th>
+                                    <th>Окончание закупки</th>
+                                    {isAuthenticated && <th>Действия</th>}
 
-                            </tr>
+                                </tr>
                             </thead>
                             <tbody className='main-table'>
-                            {searchResults.length === 0 ? (
-                                currentPageData.map((ad, index) => (
-                                    <tr key={index} style={{cursor: "pointer"}}>
-                                        <td onClick={() => handleClick(ad.codeid)}>{index + 1}</td>
-                                        <td onClick={() => handleClick(ad.codeid)}>{ad.codeid + ad.year + index + 1}</td>
-                                        <td onClick={() => handleClick(ad.codeid)}>{ad.contest_name}</td>
-                                        <td onClick={() => handleClick(ad.codeid)}>{ad.contest_description}</td>
-                                        <td onClick={() => handleClick(ad.codeid)}>{ad.method_purchase}</td>
-                                        <td onClick={() => handleClick(ad.codeid)}>{ad.format_purchase}</td>
-                                        <td onClick={() => handleClick(ad.codeid)}>{ad.planned_summ} сом</td>
-                                        <td onClick={() => handleClick(ad.codeid)}>{ad.start_date}</td>
-                                        <td onClick={() => handleClick(ad.codeid)}>{new Date(ad.end_date).toLocaleDateString()}</td>
-                                        {isAuthenticated && (
-                                            <td>
-                                                <Button variant="primary"
-                                                        style={{width: "120px", height: "auto", fontSize: 12,}}
+                                {searchResults.length === 0 ? (
+                                    currentPageData.map((ad, index) => (
+                                        <tr key={index} style={{ cursor: "pointer" }}>
+                                            <td onClick={() => handleClick(ad.codeid)}>{index + 1}</td>
+                                            <td onClick={() => handleClick(ad.codeid)}>{ad.codeid + ad.year + index + 1}</td>
+                                            <td onClick={() => handleClick(ad.codeid)}>{ad.contest_name}</td>
+                                            <td onClick={() => handleClick(ad.codeid)}>{ad.contest_description}</td>
+                                            <td onClick={() => handleClick(ad.codeid)}>{ad.method_purchase}</td>
+                                            <td onClick={() => handleClick(ad.codeid)}>{ad.format_purchase}</td>
+                                            <td onClick={() => handleClick(ad.codeid)}>{ad.planned_summ} сом</td>
+                                            <td onClick={() => handleClick(ad.codeid)}>{ad.start_date}</td>
+                                            <td onClick={() => handleClick(ad.codeid)}>{new Date(ad.end_date).toLocaleDateString()}</td>
+                                            {isAuthenticated && (
+                                                <td>
+                                                    <Button variant="primary"
+                                                        style={{ width: "120px", height: "auto", fontSize: 12, }}
                                                         size='small' onClick={() => handleApplyClick(ad)}>Подать
-                                                    заявку</Button>
-                                            </td>
-                                        )}
-                                    </tr>
-                                ))
-                            ) : (
-                                searchResults.map((ad, index) => (
-                                    <tr key={index} onClick={() => handleClick(ad.codeid)} style={{cursor: "pointer"}}>
-                                        <td>{index + 1}</td>
-                                        <td>{ad.contest_name}</td>
-                                        <td>{ad.method_purchase}</td>
-                                        <td>{ad.contest_description}</td>
-                                        <td>{ad.start_date}</td>
-                                        <td>{new Date(ad.end_date).toLocaleDateString()}</td>
-                                        {isAuthenticated && (
-                                            <td>
-                                                <Button variant="primary" style={{width: "150px", height: "auto"}}
+                                                        заявку</Button>
+                                                </td>
+                                            )}
+                                        </tr>
+                                    ))
+                                ) : (
+                                    searchResults.map((ad, index) => (
+                                        <tr key={index} onClick={() => handleClick(ad.codeid)} style={{ cursor: "pointer" }}>
+                                            <td>{index + 1}</td>
+                                            <td>{ad.contest_name}</td>
+                                            <td>{ad.method_purchase}</td>
+                                            <td>{ad.contest_description}</td>
+                                            <td>{ad.start_date}</td>
+                                            <td>{new Date(ad.end_date).toLocaleDateString()}</td>
+                                            {isAuthenticated && (
+                                                <td>
+                                                    <Button variant="primary" style={{ width: "150px", height: "auto" }}
                                                         size='small' onClick={() => handleApplyClick(ad)}>Подать
-                                                    заявку</Button>
-                                            </td>
-                                        )}
-                                    </tr>
-                                ))
-                            )}
+                                                        заявку</Button>
+                                                </td>
+                                            )}
+                                        </tr>
+                                    ))
+                                )}
                             </tbody>
                         </table>
                     </div>
@@ -217,18 +233,18 @@ const Ads = () => {
                         <ul className="pagination justify-content-center pagination-panel">
                             <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
                                 onClick={() => handlePageChange(currentPage - 1)}>
-                                <CaretLeft size={24} color="#212121" weight="bold"/>
+                                <CaretLeft size={24} color="#212121" weight="bold" />
                             </li>
                             {pageNumbers.map((number) => (
                                 <li className={`dt-paging-button page-item ${number === currentPage ? 'active' : ''}`}
                                     key={number}>
                                     <a className="page-link" onClick={() => handlePageChange(number)}
-                                       style={{borderRadius: 10}}>{number}</a>
+                                        style={{ borderRadius: 10 }}>{number}</a>
                                 </li>
                             ))}
                             <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
                                 onClick={() => handlePageChange(currentPage + 1)}>
-                                <CaretRight size={24} color="#212121" weight="bold"/>
+                                <CaretRight size={24} color="#212121" weight="bold" />
                             </li>
                         </ul>
                     </div>
@@ -241,15 +257,16 @@ const Ads = () => {
                 <Modal.Body>
                     <Form>
                         <Form.Group>
-                            <Form.Label>Комментарий</Form.Label>
+                            <Form.Label>Мотивационное письмо</Form.Label>
                             <Form.Control as="textarea" rows={3} value={comment}
-                                          onChange={(e) => setComment(e.target.value)}/>
+                                onChange={(e) => setComment(e.target.value)} />
                         </Form.Group>
                         <Form.Group>
                             <Form.Label>Сумма</Form.Label>
                             <Form.Control type="number" value={summValue}
-                                          onChange={(e) => setSummValue(e.target.value)}/>
+                                onChange={(e) => setSummValue(e.target.value)} />
                         </Form.Group>
+                        <br />
                         <Form.Group>
                             <Form.Check
                                 type="checkbox"
@@ -259,6 +276,12 @@ const Ads = () => {
                                 onChange={(e) => setUseCurrentData(e.target.checked)}
                             />
                         </Form.Group>
+                        <br />
+                        <Form.Group>
+                            <Form.Label>Добавить дополнительные</Form.Label>
+                            <Form.Control type="file" multiple onChange={handleFileChange} />
+                        </Form.Group>
+
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
@@ -266,7 +289,7 @@ const Ads = () => {
                     <Button variant="primary" onClick={handleSubmitOrder}>Подать заявку</Button>
                 </Modal.Footer>
             </Modal>
-            <Footer/>
+            <Footer />
         </div>
     );
 }

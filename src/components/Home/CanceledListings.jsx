@@ -92,6 +92,7 @@ const CanceledListings = () => {
                                 <th>Начало закупки</th>
                                 <th>Окончание закупки</th>
                                 <th>Планируемая сумма</th>
+                                <th>Причина</th>
                             </tr>
                             </thead>
                             <tbody className='main-table'>
@@ -105,6 +106,7 @@ const CanceledListings = () => {
                                     <td>{ad.start_date}</td>
                                     <td>{ad.formatted_end_date}</td>
                                     <td>{ad.planned_summ} сом</td>
+                                    <td>{ad.coment} сом</td>
                                     {/*{ad.canceled && (*/}
                                         <td> <div style={{color: 'red', border: '1px solid red', width: 80, height: 30, display: "flex", justifyContent: 'center', alignItems: "center", borderRadius: 8}}>Отменено</div></td>
                                     {/*)}*/}

@@ -59,11 +59,11 @@ const ContextProviderRegister = ({ children }) => {
     const sendVerificationEmail = async (data) => {
         try {
             const response = await axios.post(`http://212.112.105.196:3457/api/users/verifi_email`, data);
-            console.log('Email verification request sent successfully:', response.data);
-            console.log(response.data.codeid);
-            localStorage.setItem('authToken', response.data.result.accessToken);
-            localStorage.setItem('userEmail', data.email);
-            localStorage.setItem('codeid', response.data.result.codeid);
+            // console.log('Email verification request sent successfully:', response.data);
+            // console.log(response.data.codeid);
+            // localStorage.setItem('authToken', response.data.result.accessToken);
+            // localStorage.setItem('userEmail', data.email);
+            // localStorage.setItem('codeid', response.data.result.codeid);
             navigate('/');
         } catch (error) {
             console.error('Ошибка при отправке запроса на верификацию email:', error.message);

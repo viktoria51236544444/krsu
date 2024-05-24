@@ -15,7 +15,7 @@ const Canceled = () => {
         return <div>Loading...</div>;
 
     }
-
+    console.log(compled);
     return (
         <div className="oll_sistem">
            <Sidebar/>
@@ -56,7 +56,9 @@ const Canceled = () => {
                                                 <th>Публикация</th>
                                                 <th>Окончание</th>
                                                 <th>Файлы</th>
+                                                <th>Причина</th>
                                                 <th>Действия</th>
+                                              
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -82,8 +84,10 @@ const Canceled = () => {
                                                                     </a>
                                                                 </div>
                                                             ))}
+                                                           
                                                         </td>
-                                                        <td><td> <Button variant="success" size="sm" >Архив</Button></td></td>
+                                                        <td>{contest.coment}</td>
+                                                        <td><td> <Button variant="success" size="sm" >В архив</Button></td></td>
                                                     </tr>
                                                 ))}
                                         </tbody>
