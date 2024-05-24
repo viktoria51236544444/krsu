@@ -37,7 +37,9 @@ const RegulatoryLegalAct = () => {
                             <Table striped bordered hover>
                                 <thead>
                                 <tr>
-                                    <th>№</th>
+                                        <th>№</th>
+                                        <th>Наименование файла</th>
+                                        
                                     <th>Наименование</th>
                                 </tr>
                                 </thead>
@@ -45,6 +47,7 @@ const RegulatoryLegalAct = () => {
                                 { files?.map((file, index)=> (
                                     <tr key={index}>
                                         <td>{index + 1}</td>
+                                        <td>{file.description}</td>
                                         <td>
                                             <a href={file.path} download>{file.description}</a>
                                         </td>

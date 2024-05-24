@@ -158,7 +158,7 @@ body {
 
 .pills-outline {
   display: flex;
-  gap: 10px; /* Расстояние между табами */
+  gap: 10px; 
 }
 
 .tab-link {

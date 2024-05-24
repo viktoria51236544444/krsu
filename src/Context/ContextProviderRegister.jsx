@@ -15,6 +15,9 @@ const ContextProviderRegister = ({ children }) => {
     const [message, SetMessage] = useState(null);
     const [detailUsers, SetDetailUsers] = useState(null);
     const [users, SetUsers] = useState(null);
+    const [users2, SetUsers2] = useState(null);
+    const [users3, SetUsers3] = useState(null);
+     const [actt, setActt] = useState(null);
     const navigate = useNavigate()
 
     // console.log(concurs);
@@ -52,6 +55,7 @@ const ContextProviderRegister = ({ children }) => {
             }
         };
 
+
         fetchOrganizationType();
     }, []);
 
@@ -64,7 +68,6 @@ const ContextProviderRegister = ({ children }) => {
             // localStorage.setItem('authToken', response.data.result.accessToken);
             // localStorage.setItem('userEmail', data.email);
             // localStorage.setItem('codeid', response.data.result.codeid);
-            navigate('/');
         } catch (error) {
             console.error('Ошибка при отправке запроса на верификацию email:', error.message);
             throw error;
@@ -76,7 +79,7 @@ const ContextProviderRegister = ({ children }) => {
     const signin = async (signinData) => {
         try {
             const res = await axios.post(`http://212.112.105.196:3457/api/users/signin`, signinData);
-            console.log(res.data.codeid);
+            console.log(res);
 
             localStorage.setItem('authToken', res.data.token);
             localStorage.setItem('userEmail', signinData.email);
@@ -94,26 +97,26 @@ const ContextProviderRegister = ({ children }) => {
     };
 
     //* стягивание данных конкретного юзера по codeId
-  
-        const getUserInfo = async (codeId) => {
-            try {
-                const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeId}`)
-                console.log(data);
-            } catch (error) {
-                console.log(error);
-            }
+
+    const getUserInfo = async (codeId) => {
+        try {
+            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeId}`)
+            console.log(data);
+        } catch (error) {
+            console.log(error);
         }
- 
-   
-        const getUserList = async () => {
-            try {
-                const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserList`)
-                SetUsers(data.users.users);
-            } catch (error) {
-                console.log(error);
-            }
+    }
+
+
+    const getUserList = async () => {
+        try {
+            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserList`)
+            SetUsers(data.users.users);
+        } catch (error) {
+            console.log(error);
         }
-   
+    }
+
 
 
     // ! КОНКУРСЫ 
@@ -222,6 +225,56 @@ const ContextProviderRegister = ({ children }) => {
         }
     }
 
+    const getByStatus = async (status) => {
+        try {
+            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getByStatus/${status}`)
+            SetUsers2(data.result.result);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    const getByStatus2 = async (status) => {
+        try {
+            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getByStatus/${status}`)
+            SetUsers3(data.result.result);
+            console.log(data);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+    const updateUserStatus = async (UserData) => {
+        try {
+            const { data } = await axios.post(`http://212.112.105.196:3457/api/users/updateUserStatus`, UserData);
+            console.log(data);
+        } catch (error) {
+            console.log('Error during sign-in:', error);
+        }
+    };
+    const wonContest = async (ConcursData) => {
+        try {
+            const { data } = await axios.post(`http://212.112.105.196:3457/api/orders//wonContest`, ConcursData);
+            console.log(data);
+        } catch (error) {
+            console.log('Error during sign-in:', error);
+        }
+    };
+
+    const getFiles = async (status) => {
+        try {
+            const { data } = await axios.get(`http://212.112.105.196:3457/api/files/getFiles/${status}`)
+            setActt(data.result.updateFiles);
+            // console.log(data.result.updateFiles);
+        
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+   
+
+   
     const values = {
         registerUser,
         organizationType,
@@ -240,7 +293,16 @@ const ContextProviderRegister = ({ children }) => {
         getOrderDetails,
         detailUsers,
         users,
-        getUserList
+        getUserList,
+        getByStatus,
+        users2,
+        users3,
+        updateUserStatus,
+        getByStatus2,
+        wonContest,
+        getFiles,
+        actt,
+        getFiles
     };
     return (
         <contextProviderRegister.Provider value={values}>

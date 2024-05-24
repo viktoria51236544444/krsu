@@ -57,17 +57,10 @@ const Roles = () => {
                                 <li id="admin3" onClick={() => handleUserSelection("admin3")} style={{ color: selectedUser === "admin3" ? "blue" : "black" }}>Сайора Арыстанбекова</li>
                             </Accordion.Body>
                         </Accordion.Item>
-                        <Accordion.Item eventKey="1">
-                            <Accordion.Header>Поставщики</Accordion.Header>
-                            <Accordion.Body>
-                                <li id="supplier1" onClick={() => handleUserSelection("supplier1")} style={{ color: selectedUser === "supplier1" ? "blue" : "black" }}>Дамир Муруталиев</li>
-                                <li id="supplier2" onClick={() => handleUserSelection("supplier2")} style={{ color: selectedUser === "supplier2" ? "blue" : "black" }}>Кубанычбек Тагаев</li>
-                                <li id="supplier3" onClick={() => handleUserSelection("supplier3")} style={{ color: selectedUser === "supplier3" ? "blue" : "black" }}>Зарима Тилигенова</li>
-                            </Accordion.Body>
-                        </Accordion.Item>
                         
-                        <Accordion.Item eventKey="2">
-                            <Accordion.Header>Исполнители</Accordion.Header>
+                        
+                        <Accordion.Item eventKey="1">
+                            <Accordion.Header>Операторы</Accordion.Header>
                             <Accordion.Body>
                                 <li id="performer1" onClick={() => handleUserSelection("performer1")} style={{ color: selectedUser === "performer1" ? "blue" : "black" }}>Нуржан Таалайбекова</li>
                                 <li id="performer2" onClick={() => handleUserSelection("performer2")} style={{ color: selectedUser === "performer2" ? "blue" : "black" }}>Эльнура Жумабекова</li>
@@ -75,7 +68,7 @@ const Roles = () => {
                             </Accordion.Body>
                         </Accordion.Item>
                         <Accordion.Item eventKey="3">
-                            <Accordion.Header>Заказчики</Accordion.Header>
+                            <Accordion.Header>Юоидические лица</Accordion.Header>
                             <Accordion.Body>
                                 <li id="customer1" onClick={() => handleUserSelection("customer1")} style={{ color: selectedUser === "customer1" ? "blue" : "black" }}>Данияр Астаров</li>
                                 <li id="customer2" onClick={() => handleUserSelection("customer2")} style={{ color: selectedUser === "customer2" ? "blue" : "black" }}>Зинаида Бишимкулова</li>
