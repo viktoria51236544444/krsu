@@ -6,27 +6,34 @@ import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
 const Canceled = () => {
-    const { compled, contestFilter } = UseRegister();
+    const { compled, contestFilter, updateContestStatus } = UseRegister();
+
     useEffect(() => {
         contestFilter(4);
-    }, []);
+    }, [contestFilter]);
+
+    const handleClick = (contest_id) => {
+        const arheve = {
+            contest_id: contest_id,
+            contest_status: 5
+        };
+        updateContestStatus(arheve);
+    }
 
     if (!compled) {
         return <div>Loading...</div>;
-
     }
-    console.log(compled);
     return (
         <div className="oll_sistem">
-           <Sidebar/>
+            <Sidebar />
             <div className="navbar_container">
-            <div style={{ background: 'white', display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6vw", }}>
+                <div style={{ background: 'white', display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6vw", }}>
                     <div >
                         <div className="pills-outline">
                             <Link to={"/concurs"} className="tab-link" ><button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Черновики</button></Link>
                             <Link to={"/public"} className="tab-link"><button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(2)}>Опубликованные</button></Link>
                             <Link to="/completed" className="tab-link"><button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(3)}>Завершенные</button></Link>
-                            <Link to="/canceled" className="tab-link"><button style={{ color: "#0D6EFD", background: "White" }}   className="tab-button" onClick={() => contestFilter(4)}>Деактивированные</button></Link>
+                            <Link to="/canceled" className="tab-link"><button style={{ color: "#0D6EFD", background: "White" }} className="tab-button" onClick={() => contestFilter(4)}>Деактивированные</button></Link>
                             <Link to={"/archive"} className="tab-link"><button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Архив</button></Link>
                         </div>
 
@@ -38,7 +45,7 @@ const Canceled = () => {
                     </div>
                 </div>
                 <div >
-                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div className="card">
                             <div className="card-body">
                                 <div className="table-responsive mt-4">
@@ -58,7 +65,7 @@ const Canceled = () => {
                                                 <th>Файлы</th>
                                                 <th>Причина</th>
                                                 <th>Действия</th>
-                                              
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -79,15 +86,17 @@ const Canceled = () => {
                                                         <td>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
                                                                 <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
-                                                                    <a href={`${file.path}`}  style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
+                                                                    <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                         <span>{file.file_name}</span>
                                                                     </a>
                                                                 </div>
                                                             ))}
-                                                           
+
                                                         </td>
                                                         <td>{contest.coment}</td>
-                                                        <td><td> <Button variant="success" size="sm" >В архив</Button></td></td>
+                                                        <td>
+                                                            <Button variant="success" size="sm" onClick={() => handleClick(contest.codeid)}>В архив</Button>
+                                                        </td>
                                                     </tr>
                                                 ))}
                                         </tbody>

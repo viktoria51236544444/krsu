@@ -8,11 +8,9 @@ import { UseRegister } from '../../Context/ContextProviderRegister';
 const Act = () => {
     const { getFiles, actt } = UseRegister()
     console.log(actt);
-    // useEffect(() => {
-    //     getFiles
-    // },[])
+
     const [addAct, setAddAct] = useState({
-        fileDescription: "", 
+        fileDescription: "",
         file: null
     });
 
@@ -25,14 +23,13 @@ const Act = () => {
     const fetchData = async () => {
         try {
             const { data } = await axios.get(`http://212.112.105.196:3457/api/files`);
-            // setActt(data.result.updateFiles);
         } catch (error) {
             console.log(error);
         }
     };
 
     useEffect(() => {
-        
+
         fetchData();
     }, []);
     const handleChange = (e) => {
@@ -51,7 +48,7 @@ const Act = () => {
 
         try {
             const { data } = await axios.post(`http://212.112.105.196:3457/api/files/upload`, formData);
-            // setActt(data.result.updateFiles);
+
             handleClose();
         } catch (error) {
             console.log(error);
@@ -66,8 +63,8 @@ const Act = () => {
                     <div>
                         <div className="pills-outline">
                             <button className="tab-button" style={{ color: "#0D6EFD", background: "White" }}>Опубликованные</button>
-                            {/* <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Удаленные</button>
-                            <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Архив</button> */}
+                            {/* <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Удаленные</button> */}
+                            {/* <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Архив</button> */}
                         </div>
                     </div>
                     <div>
@@ -96,7 +93,10 @@ const Act = () => {
                                                 <td>{index + 1}</td>
                                                 <td>{item.description}</td>
                                                 <td>{item.file_name}</td>
-                                                <td><a href={item.path} target="_blank" rel="noopener noreferrer">Скачать</a></td>
+                                                <td><a href={item.path} rel="noopener noreferrer">Скачать</a></td>
+                                                {/* <td>
+                                                    <Button variant="success" size="sm" onClick={() => getFiles({contest_status: 5, })}>Удалить</Button>
+                                                </td> */}
                                             </tr>
                                         ))}
                                     </tbody>
@@ -114,19 +114,19 @@ const Act = () => {
                     <Form>
                         <Form.Group controlId="formFileDescription">
                             <Form.Label>Описание файла</Form.Label>
-                            <Form.Control 
-                                type="text" 
-                                name="fileDescription" 
-                                value={addAct.fileDescription} 
-                                onChange={handleChange} 
+                            <Form.Control
+                                type="text"
+                                name="fileDescription"
+                                value={addAct.fileDescription}
+                                onChange={handleChange}
                             />
                         </Form.Group>
                         <Form.Group controlId="formFile">
                             <Form.Label>Файл</Form.Label>
-                            <Form.Control 
-                                type="file" 
-                                name="file" 
-                                onChange={handleChange} 
+                            <Form.Control
+                                type="file"
+                                name="file"
+                                onChange={handleChange}
                             />
                         </Form.Group>
                     </Form>
