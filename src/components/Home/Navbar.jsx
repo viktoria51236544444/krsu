@@ -59,13 +59,13 @@ function NavScrollExample() {
 
 
     const handlePersonaClick = () => {
-        const codeid = localStorage.getItem('codeid');
-        if (codeid) {
+        const userInfo = localStorage.getItem('userInfo');
+        if (userInfo) {
             navigate('/persona');
         }
     };
 
-    const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive"].includes(activeTab);
+    const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act"].includes(activeTab);
 
     return (
         !isNavBarHidden && (
@@ -118,7 +118,7 @@ function NavScrollExample() {
                                 to="/regulatory"
                                 className={`nav-link ${activeTab === "/regulatory" ? "active" : ""}`}
                             >
-                                Нормативные правовые акты
+                                Нормативно правовые акты
                             </Nav.Link>
                             {email && (
                                 <Nav.Link onClick={()=>handlePersonaClick} className="nav-link">

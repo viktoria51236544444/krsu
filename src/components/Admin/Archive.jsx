@@ -25,7 +25,7 @@ const Archive = () => {
 
     return (
         <div className="oll_sistem">
-            <Sidebar/>
+            <Sidebar />
             <div className="navbar_container">
                 <div style={{ background: 'white', display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6vw", }}>
                     <div >
@@ -40,69 +40,67 @@ const Archive = () => {
                     </div>
                     <div>
                         <div>
-                            email
+                        admin@gmail.com
                         </div>
                     </div>
                 </div>
-                <div className="container_information_client"></div>
                 <div >
-                    <div className="table-responsive mt-4">
-                        <Table striped bordered hover>
-                            <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Название</th>
-                                    <th>Описание</th>
-                                    <th>Дата публикации</th>
-                                    <th>Дата окончания</th>
-                                    <th>Формат</th>
-                                    <th>Метод</th>
-                                    <th>Статус</th>
-                                    <th>Тип</th>
-                                    <th>Год</th>
-                                    <th>Планируемая сумма</th>
-                                    <th>Файлы</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {contestList.map((contest, index) => (
-                                    <tr key={contest.codeid}>
-                                        <td>{index + 1}</td>
-                                        <td>{contest.contest_name}</td>
-                                        <td>{contest.contest_description}</td>
-                                        <td>{contest.start_date}</td>
-                                        <td>{contest.end_date}</td>
-                                        <td>{contest.format}</td>
-                                        <td>{contest.method}</td>
-                                        <td>{contest.status}</td>
-                                        <td>{contest.type}</td>
-                                        <td>{contest.year}</td>
-                                        <td>{contest.planned_summ}</td>
-                                        <td>
-                                            {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
-                                                    <a href={`http://212.112.105.196:3457/${file.path}`} download={file.name} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16" style={{ cursor: 'pointer' }}>
-                                                            <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z" />
-                                                            <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
-                                                        </svg>
-                                                        <span style={{ visibility: 'hidden' }}>{file.path}</span>
-                                                    </a>
-                                                </div>
+                    <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                        <div className="card">
+                            <div className="card-body">
+                                <div className="table-responsive mt-4">
+                                    <Table striped bordered hover>
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Название</th>
+                                                <th>Описание</th>
+                                                <th>Дата публикации</th>
+                                                <th>Дата окончания</th>
+                                                <th>Формат</th>
+                                                <th>Метод</th>
+                                                <th>Статус</th>
+                                                <th>Тип</th>
+                                                <th>Год</th>
+                                                <th>Планируемая сумма</th>
+                                                <th>Файлы</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {contestList.map((contest, index) => (
+                                                <tr key={contest.codeid}>
+                                                    <td>{index + 1}</td>
+                                                    <th>{contest.contest_name}</th>
+                                                    <td>{contest.contest_description}</td>
+                                                    <td>{contest.start_date}</td>
+                                                    <td>{contest.end_date}</td>
+                                                    <td>{contest.format}</td>
+                                                    <td>{contest.method}</td>
+                                                    <td>{contest.status}</td>
+                                                    <td>{contest.type}</td>
+                                                    <td>{contest.year}</td>
+                                                    <th>{contest.planned_summ}</th>
+                                                    <td>
+                                                    {contest.files.length > 0 && contest.files.map((file, index) => (
+                                                        <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
+                                                            <a href={`http://212.112.105.196:3457/${file.path}`}  style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
+                                                                <span>{file.file_name}</span>
+                                                            </a>
+                                                        </div>
+                                                    ))}
+                                                </td>
+                                                </tr>
                                             ))}
-                                        </td>
-
-
-
-
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </Table>
+                                        </tbody>
+                                    </Table>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
+
     );
 };
 

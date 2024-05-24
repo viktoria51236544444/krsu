@@ -45,7 +45,7 @@ function ResponsiveDrawer(props) {
         <div>
             <Toolbar />
             <List>
-                <Link style={{ textDecoration: "none", color: location.pathname === "/concurs" ? "#0D6EFD"  : "black" }} to={"/concurs"}>
+                <Link style={{ textDecoration: "none", color: location.pathname === "/concurs" ? "#0D6EFD" : "black" }} to={"/concurs"}>
                     <ListItem disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
@@ -81,6 +81,18 @@ function ResponsiveDrawer(props) {
                         </ListItemButton>
                     </ListItem>
                 </Link>
+                <Link style={{ textDecoration: "none", color: location.pathname === "/act" ? "#0D6EFD" : "black" }} to={"/act"}>
+                    <ListItem disablePadding>
+                        <ListItemButton>
+                            <ListItemIcon>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-files-alt" viewBox="0 0 16 16">
+                                    <path d="M11 0H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2 2 2 0 0 0 2-2V4a2 2 0 0 0-2-2 2 2 0 0 0-2-2m2 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1zM2 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
+                                </svg>
+                            </ListItemIcon>
+                            <ListItemText primary="Акт" />
+                        </ListItemButton>
+                    </ListItem>
+                </Link>
             </List>
         </div>
     );
@@ -90,7 +102,7 @@ function ResponsiveDrawer(props) {
     return (
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
-       
+
             <Box
                 component="nav"
                 sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
@@ -123,7 +135,7 @@ function ResponsiveDrawer(props) {
                     {drawer}
                 </Drawer>
             </Box>
-       
+
         </Box>
     );
 }

@@ -45,26 +45,7 @@ const Roles = () => {
         <div className="oll_sistem" >
           <Sidebar/>
             <div className="navbar_container">
-                <div class="navbar">
-                    <form class="search-counter" role="search">
-                        <div
-                            class="search-counte-container"
-                        >
-                        </div>
-                        <div class="search-counter-input">
-
-                            <div class="search-counter-button">
-
-
-                            </div>
-                            <div class="user">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
-                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                                </svg>
-                                <p>  @victoria@gmail.com</p></div>
-                        </div>
-                    </form>
-                </div>
+               
                 <div style={{ display: "flex" }}>
                     <Accordion style={{ width: '30vw', borderRight: "1px solid gray", height: '45vw' }}>
                         <p >Роли</p>
@@ -84,7 +65,7 @@ const Roles = () => {
                                 <li id="supplier3" onClick={() => handleUserSelection("supplier3")} style={{ color: selectedUser === "supplier3" ? "blue" : "black" }}>Зарима Тилигенова</li>
                             </Accordion.Body>
                         </Accordion.Item>
-                        {/* Добавление остальных ролей */}
+                        
                         <Accordion.Item eventKey="2">
                             <Accordion.Header>Исполнители</Accordion.Header>
                             <Accordion.Body>

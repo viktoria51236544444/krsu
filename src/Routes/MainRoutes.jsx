@@ -42,6 +42,7 @@ const MainRoutes = () => {
             <Route path="/detail/:id" element={<DetailPage />} />
             <Route path="/canceled" element={<Canceled />} />
             <Route path="/archive" element={<Archive />} />
+            <Route path="/act" element={<Act />} />
         </Routes>
     )
 }

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './concurs.css';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import './Sidebar.css';
@@ -10,8 +10,8 @@ import Sidebar from './Sidebar';
 
 const Participants = () => {
     const { users, getUserList } = UseRegister();
-    const [selectedIndex, setSelectedIndex] = useState(null); // Индекс выбранного пользователя для модального окна
-    const [showModal, setShowModal] = useState(false); 
+    const [selectedIndex, setSelectedIndex] = useState(null); 
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         getUserList();
@@ -20,15 +20,15 @@ const Participants = () => {
     const getUserInfo = async (codeId, index) => {
         try {
             const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeId}`);
-            setSelectedIndex(index); // Устанавливаем индекс выбранного пользователя
-            setShowModal(true); 
+            setSelectedIndex(index);
+            setShowModal(true);
         } catch (error) {
             console.log(error);
         }
     }
 
     const handleCloseModal = () => {
-        setShowModal(false); 
+        setShowModal(false);
     }
 
     if (!users) {
@@ -37,65 +37,70 @@ const Participants = () => {
 
     return (
         <div className="oll_sistem">
-            <Sidebar/>
+            <Sidebar />
             <div className="navbar_container">
-                <div className="navbar">
-                    <form className="search-counter" role="search">
-                        <div className="search-counter-container" style={{ justifyContent: "space-between" }}>
-                            <div className="search-counter-button">
-                                <Link to="#"><button>Неверифицированный</button></Link>
-                                <Link to="#"><button>Верифицированный</button></Link>
-                                <Link to="#"><button>Деактивированные</button></Link>
-                            </div>
-                            <div className="user">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-person" viewBox="0 0 16 16">
-                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10s-3.516.68-4.168 1.332c-.678.678-.83 1.418-.832 1.664z" />
-                                </svg>
-                                <p> @victoria@gmail.com</p>
+
+                <div style={{ background: 'white', display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6vw", }}>
+                    <div >
+                        <div className="pills-outline">
+                            <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Неверифицированные</button>
+                            <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Верифицированные</button>
+                            <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Деактивированные</button>
+
+                        </div>
+
+                    </div>
+                    <div>
+                        <div>
+                            admin@gmail.com
+                        </div>
+                    </div>
+                </div>
+                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div className="card">
+                        <div className="card-body">
+                            <div className="table-responsive mt-4">
+                                <Table striped bordered hover>
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ФИО</th>
+                                            <th scope="col">Организация</th>
+                                            <th scope="col">ИНН</th>
+                                            <th scope="col">Адрес</th>
+                                            <th scope="col">Фактический адрес</th>
+                                            <th scope="col">Юридический адрес</th>
+                                            <th scope="col">Электронная почта</th>
+                                            <th scope="col">Телефон</th>
+                                            <th scope="col">Банк</th>
+                                            <th scope="col">БИК</th>
+                                            <th scope="col">Расчетный счет</th>
+                                            <th scope="col">Сайт</th>
+                                            <th scope="col">Должность</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody >
+                                        {users.map((user, index) => (
+                                            <tr key={user.codeid} data-codeid={user.codeid} onClick={() => getUserInfo(user.codeid, index)}>
+                                                <td>{user.fio}</td>
+                                                <td>{user.name_organization}</td>
+                                                <td>{user.inn}</td>
+                                                <td>{user.address}</td>
+                                                <td>{user.fact_address}</td>
+                                                <td>{user.ur_address}</td>
+                                                <td>{user.email}</td>
+                                                <td>{user.pin_manager}</td>
+                                                <td>{user.banc_name}</td>
+                                                <td>{user.bik}</td>
+                                                <td>{user.deposit_account}</td>
+                                                <td>{user.web_site}</td>
+                                                <td>{user.position}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
                             </div>
                         </div>
-                    </form>
-                </div>
-
-                <div className="container_information_client">
-                    <table className="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">ФИО</th>
-                                <th scope="col">Организация</th>
-                                <th scope="col">ИНН</th>
-                                <th scope="col">Адрес</th>
-                                <th scope="col">Фактический адрес</th>
-                                <th scope="col">Юридический адрес</th>
-                                <th scope="col">Электронная почта</th>
-                                <th scope="col">Телефон</th>
-                                <th scope="col">Банк</th>
-                                <th scope="col">БИК</th>
-                                <th scope="col">Расчетный счет</th>
-                                <th scope="col">Сайт</th>
-                                <th scope="col">Должность</th>
-                            </tr>
-                        </thead>
-                        <tbody >
-                            {users.map((user, index) => (
-                                <tr  key={user.codeid} data-codeid={user.codeid} onClick={() => getUserInfo(user.codeid, index)}>
-                                    <td>{user.fio}</td>
-                                    <td>{user.name_organization}</td>
-                                    <td>{user.inn}</td>
-                                    <td>{user.address}</td>
-                                    <td>{user.fact_address}</td>
-                                    <td>{user.ur_address}</td>
-                                    <td>{user.email}</td>
-                                    <td>{user.pin_manager}</td>
-                                    <td>{user.banc_name}</td>
-                                    <td>{user.bik}</td>
-                                    <td>{user.deposit_account}</td>
-                                    <td>{user.web_site}</td>
-                                    <td>{user.position}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    </div>
                 </div>
             </div>
             <Modal show={showModal} onHide={handleCloseModal}>

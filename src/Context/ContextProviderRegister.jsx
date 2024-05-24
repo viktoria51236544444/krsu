@@ -94,7 +94,7 @@ const ContextProviderRegister = ({ children }) => {
     };
 
     //* стягивание данных конкретного юзера по codeId
-    useEffect(() => {
+  
         const getUserInfo = async (codeId) => {
             try {
                 const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeId}`)
@@ -103,8 +103,7 @@ const ContextProviderRegister = ({ children }) => {
                 console.log(error);
             }
         }
-        getUserInfo()
-    }, [])
+ 
    
         const getUserList = async () => {
             try {

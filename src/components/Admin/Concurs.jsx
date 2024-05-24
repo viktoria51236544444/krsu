@@ -27,7 +27,7 @@ const Concurs = () => {
 
     useEffect(() => {
         getContestList();
-        contestFilter()
+        // contestFilter()
     }, []);
 
     const getContestList = async () => {
@@ -137,63 +137,59 @@ const Concurs = () => {
                     </div>
                     <div>
                         <div>
-                            email
+                            admin@gmail.com
                         </div>
                     </div>
                 </div>
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12"  >
                     <div class="card"  >
-                        <div class="card-header" style={{background: "white"}}> <svg onClick={handleShow} style={{ margin: "0.5vw" }} xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-plus-circle" viewBox="0 0 16 16">
-                            <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
-                            <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4" />
-                        </svg></div>
+                        <div class="card-header" style={{ background: "white" }}>
+                            <Button variant="success" size="sm" onClick={handleShow}>Новый конкурс</Button>
+                        </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered first">
                                     <thead>
                                         <tr>
+                                            <th>#</th>
                                             <th>Название организации</th>
                                             <th>Наименование закупки</th>
                                             <th>Формат</th>
                                             <th>Метод</th>
-                                            <th>Тип </th>
+                                            <th>Тип</th>
                                             <th>Год</th>
                                             <th>Планируемая сумма</th>
                                             <th>Публикация</th>
                                             <th>Окончания</th>
                                             <th>Файлы</th>
+                                            <th>Действия</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {formData.contests && formData.contests.map(contest => (
-
+                                        {formData.contests && formData.contests.map((contest, index) => (
                                             <tr key={contest.codeid}>
-
-                                                <td>{contest.contest_name}</td>
+                                                <td>{index + 1}</td>
+                                                <th>{contest.contest_name}</th>
                                                 <td>{contest.contest_description}</td>
                                                 <td>{contest.format_purchase}</td>
                                                 <td>{contest.method_purchase}</td>
                                                 <td>{contest.type_purchase}</td>
                                                 <td>{contest.year}</td>
-                                                <td>{contest.planned_summ}</td>
+                                                <th>{contest.planned_summ}</th>
                                                 <td>{contest.start_date}</td>
                                                 <td>{contest.formatted_end_date}</td>
                                                 <td>
                                                     {contest.files.length > 0 && contest.files.map((file, index) => (
                                                         <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
-                                                            <a href={`http://212.112.105.196:3457/${file.path}`} download={file.name} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-file-earmark-arrow-up" viewBox="0 0 16 16" style={{ cursor: 'pointer' }}>
-                                                                    <path d="M8.5 11.5a.5.5 0 0 1-1 0V7.707L6.354 8.854a.5.5 0 1 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 7.707V11.5z" />
-                                                                    <path d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2zM9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5v2z" />
-                                                                </svg>
-                                                                <span >{file.path}</span>
+                                                            <a href={`http://212.112.105.196:3457/${file.path}`}  style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
+                                                                <span>{file.file_name}</span>
                                                             </a>
                                                         </div>
                                                     ))}
                                                 </td>
                                                 <td>
                                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                                                        <Button variant="primary" size="small" onClick={() => handlePublish(contest.codeid)}>Опубликовать</Button>
+                                                        <Button variant="success" size="sm" onClick={() => handlePublish(contest.codeid)}>Опубликовать</Button>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -202,6 +198,7 @@ const Concurs = () => {
                                 </table>
                             </div>
                         </div>
+
                     </div>
                 </div>
                 <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
@@ -328,7 +325,7 @@ const Concurs = () => {
                         </Form.Group>
 
                         <div className="text-end">
-                            <Button variant="primary" onClick={handleSave}>
+                            <Button variant="success" size="sm" onClick={handleSave}>
                                 Сохранить
                             </Button>
                         </div>
