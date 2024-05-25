@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import './concurs.css';
-import { Button, Modal, Table } from 'react-bootstrap';
-import { UseRegister } from '../../Context/ContextProviderRegister';
+import {Button, Modal, Table} from 'react-bootstrap';
+import {UseRegister} from '../../Context/ContextProviderRegister';
 import Sidebar from './Sidebar';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const Participants = () => {
-    const { users2, getUserList, updateUserStatus, getByStatus, getByStatus2 } = UseRegister();
+    const {users2, getUserList, updateUserStatus, getByStatus, getByStatus2} = UseRegister();
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [comment, setComment] = useState('');
@@ -20,7 +20,7 @@ const Participants = () => {
 
     const getUserInfo = async (codeId, index) => {
         try {
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeId}`);
+            const {data} = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeId}`);
             setSelectedIndex(index);
             setShowModal(true);
         } catch (error) {
@@ -33,8 +33,8 @@ const Participants = () => {
     }
 
     const handleVerify = (codeId) => {
-        setUserId(codeId);  
-        setShowModal(true); 
+        setUserId(codeId);
+        setShowModal(true);
     }
 
     const handleSendData = () => {
@@ -45,9 +45,9 @@ const Participants = () => {
         };
         updateUserStatus(data);
         getByStatus()
-        setShowModal(false); 
+        setShowModal(false);
         setComment('');
-      
+
     }
 
     const handleCommentChange = (event) => {
@@ -60,14 +60,28 @@ const Participants = () => {
 
     return (
         <div className="oll_sistem">
-            <Sidebar />
+            <Sidebar/>
             <div className="navbar_container">
-                <div style={{ background: 'white', display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6vw" }}>
+                <div style={{
+                    background: 'white',
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "0.6vw"
+                }}>
                     <div>
                         <div className="pills-outline">
-                            <button className="tab-button"  style={{ color: "#0D6EFD", background: "White" }}>Неверифицированные</button>
-                         <Link to={"/verf"}> <button className="tab-button" onClick={()=>getByStatus2(1)} style={{ color: "#333333", background: "#F0F0F0" }}>Верифицированные</button></Link>  
-                            <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Деактивированные</button>
+                            <button className="tab-button" style={{color: "#0D6EFD", background: "White"}}>Не
+                                верифицированные
+                            </button>
+                            <Link to={"/verf"}>
+                                <button className="tab-button" onClick={() => getByStatus2(1)}
+                                        style={{color: "#333333", background: "#F0F0F0"}}>Верифицированные
+                                </button>
+                            </Link>
+                            <button className="tab-button"
+                                    style={{color: "#333333", background: "#F0F0F0"}}>Деактивированные
+                            </button>
                         </div>
                     </div>
                     <div>
@@ -80,47 +94,51 @@ const Participants = () => {
                             <div className="table-responsive mt-4">
                                 <Table striped bordered hover>
                                     <thead>
-                                        <tr>
-                                            <th scope="col">ФИО</th>
-                                            <th scope="col">Организация</th>
-                                            <th scope="col">ИНН</th>
-                                            <th scope="col">Адрес</th>
-                                            <th scope="col">Фактический адрес</th>
-                                            <th scope="col">Юридический адрес</th>
-                                            <th scope="col">Электронная почта</th>
-                                            <th scope="col">Телефон</th>
-                                            <th scope="col">Банк</th>
-                                            <th scope="col">БИК</th>
-                                            <th scope="col">Расчетный счет</th>
-                                            <th scope="col">Сайт</th>
-                                            <th scope="col">Должность</th>
-                                            <th scope="col">Действия</th>
-                                        </tr>
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">ФИО</th>
+                                        <th scope="col">Организация</th>
+                                        <th scope="col">ИНН</th>
+                                        <th scope="col">Адрес</th>
+                                        <th scope="col">Фактический адрес</th>
+                                        <th scope="col">Юридический адрес</th>
+                                        <th scope="col">Электронная почта</th>
+                                        <th scope="col">Телефон</th>
+                                        <th scope="col">Банк</th>
+                                        <th scope="col">БИК</th>
+                                        <th scope="col">Расчетный счет</th>
+                                        <th scope="col">Сайт</th>
+                                        <th scope="col">Должность</th>
+                                        <th scope="col">Действия</th>
+                                    </tr>
                                     </thead>
                                     <tbody>
-                                        {users2.map((user, index) => (
-                                            <tr key={user.codeid} data-codeid={user.codeid} onClick={() => getUserInfo(user.codeid, index)}>
-                                                <td>{user.fio}</td>
-                                                <td>{user.name_organization}</td>
-                                                <td>{user.inn}</td>
-                                                <td>{user.address}</td>
-                                                <td>{user.fact_address}</td>
-                                                <td>{user.ur_address}</td>
-                                                <td>{user.email}</td>
-                                                <td>{user.pin_manager}</td>
-                                                <td>{user.banc_name}</td>
-                                                <td>{user.bik}</td>
-                                                <td>{user.deposit_account}</td>
-                                                <td>{user.web_site}</td>
-                                                <td>{user.position}</td>
-                                                <td>
-                                                    <Button variant="success" size="sm" onClick={() => handleVerify(user.codeid)}>Верифицировать</Button>
-                                                </td>
-                                                <td>
-                                                    <Button variant="success" size="sm">Деактивировать</Button>
-                                                </td>
-                                            </tr>
-                                        ))}
+                                    {users2.map((user, index) => (
+                                        <tr key={user.codeid} data-codeid={user.codeid}
+                                            onClick={() => getUserInfo(user.codeid, index)}>
+                                            <td>{index + 1}</td>
+                                            <td>{user.fio}</td>
+                                            <td>{user.name_organization}</td>
+                                            <td>{user.inn}</td>
+                                            <td>{user.address}</td>
+                                            <td>{user.fact_address}</td>
+                                            <td>{user.ur_address}</td>
+                                            <td>{user.email}</td>
+                                            <td>{user.pin_manager}</td>
+                                            <td>{user.banc_name}</td>
+                                            <td>{user.bik}</td>
+                                            <td>{user.deposit_account}</td>
+                                            <td>{user.web_site}</td>
+                                            <td>{user.position}</td>
+                                            <td>
+                                                <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                                                    <Button variant="success" size="sm"
+                                                            onClick={() => handleVerify(user.codeid)}>Верифицировать</Button>
+                                                    <Button variant="danger" size="sm">Деактивировать</Button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    ))}
                                     </tbody>
                                 </Table>
                             </div>

@@ -9,7 +9,7 @@ const Completed = () => {
 
     useEffect(() => {
         contestFilter(3);
-    }, [contestFilter]);
+    }, []);
 
     const handleClick = (contest_id) => {
         const arheve = {
@@ -69,7 +69,7 @@ const Completed = () => {
                                                 <th>Планируемая сумма</th>
                                                 <th>Публикация</th>
                                                 <th>Окончание</th>
-                                                <th>Файлы</th>
+                                                {/*<th>Файлы</th>*/}
                                                 <th>Действия</th>
                                             </tr>
                                         </thead>
@@ -88,15 +88,15 @@ const Completed = () => {
                                                         <td>{contest.planned_summ}</td>
                                                         <td>{contest.start_date}</td>
                                                         <td>{contest.formatted_end_date}</td>
-                                                        <td>
-                                                            {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                                <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
-                                                                    <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
-                                                                        <span>{file.file_name}</span>
-                                                                    </a>
-                                                                </div>
-                                                            ))}
-                                                        </td>
+                                                        {/*<td>*/}
+                                                        {/*    {contest.files.length > 0 && contest.files.map((file, index) => (*/}
+                                                        {/*        <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>*/}
+                                                        {/*            <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>*/}
+                                                        {/*                <span>{file.file_name}</span>*/}
+                                                        {/*            </a>*/}
+                                                        {/*        </div>*/}
+                                                        {/*    ))}*/}
+                                                        {/*</td>*/}
                                                         <td>
                                                             <Button variant="success" size="sm" onClick={() => handleClick(contest.codeid)}>В архив</Button>
                                                         </td>

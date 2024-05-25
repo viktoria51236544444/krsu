@@ -4,13 +4,14 @@ import { UseRegister } from '../../Context/ContextProviderRegister';
 import { Nav, NavItem, NavLink, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import {FileArrowDown} from "@phosphor-icons/react";
 
 const Canceled = () => {
     const { compled, contestFilter, updateContestStatus } = UseRegister();
 
     useEffect(() => {
         contestFilter(4);
-    }, [contestFilter]);
+    }, []);
 
     const handleClick = (contest_id) => {
         const arheve = {
@@ -85,7 +86,8 @@ const Canceled = () => {
                                                         <td>{contest.formatted_end_date}</td>
                                                         <td>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                                <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
+                                                                <div key={index}style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10}}>
+                                                                    <FileArrowDown size={24} color='inherit' />
                                                                     <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                         <span>{file.file_name}</span>
                                                                     </a>

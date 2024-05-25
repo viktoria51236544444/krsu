@@ -95,6 +95,7 @@ const Concurs = () => {
             await addConcurs(formDataToSend);
             console.log('Данные успешно отправлены на сервер!');
             getContestList();
+            setShow(false)
             resetForm();
         } catch (error) {
             console.log('Ошибка при отправке данных на сервер:', error.message);
@@ -291,7 +292,8 @@ const Concurs = () => {
                                             <td>
                                                 {contest.files.length > 0 && contest.files.map((file, index) => (
                                                     <div key={index}
-                                                         style={{display: 'inline-block', marginRight: '10px'}}>
+                                                         style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10}}>
+                                                        <FileArrowDown size={24} color='inherit' />
                                                         <a href={`http://212.112.105.196:3457/${file.path}`} style={{
                                                             textDecoration: 'none',
                                                             color: 'inherit',
@@ -309,18 +311,17 @@ const Concurs = () => {
                                                     justifyContent: "space-between",
                                                     gap: 10
                                                 }}>
-                                                    <Button variant='secondary' size='sm'
+                                                    <Button variant='warning' size='sm'
                                                             onClick={() => handleOpenModal(contest.codeid)} style={{
                                                         display: "flex",
                                                         flexDirection: 'row',
                                                         alignItems: 'center',
                                                         gap: 5,
-                                                        color: '#fff'
                                                     }}>
                                                         Редактировать
-                                                        <PencilSimpleLine size={22} color="#fff"/>
+                                                        <PencilSimpleLine size={22} color="#000"/>
                                                     </Button>
-                                                    <Button variant="success" size="sm"
+                                                    <Button variant="primary" size="sm"
                                                             onClick={() => handlePublish(contest.codeid)}>Опубликовать</Button>
                                                 </div>
                                             </td>
@@ -398,8 +399,8 @@ const Concurs = () => {
                                         type="datetime-local"
                                         name="end_date"
                                         value={
-                                            formData.end_date instanceof Date
-                                                ? `${formData.end_date.toISOString().slice(0, 16)}`
+                                            updateFormData.end_date
+                                                ? new Date(updateFormData.end_date).toISOString().slice(0, 16)
                                                 : new Date().toISOString().slice(0, 16)
                                         }
                                         onChange={handleChange}

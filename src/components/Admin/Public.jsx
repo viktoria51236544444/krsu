@@ -3,6 +3,7 @@ import { Button, Table, Modal, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
+import {FileArrowDown} from "@phosphor-icons/react";
 
 const Public = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails } = UseRegister();
@@ -128,7 +129,8 @@ const Public = () => {
                                                         <td>{contest.formatted_end_date}</td>
                                                         <td>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                                <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
+                                                                <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10}}>
+                                                                    <FileArrowDown size={24} color='inherit' />
                                                                     <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                         <span>{file.file_name}</span>
                                                                     </a>
@@ -166,7 +168,7 @@ const Public = () => {
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                   
+
                     <Button variant="danger" onClick={handleConfirmDeactivation} size="sm" disabled={!reason.trim()}>
                         Подтвердить деактивацию
                     </Button>

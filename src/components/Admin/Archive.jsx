@@ -4,6 +4,7 @@ import { Nav, NavItem, NavLink, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
+import {FileArrowDown} from "@phosphor-icons/react";
 
 const Archive = () => {
     const { contestFilter } = UseRegister()
@@ -23,6 +24,7 @@ const Archive = () => {
         }
     };
 
+    console.log(contestList)
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -59,7 +61,6 @@ const Archive = () => {
                                                 <th>Дата окончания</th>
                                                 <th>Формат</th>
                                                 <th>Метод</th>
-                                                <th>Статус</th>
                                                 <th>Тип</th>
                                                 <th>Год</th>
                                                 <th>Планируемая сумма</th>
@@ -73,16 +74,16 @@ const Archive = () => {
                                                     <th>{contest.contest_name}</th>
                                                     <td>{contest.contest_description}</td>
                                                     <td>{contest.start_date}</td>
-                                                    <td>{contest.end_date}</td>
-                                                    <td>{contest.format}</td>
-                                                    <td>{contest.method}</td>
-                                                    <td>{contest.status}</td>
-                                                    <td>{contest.type}</td>
+                                                    <td>{contest.formatted_end_date}</td>
+                                                    <td>{contest.format_purchase}</td>
+                                                    <td>{contest.method_purchase}</td>
+                                                    <td>{contest.type_purchase}</td>
                                                     <td>{contest.year}</td>
-                                                    <th>{contest.planned_summ}</th>
+                                                    <th>{contest.planned_summ} сом</th>
                                                     <td>
                                                     {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                        <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
+                                                        <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10}}>
+                                                            <FileArrowDown size={24} color='inherit' />
                                                             <a href={`http://212.112.105.196:3457/${file.path}`}  style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                 <span>{file.file_name}</span>
                                                             </a>
