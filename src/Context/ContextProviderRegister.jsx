@@ -119,8 +119,8 @@ const ContextProviderRegister = ({ children }) => {
 
 
 
-    // ! КОНКУРСЫ 
-    //* добавление конкурса 
+    // ! КОНКУРСЫ
+    //* добавление конкурса
     const addConcurs = async (formData) => {
         try {
             const res = await axios.post(`http://212.112.105.196:3457/api/contest/createContest`, formData);
@@ -132,7 +132,7 @@ const ContextProviderRegister = ({ children }) => {
         }
     };
 
-    //* стягивает селекты для конкурсов 
+    //* стягивает селекты для конкурсов
     useEffect(() => {
         const getSpPurchase = async () => {
             try {
@@ -167,7 +167,7 @@ const ContextProviderRegister = ({ children }) => {
         getContestList();
     }, []);
 
-    // * фильтрация конкурсов по статусу 
+    // * фильтрация конкурсов по статусу
     const updateContestStatus = async (Public) => {
         try {
             const res = await axios.post(`http://212.112.105.196:3457/api/contest/updateContestStatus`, Public);
@@ -178,7 +178,7 @@ const ContextProviderRegister = ({ children }) => {
     };
 
 
-    //* стягивание опубликованных конкурсов 
+    //* стягивание опубликованных конкурсов
     useEffect(() => {
         const getPublicatedContest = async () => {
             try {
@@ -215,7 +215,7 @@ const ContextProviderRegister = ({ children }) => {
         }
     };
 
-    //* детальный просмотр конкурса 
+    //* детальный просмотр конкурса
     const getOrderDetails = async (codeId) => {
         try {
             const { data } = await axios.get(`http://212.112.105.196:3457/api/orders/getOrderDetails/${codeId}`)
@@ -266,15 +266,15 @@ const ContextProviderRegister = ({ children }) => {
             const { data } = await axios.get(`http://212.112.105.196:3457/api/files/getFiles/${status}`)
             setActt(data.result.updateFiles);
             // console.log(data.result.updateFiles);
-        
+
         } catch (error) {
             console.log(error);
         }
     }
 
-   
 
-   
+
+
     const values = {
         registerUser,
         organizationType,
@@ -302,7 +302,6 @@ const ContextProviderRegister = ({ children }) => {
         wonContest,
         getFiles,
         actt,
-        getFiles
     };
     return (
         <contextProviderRegister.Provider value={values}>

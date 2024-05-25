@@ -1,61 +1,28 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import Footer from './Footer';
-
+import axios from "axios";
 
 const InfoDogovor = () => {
-    const data =
-        [
-            {
-                codeid: 1,
-                status: 3,
-                start_date: "20.06.2012",
-                code_contest: 1,
-                contest_description: "Закупка обуродувания для кабинета информатики",
-                name_organization: 'ОсОО Alians Computers',
-                contest_status: 4,
-                code_user: 10,
-                number: '20.06.2012_01',
-                method_purchase: 'Конкурс с ограниченным участием',
-                format_purchase: 'Ограниченный',
-                type_purchase: "Товары",
-                planned_summ: 15,
-                contract_summ: 250
-            },
 
-            {
-                codeid: 1,
-                status: 3,
-                start_date: "20.06.2012",
-                code_contest: 1,
-                contest_description: "Закупка обуродувания для кабинета информатики",
-                name_organization: 'ОсОО Alians Computers',
-                contest_status: 4,
-                code_user: 10,
-                number: '20.06.2012_01',
-                method_purchase: 'Конкурс с ограниченным участием',
-                format_purchase: 'Ограниченный',
-                type_purchase: "Товары",
-                planned_summ: 15,
-                contract_summ: 250
-            },
+    const [data, setData] = useState([]);
 
-            {
-                codeid: 1,
-                status: 3,
-                start_date: "20.06.2012",
-                code_contest: 1,
-                contest_description: "Закупка обуродувания для кабинета информатики",
-                name_organization: 'ОсОО Alians Computers',
-                contest_status: 4,
-                code_user: 10,
-                number: '20.06.2012_01',
-                method_purchase: 'Конкурс с ограниченным участием',
-                format_purchase: 'Ограниченный',
-                type_purchase: "Товары",
-                planned_summ: 15,
-                contract_summ: 250
-            },
-        ]
+    useEffect(()=> {
+        getFilterData()
+    }, [] )
+    const getFilterData = async () => {
+        try {
+            const responce = await axios('http://212.112.105.196:3457/api/contest/contestFilter/3')
+
+            if(responce.status === 200) {
+                console.log(responce.data.result.data)
+               setData(responce.data.result.data)
+            }else{
+                alert('произошла ошибка')
+            }
+        }catch (error) {
+            console.log(error)
+        }
+    }
 
 
     return (
@@ -82,13 +49,13 @@ const InfoDogovor = () => {
                             {data.map((item, index) => (
                                 <tr key={index}>
                                     <td>{index+1}</td>
-                                    <td>{item.number}</td>
+                                    <td>{item.codeid + item.year + index + 1}</td>
                                     <td>{item.contest_description}</td>
                                     <td>{item.format_purchase}</td>
                                     <td>{item.method_purchase}</td>
                                     <td>{item.type_purchase}</td>
-                                    <td>{item.planned_summ}</td>
-                                    <td>{item.contract_summ}</td>
+                                    <td>{item.planned_summ} Сом</td>
+                                    <td>{item.contract_summ} Сом</td>
                                     <td>{item.name_organization}</td>
                                 </tr>
                             ))}

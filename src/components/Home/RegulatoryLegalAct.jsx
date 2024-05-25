@@ -39,8 +39,8 @@ const RegulatoryLegalAct = () => {
                                 <tr>
                                         <th>№</th>
                                         <th>Наименование файла</th>
-                                        
-                                    <th>Наименование</th>
+
+                                    <th>Файл</th>
                                 </tr>
                                 </thead>
                                 <tbody className='file-table'>
