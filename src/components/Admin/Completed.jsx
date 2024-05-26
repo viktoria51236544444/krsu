@@ -89,7 +89,7 @@ const Completed = () => {
                                                         <td>{contest.start_date}</td>
                                                         <td>{contest.formatted_end_date}</td>
                                                         <td>
-                                                            {contest.files.length > 0 && contest.files.map((file, index) => (
+                                                            {contest.files.map((file, index) => (
                                                                 <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>
                                                                     <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                         <span>{file.file_name}</span>
