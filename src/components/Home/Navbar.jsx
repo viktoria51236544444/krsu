@@ -7,6 +7,7 @@ import logo from "./image/кнау.png"
 function NavScrollExample() {
     const [activeTab, setActiveTab] = useState("");
     const [email, setEmail] = useState(null);
+    const [id, setCodeid] = useState('')
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -16,6 +17,7 @@ function NavScrollExample() {
         const token = localStorage.getItem('authToken');
         if (token) {
             const codeid = localStorage.getItem('codeid');
+            setCodeid(codeid)
             const userEmail = localStorage.getItem('userEmail');
             if (userEmail && !codeid) {
                 setEmail(userEmail);
@@ -50,9 +52,9 @@ function NavScrollExample() {
             const storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
             if (!storedUserInfo) {
                 const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeid}`);
-                console.log(data);
+                console.log(data.user.user);
                 localStorage.setItem('userInfo', JSON.stringify(data.user.user));
-           
+
             }
         } catch (error) {
             console.log('Ошибка при получении информации о пользователе:', error);
@@ -61,11 +63,13 @@ function NavScrollExample() {
 
     const handlePersonaClick = () => {
         const userInfo = localStorage.getItem('userInfo');
+        console.log(userInfo)
         if (userInfo) {
             navigate('/persona');
         } else {
             const codeid = localStorage.getItem('codeid');
             if (codeid) {
+                console.log(codeid)
                 getUserInfo(codeid);
                 navigate('/persona');
             }
@@ -76,7 +80,7 @@ function NavScrollExample() {
 
     return (
         !isNavBarHidden && (
-            <Navbar expand="lg" className="bg-rgba(173, 168, 168, 0.49) border-bottom">
+            <Navbar expand="lg" className="bg-rgba(173, 168, 168, 0.49) border-bottom" style={{padding: 15}}>
                 <Container fluid>
                     <Navbar.Brand as={Link} to="/" className="text-dark"><img style={{ width: "2vw" }} src={logo} alt="" /> <span>КНАУ</span></Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
@@ -127,7 +131,7 @@ function NavScrollExample() {
                             >
                                 Нормативно правовые акты
                             </Nav.Link>
-                            {email && (
+                            {email && +id !== 1  && (
                                 <Nav.Link onClick={handlePersonaClick} className="nav-link">
                                     Личный кабинет
                                 </Nav.Link>

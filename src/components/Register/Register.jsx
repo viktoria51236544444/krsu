@@ -29,6 +29,7 @@ const Register = () => {
         work_phone_number_manager: '',
         email_manager: '',
         password_manager: '',
+        type_organization: '',
         files: []
     });
 
@@ -54,6 +55,7 @@ const Register = () => {
         phone_manager: '',
         work_phone_number_manager: '',
         email_manager: '',
+        type_organization: '',
         password_manager: '',
         files: ''
     });
