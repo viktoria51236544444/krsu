@@ -209,7 +209,7 @@ const Concurs = () => {
     return (
         <div className="oll_sistem">
             <Sidebar/>
-            <div className="navbar_container">
+            <div >
                 <div style={{
                     background: 'white',
                     display: "flex",
