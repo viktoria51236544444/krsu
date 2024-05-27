@@ -3,6 +3,7 @@ import { Table} from 'react-bootstrap';
 import "./Info.css"
 import Footer from './Footer';
 import  axios from 'axios';
+import {FileArrowDown} from "@phosphor-icons/react";
 
 
 
@@ -32,26 +33,28 @@ const RegulatoryLegalAct = () => {
             <div className="card w-100 " style={{border: "none"}}>
                 <div className="card-body ">
 
-                    <div className="container_information_client " style={{maxHeight: "600px", overflowY: "auto"}}>
+                    <div className="container_information_client " style={{maxHeight: "800px", overflowY: "auto"}}>
                         <div className="table-responsive mt-2">
                             <Table striped bordered hover>
                                 <thead>
                                 <tr>
-                                        <th>№</th>
-                                        <th>Наименование файла</th>
-
-                                    <th>Файл</th>
+                                    <th><p style={{fontSize: 16}}>№</p></th>
+                                    <th><p style={{fontSize: 16}}>Наименование файла</p></th>
                                 </tr>
                                 </thead>
                                 <tbody className='file-table'>
                                 { files?.map((file, index)=> (
                                     <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{file.description}</td>
+                                        <td><p style={{fontSize: 16}}>{index + 1})</p></td>
                                         <td>
-                                            <a href={file.path} download>{file.description}</a>
-                                        </td>
-                                    </tr>
+                                    <div style={{display: "flex", flexDirection: "row", gap: 5,}}>
+                                            <a href={file.path} download style={{fontSize: 16, color: 'black', display: "flex", flexDirection: "row", gap: 10}}>
+                                                <FileArrowDown size={32} color="#3d3d3d" />
+                                                <p>{file.description}</p>
+                                            </a>
+                                    </div>
+                                    </td>
+                                </tr>
                                 ))}
                                 </tbody>
                             </Table>
