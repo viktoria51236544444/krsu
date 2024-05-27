@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import './concurs.css';
-import {Button, Table} from 'react-bootstrap';
+import { Button, Table } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import Sidebar from './Sidebar';
 import { Link } from 'react-router-dom';
@@ -35,10 +35,18 @@ const Virification = () => {
         <div className="oll_sistem">
             <Sidebar />
             <div className="navbar_container">
-                <div style={{ background: 'white', display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6vw" }}>
+                <div style={{
+                    background: 'white',
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "0.6vw",
+                    overflowX: "auto",
+                    maxWidth: "100%",
+                }}>
                     <div>
                         <div className="pills-outline">
-                            <Link to={"/participants"}><button className="tab-button"style={{ color: "#333333", background: "#F0F0F0" }} >Неверифицированные</button></Link>
+                            <Link to={"/participants"}><button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }} >Неверифицированные</button></Link>
                             <Link to={"/verf"}><button className="tab-button" onClick={() => getByStatus2(1)} style={{ color: "#0D6EFD", background: "White" }} >Верифицированные</button></Link>
                             <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Деактивированные</button>
                         </div>
@@ -53,23 +61,23 @@ const Virification = () => {
                             <div className="table-responsive mt-4">
                                 <Table striped bordered hover>
                                     <thead>
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">ФИО</th>
-                                        <th scope="col">Организация</th>
-                                        <th scope="col">ИНН</th>
-                                        <th scope="col">Адрес</th>
-                                        <th scope="col">Фактический адрес</th>
-                                        <th scope="col">Юридический адрес</th>
-                                        <th scope="col">Электронная почта</th>
-                                        <th scope="col">Телефон</th>
-                                        <th scope="col">Банк</th>
-                                        <th scope="col">БИК</th>
-                                        <th scope="col">Расчетный счет</th>
-                                        <th scope="col">Сайт</th>
-                                        <th scope="col">Должность</th>
-                                        <th scope='col'></th>
-                                    </tr>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            <th scope="col">ФИО</th>
+                                            <th scope="col">Организация</th>
+                                            <th scope="col">ИНН</th>
+                                            <th scope="col">Адрес</th>
+                                            <th scope="col">Фактический адрес</th>
+                                            <th scope="col">Юридический адрес</th>
+                                            <th scope="col">Электронная почта</th>
+                                            <th scope="col">Телефон</th>
+                                            <th scope="col">Банк</th>
+                                            <th scope="col">БИК</th>
+                                            <th scope="col">Расчетный счет</th>
+                                            <th scope="col">Сайт</th>
+                                            <th scope="col">Должность</th>
+                                            <th scope='col'></th>
+                                        </tr>
                                     </thead>
                                     <tbody>
                                         {users3.map((user, index) => (
@@ -89,7 +97,7 @@ const Virification = () => {
                                                 <td>{user.web_site}</td>
                                                 <td>{user.position}</td>
                                                 <td>
-                                                    <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+                                                    <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
                                                         <Button variant="danger" size="sm" onClick={handleVerify}>Деактивировать</Button>
                                                     </div>
                                                 </td>

@@ -114,60 +114,60 @@ function ResponsiveDrawer(props) {
     const container = window !== undefined ? () => window().document.body : undefined;
 
     return (
-      
-            <Box sx={{ display: 'flex' }}>
-                <CssBaseline />
-                <div className='navbar__sidebar-open'>
-                <AppBar position="fixed">
+
+        <Box sx={{ display: 'flex' }}>
+            <CssBaseline />
+            <div className='navbar__sidebar-open'>
+                <AppBar position="fixed" style={{ width: "10vw", height: "10vw", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: 'white' }}>
                     <Toolbar>
                         <IconButton
                             color="inherit"
                             aria-label="open drawer"
                             edge="start"
                             onClick={handleDrawerToggle}
-                            sx={{ mr: 1, display: { sm: 'none' } }}
+                            sx={{ display: { sm: 'none', }, width: "1vw", height: "1vw", color: 'gray' }}
                         >
                             <MenuIcon />
                         </IconButton>
 
                     </Toolbar>
                 </AppBar>
-                </div>
+            </div>
 
-                <Box
-                    component="nav"
-                    sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
-                    aria-label="mailbox folders"
+            <Box
+                component="nav"
+                sx={{ width: { sm: drawerWidth }, flexShrink: { sm: 0 } }}
+                aria-label="mailbox folders"
+            >
+                <Drawer
+                    container={container}
+                    variant="temporary"
+                    open={mobileOpen}
+                    onTransitionEnd={handleDrawerTransitionEnd}
+                    onClose={handleDrawerClose}
+                    ModalProps={{
+                        keepMounted: true,
+                    }}
+                    sx={{
+                        display: { xs: 'block', sm: 'none' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
                 >
-                    <Drawer
-                        container={container}
-                        variant="temporary"
-                        open={mobileOpen}
-                        onTransitionEnd={handleDrawerTransitionEnd}
-                        onClose={handleDrawerClose}
-                        ModalProps={{
-                            keepMounted: true,
-                        }}
-                        sx={{
-                            display: { xs: 'block', sm: 'none' },
-                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                        }}
-                    >
-                        {drawer}
-                    </Drawer>
-                    <Drawer
-                        variant="permanent"
-                        sx={{
-                            display: { xs: 'none', sm: 'block' },
-                            '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
-                        }}
-                        open
-                    >
-                        {drawer}
-                    </Drawer>
-                </Box>
-
+                    {drawer}
+                </Drawer>
+                <Drawer
+                    variant="permanent"
+                    sx={{
+                        display: { xs: 'none', sm: 'block' },
+                        '& .MuiDrawer-paper': { boxSizing: 'border-box', width: drawerWidth },
+                    }}
+                    open
+                >
+                    {drawer}
+                </Drawer>
             </Box>
+
+        </Box>
 
     );
 }

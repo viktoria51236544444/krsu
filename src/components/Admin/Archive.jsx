@@ -4,7 +4,7 @@ import { Nav, NavItem, NavLink, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
-import {FileArrowDown} from "@phosphor-icons/react";
+import { FileArrowDown } from "@phosphor-icons/react";
 
 const Archive = () => {
     const { contestFilter } = UseRegister()
@@ -29,7 +29,15 @@ const Archive = () => {
         <div className="oll_sistem">
             <Sidebar />
             <div className="navbar_container">
-                <div style={{ background: 'white', display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6vw", }}>
+                <div style={{
+                    background: 'white',
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "0.6vw",
+                    overflowX: "auto",
+                    maxWidth: "100%",
+                }}>
                     <div >
                         <div className="pills-outline">
                             <Link to={"/concurs"} className="tab-link" ><button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Черновики</button></Link>
@@ -42,7 +50,7 @@ const Archive = () => {
                     </div>
                     <div>
                         <div>
-                        admin@gmail.com
+                            admin@gmail.com
                         </div>
                     </div>
                 </div>
@@ -81,15 +89,15 @@ const Archive = () => {
                                                     <td>{contest.year}</td>
                                                     <th>{contest.planned_summ} сом</th>
                                                     <td>
-                                                    {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                        <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10}}>
-                                                            <FileArrowDown size={24} color='inherit' />
-                                                            <a href={`http://212.112.105.196:3457/${file.path}`}  style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
-                                                                <span>{file.file_name}</span>
-                                                            </a>
-                                                        </div>
-                                                    ))}
-                                                </td>
+                                                        {contest.files.length > 0 && contest.files.map((file, index) => (
+                                                            <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
+                                                                <FileArrowDown size={24} color='inherit' />
+                                                                <a href={`http://212.112.105.196:3457/${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
+                                                                    <span>{file.file_name}</span>
+                                                                </a>
+                                                            </div>
+                                                        ))}
+                                                    </td>
                                                 </tr>
                                             ))}
                                         </tbody>

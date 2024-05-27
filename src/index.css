@@ -199,14 +199,12 @@ body {
   display: none;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 599px) {
   .navbar__sidebar-open {
     display: block;
 
   }
 }
-
-
 
 .page-container {
   display: flex;

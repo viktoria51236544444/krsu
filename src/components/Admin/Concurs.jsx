@@ -1,17 +1,17 @@
-import React, {useState, useEffect} from 'react';
-import {Accordion, Button, Form} from 'react-bootstrap';
-import {UseRegister} from '../../Context/ContextProviderRegister';
+import React, { useState, useEffect } from 'react';
+import { Accordion, Button, Form } from 'react-bootstrap';
+import { UseRegister } from '../../Context/ContextProviderRegister';
 import axios from 'axios';
-import {Nav, NavItem, NavLink, Table} from 'react-bootstrap';
-import {Link} from 'react-router-dom';
+import { Nav, NavItem, NavLink, Table } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Sidebar from './Sidebar';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
-import {FileArrowDown, FileX, PencilSimpleLine} from "@phosphor-icons/react";
+import { FileArrowDown, FileX, PencilSimpleLine } from "@phosphor-icons/react";
 
 const Concurs = () => {
-    const {addConcurs, spPurchase, updateContestStatus, contestFilter} = UseRegister();
+    const { addConcurs, spPurchase, updateContestStatus, contestFilter } = UseRegister();
     const [formData, setFormData] = useState({
         year: 0,
         purchase_format_id: 0,
@@ -28,12 +28,11 @@ const Concurs = () => {
 
     useEffect(() => {
         getContestList();
-        // contestFilter()
     }, []);
 
     const getContestList = async () => {
         try {
-            const {data} = await axios.get('http://212.112.105.196:3457/api/contest/getContestList');
+            const { data } = await axios.get('http://212.112.105.196:3457/api/contest/getContestList');
             const contests = data.result.data.filter(contest => contest.status_contest === 'Черновик');
             setFormData(prevState => ({
                 ...prevState,
@@ -45,7 +44,7 @@ const Concurs = () => {
     };
 
     const handleChange = (e) => {
-        const {name, value, files} = e.target;
+        const { name, value, files } = e.target;
         if (name == "files") {
             setFormData(prevState => ({
                 ...prevState,
@@ -200,133 +199,124 @@ const Concurs = () => {
             }
             await axios.post('http://212.112.105.196:3457/api/contest/updateContest', formDataToSend)
             setUpdateModal(false)
-           // setCloseModal(true)
-        }catch (error){
+
+        } catch (error) {
             console.log(error)
         }
     }
 
     return (
         <div className="oll_sistem">
-            <Sidebar/>
-            <div >
+            <Sidebar />
+            <div className="navbar_container">
                 <div style={{
                     background: 'white',
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
                     padding: "0.6vw",
+                    overflowX: "auto", 
+                    maxWidth: "100%",   
                 }}>
                     <div>
-                        <div className="pills-outline">
+                        <div className="pills-outline" >
                             <Link to={"/concurs"} className="tab-link">
-                                <button style={{color: "#0D6EFD", background: "White"}}
-                                        className="tab-button">Черновики
-                                </button>
+                                <button style={{ color: "#0D6EFD", background: "White" }} className="tab-button">Черновики</button>
                             </Link>
                             <Link to={"/public"} className="tab-link">
-                                <button style={{color: "#333333", background: "#F0F0F0"}} className="tab-button"
-                                        onClick={() => contestFilter(2)}>Опубликованные
-                                </button>
+                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(2)}>Опубликованные</button>
                             </Link>
                             <Link to="/completed" className="tab-link">
-                                <button style={{color: "#333333", background: "#F0F0F0"}} className="tab-button"
-                                        onClick={() => contestFilter(3)}>Завершенные
-                                </button>
+                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(3)}>Завершенные</button>
                             </Link>
                             <Link to="/canceled" className="tab-link">
-                                <button style={{color: "#333333", background: "#F0F0F0"}} className="tab-button"
-                                        onClick={() => contestFilter(4)}>Деактивированные
-                                </button>
+                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(4)}>Деактивированные</button>
                             </Link>
                             <Link to={"/archive"} className="tab-link">
-                                <button style={{color: "#333333", background: "#F0F0F0"}} className="tab-button">Архив
-                                </button>
+                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Архив</button>
                             </Link>
                         </div>
-
                     </div>
                     <div>
-                        <div>
-                            admin@gmail.com
-                        </div>
+                        <div>admin@gmail.com</div>
                     </div>
                 </div>
+
                 <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div class="card">
-                        <div class="card-header" style={{background: "white"}}>
+                        <div class="card-header" style={{ background: "white" }}>
                             <Button variant="success" size="sm" onClick={handleShow}>Новый конкурс</Button>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
                                 <table class="table table-striped table-bordered first">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Название организации</th>
-                                        <th>Наименование закупки</th>
-                                        <th>Формат</th>
-                                        <th>Метод</th>
-                                        <th>Тип</th>
-                                        <th>Год</th>
-                                        <th>Планируемая сумма</th>
-                                        <th>Публикация</th>
-                                        <th>Окончания</th>
-                                        <th>Файлы</th>
-                                        <th>Действия</th>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Название организации</th>
+                                            <th>Наименование закупки</th>
+                                            <th>Формат</th>
+                                            <th>Метод</th>
+                                            <th>Тип</th>
+                                            <th>Год</th>
+                                            <th>Планируемая сумма</th>
+                                            <th>Публикация</th>
+                                            <th>Окончания</th>
+                                            <th>Файлы</th>
+                                            <th>Действия</th>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    {formData.contests && formData.contests.map((contest, index) => (
-                                        <tr key={contest.codeid}>
-                                            <td>{index + 1}</td>
-                                            <th>{contest.contest_name}</th>
-                                            <td>{contest.contest_description}</td>
-                                            <td>{contest.format_purchase}</td>
-                                            <td>{contest.method_purchase}</td>
-                                            <td>{contest.type_purchase}</td>
-                                            <td>{contest.year}</td>
-                                            <th>{contest.planned_summ}</th>
-                                            <td>{contest.start_date}</td>
-                                            <td>{contest.formatted_end_date}</td>
-                                            <td>
-                                                {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                    <div key={index}
-                                                         style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10}}>
-                                                        <FileArrowDown size={24} color='inherit' />
-                                                        <a href={`http://212.112.105.196:3457/${file.path}`} style={{
-                                                            textDecoration: 'none',
-                                                            color: 'inherit',
-                                                            display: 'inline-block'
-                                                        }}>
-                                                            <span>{file.file_name}</span>
-                                                        </a>
-                                                    </div>
-                                                ))}
-                                            </td>
-                                            <td>
-                                                <div style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "space-between",
-                                                    gap: 10
-                                                }}>
-                                                    <Button variant='warning' size='sm'
-                                                            onClick={() => handleOpenModal(contest.codeid)} style={{
+                                        {formData.contests && formData.contests.map((contest, index) => (
+                                            <tr key={contest.codeid}>
+                                                <td>{index + 1}</td>
+                                                <th>{contest.contest_name}</th>
+                                                <td>{contest.contest_description}</td>
+                                                <td>{contest.format_purchase}</td>
+                                                <td>{contest.method_purchase}</td>
+                                                <td>{contest.type_purchase}</td>
+                                                <td>{contest.year}</td>
+                                                <th>{contest.planned_summ}</th>
+                                                <td>{contest.start_date}</td>
+                                                <td>{contest.formatted_end_date}</td>
+                                                <td>
+                                                    {contest.files.length > 0 && contest.files.map((file, index) => (
+                                                        <div key={index}
+                                                            style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
+                                                            <FileArrowDown size={24} color='inherit' />
+                                                            <a href={`http://212.112.105.196:3457/${file.path}`} style={{
+                                                                textDecoration: 'none',
+                                                                color: 'inherit',
+                                                                display: 'inline-block'
+                                                            }}>
+                                                                <span>{file.file_name}</span>
+                                                            </a>
+                                                        </div>
+                                                    ))}
+                                                </td>
+                                                <td>
+                                                    <div style={{
                                                         display: "flex",
-                                                        flexDirection: 'row',
-                                                        alignItems: 'center',
-                                                        gap: 5,
+                                                        alignItems: "center",
+                                                        justifyContent: "space-between",
+                                                        gap: 10
                                                     }}>
-                                                        Редактировать
-                                                        <PencilSimpleLine size={22} color="#000"/>
-                                                    </Button>
-                                                    <Button variant="primary" size="sm"
+                                                        <Button variant='warning' size='sm'
+                                                            onClick={() => handleOpenModal(contest.codeid)} style={{
+                                                                display: "flex",
+                                                                flexDirection: 'row',
+                                                                alignItems: 'center',
+                                                                gap: 5,
+                                                            }}>
+                                                            Редактировать
+                                                            <PencilSimpleLine size={22} color="#000" />
+                                                        </Button>
+                                                        <Button variant="primary" size="sm"
                                                             onClick={() => handlePublish(contest.codeid)}>Опубликовать</Button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>
@@ -334,8 +324,8 @@ const Concurs = () => {
 
                     </div>
                 </div>
-                <Modal show={show} onHide={handleClose} className="custom-modal" style={{marginTop: "8vw"}}>
-                    <Form style={{padding: '1vw'}}>
+                <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
+                    <Form style={{ padding: '1vw' }}>
                         <div className="row">
                             <div className="col-md-6">
                                 <Form.Group className="mb-3" controlId="year">
@@ -465,7 +455,7 @@ const Concurs = () => {
                     </Form>
                 </Modal>
 
-                <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{marginTop: "8vw"}}>
+                <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{ marginTop: "8vw" }}>
                     <Modal.Header closeButton>
                         <Modal.Title>Редактировать данные конкурса</Modal.Title>
                     </Modal.Header>
@@ -595,7 +585,7 @@ const Concurs = () => {
                             {updateFormData.files.length !== 0
                                 ? updateFormData.files.map((file, index) => (
                                     <Form.Group key={index} className="mb-3">
-                                        <div className="d-flex align-items-center" style={{display: 'flex', alignItems: 'center', gap: 10}}>
+                                        <div className="d-flex align-items-center" style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                                             <Form.Check type="checkbox" className="me-3" />
                                             <div>
                                                 <FileArrowDown size={24} color="#030202" />
@@ -607,7 +597,7 @@ const Concurs = () => {
                                         </div>
                                     </Form.Group>
                                 ))
-                                :  <div>Загруженных файлов нет</div>
+                                : <div>Загруженных файлов нет</div>
                             }
                         </Form>
                     </Modal.Body>
@@ -625,20 +615,20 @@ const Concurs = () => {
                     className="modal show"
                     style={{ display: 'block', position: 'initial' }}
                 >
-                    <Modal show={closeModal} onHide={closeModalHide} className="custom-modal" style={{marginTop: "8vw"}}>
-                    <Modal.Dialog>
-                        <Modal.Header>
-                            <Modal.Title>Успешно</Modal.Title>
-                        </Modal.Header>
+                    <Modal show={closeModal} onHide={closeModalHide} className="custom-modal" style={{ marginTop: "8vw" }}>
+                        <Modal.Dialog>
+                            <Modal.Header>
+                                <Modal.Title>Успешно</Modal.Title>
+                            </Modal.Header>
 
-                        <Modal.Body>
-                            <p>Данные успешно сохранены</p>
-                        </Modal.Body>
+                            <Modal.Body>
+                                <p>Данные успешно сохранены</p>
+                            </Modal.Body>
 
-                        <Modal.Footer>
-                            <Button variant="secondary" onClick={closeModalHide}>Закрыть</Button>
-                        </Modal.Footer>
-                    </Modal.Dialog>
+                            <Modal.Footer>
+                                <Button variant="secondary" onClick={closeModalHide}>Закрыть</Button>
+                            </Modal.Footer>
+                        </Modal.Dialog>
                     </Modal>
                 </div>
             </div>
