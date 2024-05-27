@@ -29,7 +29,7 @@ const HomePage = () => {
                         </Card.Body>
                     </Card>
                 </Col> 
-                <Footer/>
+
             </Row>
       
         </Container>

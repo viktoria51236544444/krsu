@@ -8,7 +8,7 @@ const App = () => {
     <div>
       {/* <PageAdmin /> */}
       <Page/>
-      <MainRoutes/>
+      {/* <MainRoutes/> */}
       
      
     </div>

@@ -136,7 +136,7 @@ const CanceledListings = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+
         </div>
     );
 }
