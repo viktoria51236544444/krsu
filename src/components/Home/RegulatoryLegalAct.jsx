@@ -59,7 +59,6 @@ const RegulatoryLegalAct = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
         </div>
     );
 }

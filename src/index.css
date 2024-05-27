@@ -206,11 +206,14 @@ body {
   }
 }
 
-.table-responsive {
-  overflow-x: auto;
+
+
+.page-container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
-.table-responsive td,
-.table-responsive th {
-  white-space: nowrap;
+.content-wrap {
+  flex: 1;
 }

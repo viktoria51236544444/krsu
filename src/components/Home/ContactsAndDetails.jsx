@@ -53,7 +53,7 @@ const ContactsAndDetails = () => {
                     </div>
                 </div>
             </div>
-            <Footer />
+     
         </div>
     );
 }

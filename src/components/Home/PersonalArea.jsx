@@ -95,7 +95,7 @@ const PersonalArea = () => {
                     </div>
                 ))}
             </div>
-            <Footer/>
+        
         </div>
 
     );

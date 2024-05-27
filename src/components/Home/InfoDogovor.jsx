@@ -64,7 +64,7 @@ const InfoDogovor = () => {
                     </div>
                 </div>
             </div>
-            <Footer/>
+  
         </div>
     );
 }

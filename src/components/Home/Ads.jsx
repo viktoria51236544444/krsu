@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Button, Modal, Form } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { Link, useNavigate } from 'react-router-dom';
-import {  CaretLeft, CaretRight,  } from "@phosphor-icons/react";
+import { ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass } from "@phosphor-icons/react";
 import './homePage.css'
 import axios from "axios";
-import Footer from "./Footer";
+
 
 const Ads = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -289,7 +289,7 @@ const Ads = () => {
                     <Button variant="primary" onClick={handleSubmitOrder}>Подать заявку</Button>
                 </Modal.Footer>
             </Modal>
-         
+          
         </div>
     );
 }

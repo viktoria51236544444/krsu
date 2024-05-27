@@ -1,16 +1,19 @@
-import React from 'react'
-import NavScrollExample from '../Home/Navbar'
-import Footer from '../Home/Footer'
+import React from 'react';
+import NavScrollExample from '../Home/Navbar';
+import Footer from '../Home/Footer';
+import MainRoutes from '../../Routes/MainRoutes';
 
 
 const Page = () => {
     return (
-        <div>
+        <div className="page-container">
             <NavScrollExample />
-            <Footer/>
-           
+            <div className="content-wrap">
+                <MainRoutes />
+            </div>
+            <Footer />
         </div>
-    )
+    );
 }
 
-export default Page
+export default Page;
