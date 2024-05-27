@@ -215,8 +215,8 @@ const Concurs = () => {
                     justifyContent: "space-between",
                     alignItems: "center",
                     padding: "0.6vw",
-                    overflowX: "auto", 
-                    maxWidth: "100%",   
+                    overflowX: "auto",
+                    maxWidth: "100%",
                 }}>
                     <div>
                         <div className="pills-outline" >
@@ -242,14 +242,14 @@ const Concurs = () => {
                     </div>
                 </div>
 
-                <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
-                    <div class="card">
-                        <div class="card-header" style={{ background: "white" }}>
+                <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
+                    <div className="card">
+                        <div className="card-header" style={{ background: "white" }}>
                             <Button variant="success" size="sm" onClick={handleShow}>Новый конкурс</Button>
                         </div>
-                        <div class="card-body">
-                            <div class="table-responsive">
-                                <table class="table table-striped table-bordered first">
+                        <div className="card-body">
+                            <div className="table-responsive">
+                                <table className="table table-striped table-bordered first">
                                     <thead>
                                         <tr>
                                             <th>#</th>
