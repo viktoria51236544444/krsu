@@ -86,7 +86,9 @@ const Act = () => {
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
-                    padding: "0.6vw"
+                    padding: "0.6vw",
+                    overflowX: "auto",
+                    maxWidth: "100%",
                 }}>
                     <div>
                         <div className="pills-outline">

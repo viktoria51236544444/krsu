@@ -3,7 +3,7 @@ import { Button, Table, Modal, Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
-import {FileArrowDown} from "@phosphor-icons/react";
+import { FileArrowDown } from "@phosphor-icons/react";
 
 const Public = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails } = UseRegister();
@@ -70,7 +70,15 @@ const Public = () => {
         <div className="oll_sistem" style={{ maxWidth: "100vw" }}>
             <Sidebar />
             <div className="navbar_container">
-                <div style={{ background: 'white', display: "flex", justifyContent: "space-between", alignItems: "center", padding: "0.6vw" }}>
+                <div style={{
+                    background: 'white',
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    padding: "0.6vw",
+                    overflowX: "auto",
+                    maxWidth: "100%",
+                }}>
                     <div>
                         <div className="pills-outline">
                             <Link to={"/concurs"} className="tab-link"><button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Черновики</button></Link>
@@ -129,7 +137,7 @@ const Public = () => {
                                                         <td>{contest.formatted_end_date}</td>
                                                         <td>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                                <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10}}>
+                                                                <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
                                                                     <FileArrowDown size={24} color='inherit' />
                                                                     <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                         <span>{file.file_name}</span>
