@@ -7,7 +7,8 @@ import logo from "./image/кнау.png"
 function NavScrollExample() {
     const [activeTab, setActiveTab] = useState("");
     const [email, setEmail] = useState(null);
-    const [id, setCodeid] = useState('')
+    const [id, setCodeid] = useState('');
+    const [isAdmin, setIsAdmin] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -26,6 +27,8 @@ function NavScrollExample() {
                 const storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
                 if (!storedUserInfo) {
                     getUserInfo(codeid);
+                } else {
+                    setIsAdmin(storedUserInfo.role === 'Администратор');
                 }
             }
         } else {
@@ -54,7 +57,9 @@ function NavScrollExample() {
                 const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeid}`);
                 console.log(data.user.user);
                 localStorage.setItem('userInfo', JSON.stringify(data.user.user));
-
+                setIsAdmin(data.user.user.role === 'Администратор');
+            } else {
+                setIsAdmin(storedUserInfo.role === 'Администратор');
             }
         } catch (error) {
             console.log('Ошибка при получении информации о пользователе:', error);
@@ -73,6 +78,12 @@ function NavScrollExample() {
                 getUserInfo(codeid);
                 navigate('/persona');
             }
+        }
+    };
+
+    const handleEmailClick = () => {
+        if (isAdmin) {
+            navigate('/concurs');
         }
     };
 
@@ -143,7 +154,7 @@ function NavScrollExample() {
                         <Form className="d-flex align-items-center">
                             {email ? (
                                 <>
-                                    <span style={{ marginRight: "10px" }}>{email}</span>
+                                    <span style={{ marginRight: "10px", cursor: "pointer" }} onClick={handleEmailClick}>{email}</span>
                                     <Button variant="primary" className="rounded-pill" onClick={signout}>Выход</Button>
                                 </>
                             ) : (

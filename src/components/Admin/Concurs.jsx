@@ -12,7 +12,7 @@ import { FileArrowDown, FileX, PencilSimpleLine } from "@phosphor-icons/react";
 import { BsPaperclip } from 'react-icons/bs';
 
 const Concurs = () => {
-    const {addConcurs, spPurchase, updateContestStatus, contestFilter, count} = UseRegister();
+    const { addConcurs, spPurchase, updateContestStatus, contestFilter, count } = UseRegister();
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
@@ -53,7 +53,7 @@ const Concurs = () => {
     };
 
     const handleChange = (e) => {
-        const {name, value, files} = e.target;
+        const { name, value, files } = e.target;
         if (name === "files") {
             const fileNames = Array.from(files).map(file => file.name);
             setFormData(prevState => ({
@@ -118,10 +118,9 @@ const Concurs = () => {
             contest_status: 2
         };
         handleClose2()
-
         try {
             await updateContestStatus(publicData);
-            console.log(`Конкурс с ID ${contestId} успешно опубликован!`);
+            console.log(`Конкурс с ID ${ contestId } успешно опубликован!`);
             getContestList();
             resetForm();
         } catch (error) {
@@ -181,10 +180,7 @@ const Concurs = () => {
                 deleted_files: [...deletedFiles, removedFile.codeid]
             };
         });
-    };
-
-
-    const handleOpenModal = async (codeid) => {
+    }; const handleOpenModal = async (codeid) => {
         setUpdateModal(true)
         const response = await axios.get(`http://212.112.105.196:3457/api/contest/getContestDetails/${codeid}`)
 
@@ -220,7 +216,6 @@ const Concurs = () => {
             console.log(error)
         }
     }
-
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -238,26 +233,26 @@ const Concurs = () => {
                         <div className="pills-outline">
                             <Link to={"/concurs"} className="tab-link">
                                 <button style={{ color: "#0D6EFD", background: "White" }}
-                                    className="tab-button">Черновики
+                                    className="tab-button">Черновики [{count.draft_count}]
                                 </button>
                             </Link>
                             <Link to={"/public"} className="tab-link">
                                 <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button"
-                                    onClick={() => contestFilter(2)}>Опубликованные
+                                    onClick={() => contestFilter(2)}>Опубликованные [{count.published_count}]
                                 </button>
                             </Link>
                             <Link to="/completed" className="tab-link">
                                 <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button"
-                                    onClick={() => contestFilter(3)}>Завершенные
+                                    onClick={() => contestFilter(3)}>Завершенные [{count.completed_count}]
                                 </button>
                             </Link>
                             <Link to="/canceled" className="tab-link">
                                 <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button"
-                                    onClick={() => contestFilter(4)}>Деактивированные
+                                    onClick={() => contestFilter(4)}>Деактивированные [{count.deactivated_count}]
                                 </button>
                             </Link>
                             <Link to={"/archive"} className="tab-link">
-                                <button style={{color: "#333333", background: "#F0F0F0"}} className="tab-button">Архив
+                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Архив
                                     [{count.archived_count}]
                                 </button>
                             </Link>
@@ -282,12 +277,10 @@ const Concurs = () => {
 
                         </Link>
                     </div>
-
                 </div>
-
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="card">
-                        <div className="card-header" style={{background: "white"}}>
+                        <div className="card-header" style={{ background: "white" }}>
                             <Button variant="success" size="sm" onClick={handleShow}> + Добавить конкурс</Button>
                         </div>
                         <div className="card-body">
@@ -310,74 +303,46 @@ const Concurs = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    {formData.contests && formData.contests.map((contest, index) => (
-                                        <tr key={contest.codeid}>
-                                            <td>{index + 1}</td>
-                                            <th>{contest.contest_name}</th>
-                                            <td>{contest.contest_description}</td>
-                                            <td>{contest.format_purchase}</td>
-                                            <td>{contest.method_purchase}</td>
-                                            <td>{contest.type_purchase}</td>
-                                            <td>{contest.year}</td>
-                                            <th>{contest.planned_summ}</th>
-                                            <td>{contest.start_date}</td>
-                                            <td>{contest.formatted_end_date}</td>
-                                            <td>
-                                                {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                    <div key={index}
-                                                         style={{
-                                                             marginRight: '10px',
-                                                             display: "flex",
-                                                             flexDirection: "row",
-                                                             gap: 10
-                                                         }}>
-
-                                                        <a href={`http://212.112.105.196:3457/${file.path}`} style={{
-                                                            textDecoration: 'none',
-                                                            color: 'inherit',
-                                                            display: 'inline-block'
-                                                        }}>
-                                                            <span>{file.file_name}</span>
-                                                        </a>
-                                                    </div>
-                                                ))}
-                                            </td>
-                                            <td>
-                                                <div style={{
-                                                    display: "flex",
-                                                    alignItems: "center",
-                                                    justifyContent: "space-between",
-                                                    gap: "5px"
-                                                }}>
-                                                    <Button variant='warning' size='sm'
-                                                            onClick={() => handleOpenModal(contest.codeid)} style={{
-                                                                display: "flex",
-                                                                flexDirection: 'row',
-                                                                alignItems: 'center',
-                                                                gap: 5,
-                                                                color: "#fff"
-                                                            }}>
+                                        {formData.contests && formData.contests.map((contest, index) => (
+                                            <tr key={contest.codeid}>
+                                                <td>{index + 1}</td>
+                                                <th>{contest.contest_name}</th>
+                                                <td>{contest.contest_description}</td>
+                                                <td>{contest.format_purchase}</td>
+                                                <td>{contest.method_purchase}</td>
+                                                <td>{contest.type_purchase}</td>
+                                                <td>{contest.year}</td>
+                                                <th>{contest.planned_summ}</th>
+                                                <td>{contest.start_date}</td>
+                                                <td>{contest.formatted_end_date}</td>
+                                                <td>
+                                                    {contest.files.length > 0 && contest.files.map((file, index) => (
+                                                        <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
+                                                            <a href={`http://212.112.105.196:3457/${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
+                                                                <span>{file.file_name}</span>
+                                                            </a>
+                                                        </div>
+                                                    ))}
+                                                </td>
+                                                <td>
+                                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "5px" }}>
+                                                        <Button variant='warning' size='sm' onClick={() => handleOpenModal(contest.codeid)} style={{ display: "flex", flexDirection: 'row', alignItems: 'center', gap: 5, color: "#fff" }}>
                                                             <PencilSimpleLine size={18} color="#fff" />
                                                             Редактировать
-
-                                                    </Button>
-                                                    <Button variant="primary" size="sm"
-                                                            onClick={handleShow2}>Опубликовать</Button>
-                                                    <Modal show={show2} onHide={handleClose2}>
-                                                        <Modal.Header closeButton>
-                                                            <Modal.Title style={{fontSize: "18px"}}>Вы действительно
-                                                                хотите опубликовать?</Modal.Title>
-                                                        </Modal.Header>
-                                                        <Modal.Footer>
-                                                            <Button variant="primary" size="sm"
-                                                                    onClick={() => handlePublish(contest.codeid)}>Подтвердить</Button>
-                                                        </Modal.Footer>
-
-                                                    </Modal>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                                        </Button>
+                                                        <Button variant="primary" size="sm" onClick={handleShow2}>Опубликовать</Button>
+                                                        <Modal show={show2} onHide={handleClose2}>
+                                                            <Modal.Header closeButton>
+                                                                <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите опубликовать?</Modal.Title>
+                                                            </Modal.Header>
+                                                            <Modal.Footer>
+                                                                <Button variant="primary" size="sm" onClick={() => handlePublish(contest.codeid)}>Подтвердить</Button>
+                                                            </Modal.Footer>
+                                                        </Modal>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>
@@ -385,42 +350,41 @@ const Concurs = () => {
 
                     </div>
                 </div>
-
-                <Modal show={show} onHide={handleClose} className="custom-modal" style={{marginTop: "8vw"}}>
-                    <Form style={{padding: '1vw'}}>
+                <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
+                    <Form style={{ padding: '1vw' }}>
                         <div className="row">
                             <div className="col-md-6">
-                                <div style={{display: "flex", flexDirection: "row", gap: 10, alignItems: "center", width: '100%'}}>
-                                <Form.Group className="mb-3" controlId="year" style={{width: "50%"}}>
-                                    <Form.Label>Год</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        placeholder="Год"
-                                        name="year"
-                                        value={formData.year}
-                                        onChange={handleChange}
-                                        style={{width: "100%"}}
-                                    />
-                                </Form.Group>
-                                <Form.Group className="mb-3" controlId="planned_summ" style={{width: "50%"}}>
-                                    <Form.Label>Планируемая сумма</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        placeholder="Сумма"
-                                        name="planned_summ"
-                                        value={formData.planned_summ}
-                                        onChange={handleChange}
-                                        style={{width: "100%"}}
-                                    />
-                                </Form.Group>
-                            </div>
+                                <div style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center", width: '100%' }}>
+                                    <Form.Group className="mb-3" controlId="year" style={{ width: "50%" }}>
+                                        <Form.Label>Год</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            placeholder="Год"
+                                            name="year"
+                                            value={formData.year}
+                                            onChange={handleChange}
+                                            style={{ width: "100%" }}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="planned_summ" style={{ width: "50%" }}>
+                                        <Form.Label>Планируемая сумма</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            placeholder="Сумма"
+                                            name="planned_summ"
+                                            value={formData.planned_summ}
+                                            onChange={handleChange}
+                                            style={{ width: "100%" }}
+                                        />
+                                    </Form.Group>
+                                </div>
                                 <Form.Group className="mb-3" controlId="purchaseFormat">
                                     <Form.Label>Формат закупок</Form.Label>
                                     <Form.Select
                                         name="purchase_format_id"
                                         value={formData.purchase_format_id}
                                         onChange={handleChange}
-                                        style={{width: "100%"}}
+                                        style={{ width: "100%" }}
                                     >
                                         <option value={0}>Выберите формат закупок</option>
                                         {spPurchase?.format &&
@@ -431,14 +395,13 @@ const Concurs = () => {
                                             ))}
                                     </Form.Select>
                                 </Form.Group>
-
                                 <Form.Group className="mb-3" controlId="purchaseMethod">
                                     <Form.Label>Метод закупки</Form.Label>
                                     <Form.Select
                                         name="purchase_method_id"
                                         value={formData.purchase_method_id}
                                         onChange={handleChange}
-                                        style={{width: "100%"}}
+                                        style={{ width: "100%" }}
                                     >
                                         <option value={0}>Выберите метод закупки</option>
                                         {spPurchase?.method &&
@@ -446,8 +409,7 @@ const Concurs = () => {
                                                 <option key={key} value={spPurchase.method[key].codeid}>
                                                     {spPurchase.method[key].method_purchase}
                                                 </option>
-                                            ))}
-                                    </Form.Select>
+                                            ))}    </Form.Select>
                                 </Form.Group>
                             </div>
 
@@ -459,11 +421,11 @@ const Concurs = () => {
                                         name="end_date"
                                         value={
                                             updateFormData.end_date
-                                                ? new Date(updateFormData.end_date).toISOString().slice(0, 16)
+                                                ? new Date(formData.end_date).toISOString().slice(0, 16)
                                                 : new Date().toISOString().slice(0, 16)
                                         }
                                         onChange={handleChange}
-                                        style={{width: "100%"}}
+                                        style={{ width: "100%" }}
                                     />
                                 </Form.Group>
 
@@ -473,7 +435,7 @@ const Concurs = () => {
                                         name="purchase_type_id"
                                         value={formData.purchase_type_id}
                                         onChange={handleChange}
-                                        style={{width: "100%"}}
+                                        style={{ width: "100%" }}
                                     >
                                         <option value={0}>Выберите тип закупки</option>
                                         {spPurchase?.type &&
@@ -494,12 +456,11 @@ const Concurs = () => {
                                         name="contest_name"
                                         value={formData.contest_name}
                                         onChange={handleChange}
-                                        style={{width: "100%"}}
+                                        style={{ width: "100%" }}
                                     />
                                 </Form.Group>
                             </div>
                         </div>
-
                         <Form.Group className="mb-4" controlId="contestDescription">
                             <Form.Label>Наименование закупки</Form.Label>
                             <Form.Control
@@ -509,13 +470,13 @@ const Concurs = () => {
                                 name="contest_description"
                                 value={formData.contest_description}
                                 onChange={handleChange}
-                                style={{height: 250}}
+                                style={{ height: 250 }}
                             />
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="files">
-                            <Form.Label style={{display: 'block'}}>
-                                <BsPaperclip style={{marginRight: '5px', fontSize: '20px'}}/>
+                            <Form.Label style={{ display: 'block' }}>
+                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                 Прикрепить файлы
                             </Form.Label>
                             <Form.Control
@@ -523,7 +484,7 @@ const Concurs = () => {
                                 name="files"
                                 onChange={handleChange}
                                 multiple
-                                style={{display: "none"}}
+                                style={{ display: "none" }}
                             />
                         </Form.Group>
 
@@ -546,44 +507,41 @@ const Concurs = () => {
                         </div>
                     </Form>
                 </Modal>
-
-
-
                 <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{ marginTop: "8vw" }}>
                     <Modal.Header closeButton>
-                        <Modal.Title style={{fontSize: "18px"}}>Редактировать данные конкурса</Modal.Title>
+                        <Modal.Title style={{ fontSize: "18px" }}>Редактировать данные конкурса</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
                             <div className="row">
                                 <div className="col-md-6">
-                                    <div style={{display: "flex", flexDirection: 'row', width: '100%', gap: 20}}>
-                                            <Form.Group className="mb-3" controlId="year" style={{width: '50%'}}>
-                                                <Form.Label>Год</Form.Label>
-                                                <Form.Control
-                                                    type="number"
-                                                    placeholder="Год"
-                                                    name="year"
-                                                    value={updateFormData.year}
-                                                    onChange={handleChangeUpdateDate}
-                                                    style={{width: '100%'}}
-                                                />
-                                            </Form.Group>
-                                            <Form.Group className="mb-3" controlId="planned_summ"
-                                                        style={{width: '50%'}}>
-                                                <Form.Label>Планируемая сумма</Form.Label>
-                                                <Form.Control
-                                                    type="number"
-                                                    placeholder="сумма"
-                                                    name="planned_summ"
-                                                    value={updateFormData.planned_summ}
-                                                    onChange={handleChangeUpdateDate}
-                                                    style={{width: '100%'}}
-                                                />
-                                            </Form.Group>
+                                    <div style={{ display: "flex", flexDirection: 'row', width: '100%', gap: 20 }}>
+                                        <Form.Group className="mb-3" controlId="year" style={{ width: '50%' }}>
+                                            <Form.Label>Год</Form.Label>
+                                            <Form.Control
+                                                type="number"
+                                                placeholder="Год"
+                                                name="year"
+                                                value={updateFormData.year}
+                                                onChange={handleChangeUpdateDate}
+                                                style={{ width: '100%' }}
+                                            />
+                                        </Form.Group>
+                                        <Form.Group className="mb-3" controlId="planned_summ"
+                                            style={{ width: '50%' }}>
+                                            <Form.Label>Планируемая сумма</Form.Label>
+                                            <Form.Control
+                                                type="number"
+                                                placeholder="сумма"
+                                                name="planned_summ"
+                                                value={updateFormData.planned_summ}
+                                                onChange={handleChangeUpdateDate}
+                                                style={{ width: '100%' }}
+                                            />
+                                        </Form.Group>
                                     </div>
                                     <Form.Group className="mb-3" controlId="purchaseFormat">
-                                    <Form.Select
+                                        <Form.Select
                                             name="purchase_format_id"
                                             value={updateFormData.purchase_format_id}
                                             onChange={handleChangeUpdateDate}
@@ -597,7 +555,6 @@ const Concurs = () => {
                                                 ))}
                                         </Form.Select>
                                     </Form.Group>
-
                                     <Form.Group className="mb-3" controlId="purchaseMethod">
                                         <Form.Select
                                             name="purchase_method_id"
@@ -659,7 +616,6 @@ const Concurs = () => {
                                     </Form.Group>
                                 </div>
                             </div>
-
                             <Form.Group className="mb-4" controlId="contestDescription">
                                 <Form.Control
                                     as="textarea"
@@ -668,13 +624,13 @@ const Concurs = () => {
                                     name="contest_description"
                                     value={updateFormData.contest_description}
                                     onChange={handleChangeUpdateDate}
-                                    style={{height: 250}}
+                                    style={{ height: 250 }}
                                 />
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="files">
-                                <Form.Label style={{display: 'block'}}>
-                                    <BsPaperclip style={{marginRight: '5px', fontSize: '20px'}}/>
+                                <Form.Label style={{ display: 'block' }}>
+                                    <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                     Прикрепить файлы
                                 </Form.Label>
                                 <Form.Control
@@ -682,7 +638,7 @@ const Concurs = () => {
                                     name="files"
                                     onChange={handleChangeUpdateDate}
                                     multiple
-                                    style={{display: "none"}}
+                                    style={{ display: "none" }}
                                 />
                             </Form.Group>
 
@@ -690,14 +646,13 @@ const Concurs = () => {
                                 ? updateFormData.files.map((file, index) => (
                                     <Form.Group key={index} className="mb-3">
                                         <div className="d-flex align-items-center"
-                                            style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                                            <Form.Check type="checkbox" className="me-3" />
+                                            style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
+                                            <Form.Label type="checkbox" className="me-3" />
                                             <div>
-                                                <FileArrowDown size={24} color="#030202" />
                                                 <a href={file.path} download>{file.file_name}</a>
                                             </div>
-                                            <Button variant="secondary" size="sm" onClick={() => onRemove(index)}>
-                                                <FileX size={24} color="#030202" />
+                                            <Button variant="danger" size="sm" onClick={() => onRemove(index)}>
+                                                Удалить
                                             </Button>
                                         </div>
                                     </Form.Group>
@@ -722,7 +677,7 @@ const Concurs = () => {
                         style={{ marginTop: "8vw" }}>
                         <Modal.Dialog>
                             <Modal.Header>
-                                <Modal.Title style={{fontSize: "18px"}}>Успешно</Modal.Title>
+                                <Modal.Title style={{ fontSize: "18px" }}>Успешно</Modal.Title>
                             </Modal.Header>
 
                             <Modal.Body>
@@ -736,7 +691,7 @@ const Concurs = () => {
                     </Modal>
                 </div>
             </div>
-        </div>
+        </div >
 
     )
 }
