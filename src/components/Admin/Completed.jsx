@@ -3,9 +3,10 @@ import { Button, Table, Modal } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
+import DetailModal from "../Home/DetailModal";
 
 const Completed = () => {
-    const { compled, contestFilter, updateContestStatus } = UseRegister();
+    const { compled, contestFilter, updateContestStatus, getOrderDetails } = UseRegister();
     const [show2, setShow2] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
@@ -17,6 +18,16 @@ const Completed = () => {
 
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
+
+
+    const handleCloseDetails = () => {
+        setShowDetailModal(false);
+        setSelectedContestId(null);
+    };
+
+
+    const [showDetailModal, setShowDetailModal] = useState(false);
+    const [selectedContestId, setSelectedContestId] = useState(null);
 
     useEffect(() => {
         contestFilter(3);
@@ -34,6 +45,12 @@ const Completed = () => {
     if (!compled) {
         return <div>Loading...</div>;
     }
+
+    const watchDetails = (codeid) => {
+        getOrderDetails(codeid)
+        setSelectedContestId(codeid);
+        setShowDetailModal(true);
+    };
 
     return (
         <div className="oll_sistem">
@@ -96,16 +113,16 @@ const Completed = () => {
                                                 .filter(contest => contest.contest_status === 3)
                                                 .map((contest, index) => (
                                                     <tr key={contest.codeid}>
-                                                        <td>{index + 1}</td>
-                                                        <td>{contest.contest_name}</td>
-                                                        <td>{contest.contest_description}</td>
-                                                        <td>{contest.format_purchase}</td>
-                                                        <td>{contest.method_purchase}</td>
-                                                        <td>{contest.type_purchase}</td>
-                                                        <td>{contest.year}</td>
-                                                        <td>{contest.planned_summ}</td>
-                                                        <td>{contest.start_date}</td>
-                                                        <td>{contest.formatted_end_date}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{index + 1}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.contest_name}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.contest_description}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.format_purchase}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.method_purchase}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.type_purchase}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.year}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.planned_summ}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.start_date}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.formatted_end_date}</td>
                                                         {/*<td>*/}
                                                         {/*    {contest.files.length > 0 && contest.files.map((file, index) => (*/}
                                                         {/*        <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>*/}
@@ -138,6 +155,7 @@ const Completed = () => {
                     </div>
                 </div>
             </div>
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId} winner={true}/>
         </div>
     );
 }

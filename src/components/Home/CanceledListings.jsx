@@ -5,6 +5,7 @@ import {UseRegister} from "../../Context/ContextProviderRegister";
 import {useNavigate} from "react-router-dom";
 import './Info.css'
 import Footer from "./Footer";
+import DetailModal from "./DetailModal";
 
 const CanceledListings = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -17,10 +18,22 @@ const CanceledListings = () => {
     };
     const navigate = useNavigate()
 
+    const handleCloseDetails = () => {
+        setShowDetailModal(false);
+        setSelectedContestId(null);
+    };
+
+    const [showDetailModal, setShowDetailModal] = useState(false);
+    const [selectedContestId, setSelectedContestId] = useState(null);
+
+
     const handleClick = (codeid) => {
         getOrderDetails(codeid)
-        navigate(`/detail/${codeid}`)
+        setSelectedContestId(codeid);
+        setShowDetailModal(true);
+       // navigate(`/detail/${codeid}`)
     };
+
 
     const handleInputChange = (event) => {
         setPageInput(event.target.value);
@@ -136,6 +149,8 @@ const CanceledListings = () => {
                     </div>
                 </div>
             </div>
+
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId}/>
 
         </div>
     );

@@ -5,14 +5,15 @@ import { Nav, NavItem, NavLink, Table, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { FileArrowDown } from "@phosphor-icons/react";
+import DetailModal from "../Home/DetailModal";
 
 const Canceled = () => {
-    const { compled, contestFilter, updateContestStatus } = UseRegister();
+    const { compled, contestFilter, updateContestStatus, getOrderDetails } = UseRegister();
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
-            setUserEmail(userDataString); 
+            setUserEmail(userDataString);
         }
     }, []);
     const [show2, setShow2] = useState(false);
@@ -20,6 +21,13 @@ const Canceled = () => {
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
 
+    const handleCloseDetails = () => {
+        setShowDetailModal(false);
+        setSelectedContestId(null);
+    };
+
+    const [showDetailModal, setShowDetailModal] = useState(false);
+    const [selectedContestId, setSelectedContestId] = useState(null);
     useEffect(() => {
         contestFilter(4);
     }, []);
@@ -31,6 +39,14 @@ const Canceled = () => {
         };
         handleClose2()
         updateContestStatus(arheve);
+    }
+
+    const [comment, setComment] = useState('')
+    const watchDetails = (codeid, comment) => {
+        getOrderDetails(codeid)
+        setComment(comment)
+        setSelectedContestId(codeid);
+        setShowDetailModal(true);
     }
 
     if (!compled) {
@@ -60,7 +76,7 @@ const Canceled = () => {
 
                     </div>
                     <div>
-                    <div>{userEmail}</div> 
+                    <div>{userEmail}</div>
                     </div>
                 </div>
                 <div >
@@ -92,16 +108,16 @@ const Canceled = () => {
                                                 .filter(contest => contest.contest_status === 4)
                                                 .map((contest, index) => (
                                                     <tr key={contest.codeid}>
-                                                        <td>{index + 1}</td>
-                                                        <th>{contest.contest_name}</th>
-                                                        <td>{contest.contest_description}</td>
-                                                        <td>{contest.format_purchase}</td>
-                                                        <td>{contest.method_purchase}</td>
-                                                        <td>{contest.type_purchase}</td>
-                                                        <td>{contest.year}</td>
-                                                        <th>{contest.planned_summ}</th>
-                                                        <td>{contest.start_date}</td>
-                                                        <td>{contest.formatted_end_date}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{index + 1}</td>
+                                                        <th onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.contest_name}</th>
+                                                        <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.contest_description}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.format_purchase}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.method_purchase}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.type_purchase}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.year}</td>
+                                                        <th onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.planned_summ}</th>
+                                                        <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.start_date}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.formatted_end_date}</td>
                                                         <td>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
                                                                 <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
@@ -122,7 +138,7 @@ const Canceled = () => {
                                                                 <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите добавить в архив</Modal.Title>
                                                             </Modal.Header>
                                                             <Modal.Footer>
-                                                                <Button variant="success" size="sm" 
+                                                                <Button variant="success" size="sm"
                                                                     onClick={() => handleClick(contest.codeid)} >Подтвердить</Button>
                                                             </Modal.Footer>
 
@@ -137,6 +153,10 @@ const Canceled = () => {
                     </div>
                 </div>
             </div>
+
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId} comment={comment}/>
+
+
         </div>
     );
 }

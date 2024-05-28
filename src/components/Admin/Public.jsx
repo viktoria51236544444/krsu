@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
+import DetailModal from "../Home/DetailModal";
 
 const Public = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails } = UseRegister();
     const [showModal, setShowModal] = useState(false);
     const [reason, setReason] = useState('');
     const [selectedContestId, setSelectedContestId] = useState(null);
+    const [showDetailModal, setShowDetailModal] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
@@ -47,6 +49,11 @@ const Public = () => {
         setReason('');
     };
 
+    const handleCloseDetails = () => {
+        setShowDetailModal(false);
+        setSelectedContestId(null);
+    };
+
     const handleConfirmDeactivation = async () => {
         if (reason.trim() === '') {
             alert('Введите причину деактивации');
@@ -72,6 +79,12 @@ const Public = () => {
     if (!compled) {
         return <div>Loading...</div>;
     }
+
+    const watchDetails = (codeid) => {
+        getOrderDetails(codeid)
+        setSelectedContestId(codeid);
+        setShowDetailModal(true);
+    };
 
     // Проверяем роль пользователя из localStorage
     const userRole = localStorage.getItem('role');
@@ -131,21 +144,17 @@ const Public = () => {
                                                 .filter(contest => contest.contest_status === 2)
                                                 .map((contest, index) => (
                                                     <tr key={contest.codeid}>
-                                                        <td>{index + 1}</td>
-                                                        <th>
-                                                            <Link to={`/detail/${contest.codeid}`} onClick={() => getOrderDetails(contest.codeid)}>
-                                                                {contest.contest_name}
-                                                            </Link>
-                                                        </th>
-                                                        <td>{contest.contest_description}</td>
-                                                        <td>{contest.format_purchase}</td>
-                                                        <td>{contest.method_purchase}</td>
-                                                        <td>{contest.type_purchase}</td>
-                                                        <td>{contest.year}</td>
-                                                        <th>{contest.planned_summ}</th>
-                                                        <td>{contest.start_date}</td>
-                                                        <td>{contest.formatted_end_date}</td>
-                                                        <td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{index + 1}</td>
+                                                        <th onClick={() => watchDetails(contest.codeid)}>{contest.contest_name}</th>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.contest_description}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.format_purchase}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.method_purchase}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.type_purchase}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.year}</td>
+                                                        <th onClick={() => watchDetails(contest.codeid)}>{contest.planned_summ}</th>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.start_date}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>{contest.formatted_end_date}</td>
+                                                        <td onClick={() => watchDetails(contest.codeid)}>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
                                                                 <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
                                                                     <FileArrowDown size={24} color='inherit' />
@@ -174,6 +183,7 @@ const Public = () => {
                     </div>
                 </div>
             </div>
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId}/>
 
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Header closeButton>
