@@ -18,6 +18,7 @@ const ContextProviderRegister = ({ children }) => {
     const [users2, SetUsers2] = useState(null);
     const [users3, SetUsers3] = useState(null);
     const [actt, setActt] = useState(null);
+    const [count, setCounts] = useState(0)
     const navigate = useNavigate()
 
     // console.log(concurs);
@@ -132,6 +133,21 @@ const ContextProviderRegister = ({ children }) => {
             console.log('Error during sign-in:', error.message);
         }
     };
+
+    //
+    useEffect(() => {
+        getCounts()
+    }, []);
+
+    const getCounts = async()  => {
+        try {
+            const res = await axios.get(`http://212.112.105.196:3457/api/contest/getCount`);
+            console.log(res.data.result.data)
+            setCounts(res.data.result.data)
+        }catch (error){
+            console.log(error)
+        }
+    }
 
     //* стягивает селекты для конкурсов
     useEffect(() => {
@@ -304,6 +320,7 @@ const ContextProviderRegister = ({ children }) => {
         wonContest,
         getFiles,
         actt,
+        count
     };
     return (
         <contextProviderRegister.Provider value={values}>

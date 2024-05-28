@@ -6,7 +6,7 @@ import Sidebar from './Sidebar';
 import DetailModal from "../Home/DetailModal";
 
 const Completed = () => {
-    const { compled, contestFilter, updateContestStatus, getOrderDetails } = UseRegister();
+    const { compled, contestFilter, updateContestStatus, getOrderDetails, count } = UseRegister();
     const [show2, setShow2] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
@@ -68,19 +68,19 @@ const Completed = () => {
                     <div>
                         <div className="pills-outline">
                             <Link to="/concurs" className="tab-link">
-                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Черновики</button>
+                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Черновики  [{count.draft_count}]</button>
                             </Link>
                             <Link to="/public" className="tab-link">
-                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(2)}>Опубликованные</button>
+                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(2)}>Опубликованные [{count.published_count}]</button>
                             </Link>
                             <Link to="/completed" className="tab-link">
-                                <button style={{ color: "#0D6EFD", background: "White" }} className="tab-button" onClick={() => contestFilter(3)}>Завершенные</button>
+                                <button style={{ color: "#0D6EFD", background: "White" }} className="tab-button" onClick={() => contestFilter(3)}>Завершенные [{count.completed_count}]</button>
                             </Link>
                             <Link to="/canceled" className="tab-link">
-                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(4)}>Деактивированные</button>
+                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(4)}>Деактивированные [{count.deactivated_count}]</button>
                             </Link>
                             <Link to="/archive" className="tab-link">
-                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Архив</button>
+                                <button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Архив  [{count.archived_count}]</button>
                             </Link>
                         </div>
                     </div>
