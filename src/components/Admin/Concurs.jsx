@@ -120,7 +120,7 @@ const Concurs = () => {
         handleClose2()
         try {
             await updateContestStatus(publicData);
-            console.log(`Конкурс с ID ${ contestId } успешно опубликован!`);
+            console.log(`Конкурс с ID ${contestId} успешно опубликован!`);
             getContestList();
             resetForm();
         } catch (error) {
@@ -326,10 +326,10 @@ const Concurs = () => {
                                                 </td>
                                                 <td>
                                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "5px" }}>
-                                                        <Button variant='warning' size='sm' onClick={() => handleOpenModal(contest.codeid)} style={{ display: "flex", flexDirection: 'row', alignItems: 'center', gap: 5, color: "#fff" }}>
+                                                        {/* <Button variant='warning' size='sm' onClick={() => handleOpenModal(contest.codeid)} style={{ display: "flex", flexDirection: 'row', alignItems: 'center', gap: 5, color: "#fff" }}>
                                                             <PencilSimpleLine size={18} color="#fff" />
                                                             Редактировать
-                                                        </Button>
+                                                        </Button> */}
                                                         <Button variant="primary" size="sm" onClick={handleShow2}>Опубликовать</Button>
                                                         <Modal show={show2} onHide={handleClose2}>
                                                             <Modal.Header closeButton>
@@ -339,6 +339,8 @@ const Concurs = () => {
                                                                 <Button variant="primary" size="sm" onClick={() => handlePublish(contest.codeid)}>Подтвердить</Button>
                                                             </Modal.Footer>
                                                         </Modal>
+
+
                                                     </div>
                                                 </td>
                                             </tr>
@@ -350,7 +352,7 @@ const Concurs = () => {
 
                     </div>
                 </div>
-                <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
+                {/* <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
                     <Form style={{ padding: '1vw' }}>
                         <div className="row">
                             <div className="col-md-6">
@@ -484,7 +486,7 @@ const Concurs = () => {
                                 name="files"
                                 onChange={handleChange}
                                 multiple
-                                style={{ display: "none" }}
+                                // style={{ display: "none" }}
                             />
                         </Form.Group>
 
@@ -506,8 +508,8 @@ const Concurs = () => {
                             </Button>
                         </div>
                     </Form>
-                </Modal>
-                <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{ marginTop: "8vw" }}>
+                </Modal> */}
+                {/* <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{ marginTop: "8vw" }}>
                     <Modal.Header closeButton>
                         <Modal.Title style={{ fontSize: "18px" }}>Редактировать данные конкурса</Modal.Title>
                     </Modal.Header>
@@ -667,13 +669,13 @@ const Concurs = () => {
                             Сохранить
                         </Button>
                     </Modal.Footer>
-                </Modal>
+                </Modal> */}
 
                 <div
                     className="modal show"
                     style={{ display: 'block', position: 'initial' }}
                 >
-                    <Modal show={closeModal} onHide={closeModalHide} className="custom-modal"
+                    {/* <Modal show={closeModal} onHide={closeModalHide} className="custom-modal"
                         style={{ marginTop: "8vw" }}>
                         <Modal.Dialog>
                             <Modal.Header>
@@ -688,7 +690,7 @@ const Concurs = () => {
                                 <Button variant="secondary" onClick={closeModalHide}>Закрыть</Button>
                             </Modal.Footer>
                         </Modal.Dialog>
-                    </Modal>
+                    </Modal> */}
                 </div>
             </div>
         </div >

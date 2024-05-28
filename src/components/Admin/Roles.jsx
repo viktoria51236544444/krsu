@@ -8,39 +8,7 @@ import Sidebar from './Sidebar';
 import ListGroup from 'react-bootstrap/ListGroup';
 
 const Roles = () => {
-    const [selectedUser, setSelectedUser] = useState(null);
-    const [formData, setFormData] = useState({});
-
-    const defaultFormData = {};
-
-    useEffect(() => {
-        const savedData = JSON.parse(localStorage.getItem(selectedUser));
-        if (savedData) {
-            setFormData(savedData);
-        } else {
-            const initialFormData = {};
-            Object.keys(defaultFormData).forEach(key => {
-                initialFormData[key] = false;
-            });
-            setFormData(initialFormData);
-        }
-    }, [selectedUser]);
-
-    const handleUserSelection = (user) => {
-        setSelectedUser(user);
-    };
-
-    const handleCheckboxChange = (e) => {
-        const { name, checked } = e.target;
-        setFormData(prevFormData => ({
-            ...prevFormData,
-            [name]: checked,
-        }));
-    };
-
-    const handleSaveData = () => {
-        localStorage.setItem(selectedUser, JSON.stringify(formData));
-    };
+   
 
     return (
         <div className="oll_sistem" >
