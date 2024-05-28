@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import axios from 'axios';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { CloudArrowDown, FileArrowDown, FilePdf } from "@phosphor-icons/react";
+import { BsPaperclip } from 'react-icons/bs';
 
 const Act = () => {
     const { getFiles, actt } = UseRegister();
@@ -110,11 +111,7 @@ const Act = () => {
                     maxWidth: "100%",
                 }}>
                     <div>
-                        <div className="pills-outline">
-                            <button className="tab-button"
-                                style={{ color: "#0D6EFD", background: "White" }}>Опубликованные
-                            </button>
-                        </div>
+
                     </div>
                     <div>
                         <div>{userEmail}</div>
@@ -123,27 +120,19 @@ const Act = () => {
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="card">
                         <div className="card-header" style={{ background: "white" }}>
-                            <Button variant="success" size="sm" onClick={handleShow}>Новый акт</Button>
+                            <Button variant="success" size="sm" onClick={handleShow}>Добавить акт</Button>
                         </div>
                         <div className="card-body">
                             <div className="table-responsive">
                                 <table className="table table-striped table-bordered first">
                                     <thead>
                                         <tr>
-                                            <th>#</th>
-                                            <th>Название файла</th>
-                                            <td>Действие</td>
+                                         
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {actt && actt.map((item, index) => (
                                             <tr key={index}>
-                                                <td><p style={{
-                                                    color: "black",
-                                                    fontSize: 14,
-                                                    margin: 0,
-                                                    padding: 0
-                                                }}>{index + 1}</p></td>
                                                 <td>
                                                     <div style={{ display: "flex", flexDirection: 'row', gap: 10 }}>
                                                         <FilePdf size={32} color="#3d3d3d" />
@@ -187,14 +176,14 @@ const Act = () => {
                     </div>
                 </div>
             </div>
-            <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
+            <Modal show={show} onHide={handleClose} className="custom-modal modalact">
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ fontSize: "18px" }}>Новый акт</Modal.Title>
+                    <Modal.Title style={{ fontSize: '18px' }}>Добавление нормативно правового акта</Modal.Title>
                 </Modal.Header>
-                <Modal.Body>
+                <Modal.Body style={{ padding: '20px' }}>
                     <Form>
                         <Form.Group controlId="formFileDescription">
-                            <Form.Label>Описание файла</Form.Label>
+                            <Form.Label>Название</Form.Label>
                             <Form.Control
                                 type="text"
                                 name="fileDescription"
@@ -202,25 +191,30 @@ const Act = () => {
                                 onChange={handleChange}
                             />
                         </Form.Group>
-                        <Form.Group controlId="formFile">
-                            <Form.Label>Файл</Form.Label>
+                        <Form.Group className="mb-3" controlId="files" style={{ marginTop: "1vw" }}>
+                            <Form.Label style={{ display: 'block' }}>
+                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                Прикрепить файлы
+                            </Form.Label>
                             <Form.Control
                                 type="file"
                                 name="file"
                                 onChange={handleChange}
+                                multiple
+                                style={{ display: "none" }}
                             />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleClose}>
-                        Отмена
-                    </Button>
-                    <Button variant="primary" onClick={handleSubmit}>
-                        Добавить
+                    <Button variant="primary" size='sm' onClick={handleSubmit}>
+                        Опубликовать
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+
+
         </div>
     );
 }

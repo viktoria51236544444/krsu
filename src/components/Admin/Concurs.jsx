@@ -497,8 +497,8 @@ const Concurs = () => {
                             <Form.Control
                                 type="file"
                                 name="files"
-                                multiple
                                 onChange={handleChange}
+                                multiple
                                 style={{ display: "none" }}
                             />
                         </Form.Group>

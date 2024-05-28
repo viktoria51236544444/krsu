@@ -18,13 +18,14 @@ const Participants = () => {
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
-            setUserEmail(userDataString); 
+            setUserEmail(userDataString);
         }
     }, []);
 
     useEffect(() => {
         getUserList();
         getByStatus(2);
+
     }, []);
 
     const getUserInfo = async (codeId, index) => {
@@ -73,7 +74,7 @@ const Participants = () => {
             userId: userId
         };
         updateUserStatus(data);
-        getByStatus2(); 
+        getByStatus2();
         setShowDeactivateModal(false);
         setComment('');
     }
@@ -114,7 +115,7 @@ const Participants = () => {
                         </div>
                     </div>
                     <div>
-                        <div>{userEmail}</div> 
+                        <div>{userEmail}</div>
                     </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -143,42 +144,44 @@ const Participants = () => {
                                     </thead>
                                     <tbody>
                                         {users2.map((user, index) => (
-                                            <tr key={user.codeid} data-codeid={user.codeid}
-                                                onClick={() => getUserInfo(user.codeid, index)}>
-                                                <td>{index + 1}</td>
-                                                <td>{user.fio}</td>
-                                                <td>{user.name_organization}</td>
-                                                <td>{user.inn}</td>
-                                                <td>{user.address}</td>
-                                                <td>{user.fact_address}</td>
-                                                <td>{user.ur_address}</td>
-                                                <td>{user.email}</td>
-                                                <td>{user.pin_manager}</td>
-                                                <td>{user.banc_name}</td>
-                                                <td>{user.bik}</td>
-                                                <td>{user.deposit_account}</td>
-                                                <td>{user.web_site}</td>
-                                                <td>{user.position}</td>
-                                                <td>
-                                                    <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
-                                                        {userRole !== 'Оператор' && (
-                                                            <>
-                                                                <Button variant="success" size="sm"
-                                                                    onClick={(e) => {
+                                            user.status === 2 && (
+                                                <tr key={user.codeid} data-codeid={user.codeid} onClick={() => getUserInfo(user.codeid, index)}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{user.fio}</td>
+                                                    <td>{user.name_organization}</td>
+                                                    <td>{user.inn}</td>
+                                                    <td>{user.address}</td>
+                                                    <td>{user.fact_address}</td>
+                                                    <td>{user.ur_address}</td>
+                                                    <td>{user.email}</td>
+                                                    <td>{user.pin_manager}</td>
+                                                    <td>{user.banc_name}</td>
+                                                    <td>{user.bik}</td>
+                                                    <td>{user.deposit_account}</td>
+                                                    <td>{user.web_site}</td>
+                                                    <td>{user.position}</td>
+                                                    <td>
+                                                        <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
+                                                            {userRole !== 'Оператор' && (
+                                                                <>
+                                                                    <Button variant="success" size="sm" onClick={(e) => {
                                                                         e.stopPropagation();
                                                                         handleVerify(user.codeid);
                                                                     }}>Верифицировать</Button>
-                                                                <Button variant="danger" size="sm" onClick={(e) => {
+                                                                    <Button variant="danger" size="sm" onClick={(e) => {
                                                                         e.stopPropagation();
                                                                         handleDeactivate(user.codeid);
                                                                     }}>Деактивировать</Button>
-                                                            </>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                            </tr>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            )
                                         ))}
                                     </tbody>
+
+
                                 </Table>
                             </div>
                         </div>
@@ -199,7 +202,7 @@ const Participants = () => {
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                 
+
                     <Button variant="success" size='sm' onClick={handleSendVerifyData}>
                         Верифицировать
                     </Button>
