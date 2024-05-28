@@ -5,7 +5,7 @@ import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
 import DetailModal from "../Home/DetailModal";
-import {BsPaperclip} from "react-icons/bs";
+import { BsPaperclip } from "react-icons/bs";
 
 const Public = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts } = UseRegister();
@@ -30,6 +30,7 @@ const Public = () => {
         file: null
     });
 
+
     const handleChange = (e) => {
         const { name, value, files } = e.target;
         if (name === "file") {
@@ -45,10 +46,10 @@ const Public = () => {
             contest_status: 3,
             comment: ""
         };
-
+        contestFilter(2);
         try {
             await updateContestStatus(publicData);
-            contestFilter(3);
+
         } catch (error) {
             console.log(error.message);
         }
@@ -58,6 +59,7 @@ const Public = () => {
         setSelectedContestId(contestId);
         setShowModal(true);
         getCounts()
+       
     };
 
     const handleCloseModal = () => {
@@ -84,9 +86,10 @@ const Public = () => {
         formData.append('comment', reason)
         try {
             await updateContestStatus(formData);
-            contestFilter(4);
             setShowModal(false);
             setReason('');
+            contestFilter(2);
+            getCounts()
         } catch (error) {
             console.log(error.message);
         }
@@ -102,8 +105,9 @@ const Public = () => {
         setShowDetailModal(true);
     };
 
-    // Проверяем роль пользователя из localStorage
+
     const userRole = localStorage.getItem('role');
+    console.log(addAct);
 
     return (
         <div className="oll_sistem" style={{ maxWidth: "100vw" }}>
@@ -128,25 +132,25 @@ const Public = () => {
                         </div>
                     </div>
                     <div>
-                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
-                        <div>{userEmail}</div>
-                        <Link to={"/"}>
-                            <Button
-                                variant="primary"
-                                className="rounded-circle"
-                                style={{
-                                    width: '25px',
-                                    height: '25px',
-                                    display: 'flex',
-                                    alignItems: 'center',
-                                    justifyContent: 'center',
-                                }}
-                            >
-                                <i className="bi bi-box-arrow-right"></i>
-                            </Button>
+                        <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                            <div>{userEmail}</div>
+                            <Link to={"/"}>
+                                <Button
+                                    variant="primary"
+                                    className="rounded-circle"
+                                    style={{
+                                        width: '25px',
+                                        height: '25px',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center',
+                                    }}
+                                >
+                                    <i className="bi bi-box-arrow-right"></i>
+                                </Button>
 
-                        </Link>
-                    </div>
+                            </Link>
+                        </div>
                     </div>
                 </div>
                 <div>
@@ -189,7 +193,7 @@ const Public = () => {
                                                         <td onClick={() => watchDetails(contest.codeid)}>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
                                                                 <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
-                                                                  
+
                                                                     <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                         <span>{file.file_name}</span>
                                                                     </a>
@@ -215,7 +219,7 @@ const Public = () => {
                     </div>
                 </div>
             </div>
-            <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId}/>
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails} contestId={selectedContestId} />
 
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Header closeButton>
@@ -223,12 +227,12 @@ const Public = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                    <Form.Control
-                        as="textarea"
-                        placeholder=""
-                        value={reason}
-                        onChange={(e) => setReason(e.target.value)}
-                    />
+                        <Form.Control
+                            as="textarea"
+                            placeholder=""
+                            value={reason}
+                            onChange={(e) => setReason(e.target.value)}
+                        />
                         <Form.Group className="mb-3" controlId="files" style={{ marginTop: "1vw" }}>
                             <Form.Label style={{ display: 'block' }}>
                                 <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />

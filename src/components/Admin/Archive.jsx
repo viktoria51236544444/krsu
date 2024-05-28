@@ -7,7 +7,7 @@ import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
 
 const Archive = () => {
-    const { contestFilter, count } = UseRegister()
+    const { contestFilter, count, getCounts } = UseRegister()
     const [contestList, setContestList] = useState([]);
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
@@ -19,6 +19,7 @@ const Archive = () => {
 
     useEffect(() => {
         getContestList();
+        getCounts()
     }, []);
 
     const getContestList = async () => {

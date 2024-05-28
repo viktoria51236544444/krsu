@@ -187,13 +187,21 @@ const ContextProviderRegister = ({ children }) => {
     // * фильтрация конкурсов по статусу
     const updateContestStatus = async (Public) => {
         try {
-            const res = await axios.post(`http://212.112.105.196:3457/api/contest/diactiveContest`, Public);
+            const res = await axios.post(`http://212.112.105.196:3457/api/contest/updateContestStatus`, Public);
             console.log(res.data);
         } catch (error) {
             console.log('Error during sign-in:', error.message);
         }
     };
 
+    const diactiveContest = async (Public) => {
+        try {
+            const res = await axios.post(`http://212.112.105.196:3457/api/contest/diactiveContest`, Public);
+            console.log(res.data);
+        } catch (error) {
+            console.log('Error during sign-in:', error.message);
+        }
+    };
 
     //* стягивание опубликованных конкурсов
     useEffect(() => {

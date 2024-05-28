@@ -6,7 +6,7 @@ import Sidebar from './Sidebar';
 import DetailModal from "../Home/DetailModal";
 
 const Completed = () => {
-    const { compled, contestFilter, updateContestStatus, getOrderDetails, count } = UseRegister();
+    const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts } = UseRegister();
     const [show2, setShow2] = useState(false);
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
@@ -31,6 +31,7 @@ const Completed = () => {
 
     useEffect(() => {
         contestFilter(3);
+        getCounts()
     }, []);
 
     const handleClick = (contest_id) => {
@@ -38,8 +39,9 @@ const Completed = () => {
             contest_id: contest_id,
             contest_status: 5
         };
-        handleClose2()
         updateContestStatus(arheve);
+        handleClose2()
+        getCounts()
     }
 
     if (!compled) {
