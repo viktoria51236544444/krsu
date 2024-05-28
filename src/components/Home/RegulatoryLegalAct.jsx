@@ -47,7 +47,7 @@ const RegulatoryLegalAct = () => {
                       <td>
                         <div style={{ display: 'flex', flexDirection: 'row', gap: 5 }}>
                           <a href={file.path} download style={{ fontSize: 16, color: 'black', display: 'flex', flexDirection: 'row', gap: 10 }}>
-                            <FileArrowDown size={32} color="#3d3d3d" />
+                            
                             <p>{file.description}</p>
                           </a>
                         </div>

@@ -6,6 +6,7 @@ import axios from 'axios';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { CloudArrowDown, FileArrowDown, FilePdf } from "@phosphor-icons/react";
 import { BsPaperclip } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 
 const Act = () => {
     const { getFiles, actt } = UseRegister();
@@ -113,8 +114,24 @@ const Act = () => {
                     <div>
 
                     </div>
-                    <div>
+                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
                         <div>{userEmail}</div>
+                        <Link to={"/"}>
+                            <Button
+                                variant="primary"
+                                className="rounded-circle"
+                                style={{
+                                    width: '25px',
+                                    height: '25px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <i className="bi bi-box-arrow-right"></i>
+                            </Button>
+
+                        </Link>
                     </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">

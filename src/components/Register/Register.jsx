@@ -159,6 +159,13 @@ const Register = () => {
         return isValid;
     };
 
+    const [selectedFiles, setSelectedFiles] = useState([]);
+
+    const handleFileSelection = (event) => {
+        const files = Array.from(event.target.files);
+        setSelectedFiles(files);
+        handleFileChange(event);
+    };
 
 
     const getFieldNamesForStep = (step) => {
@@ -514,17 +521,39 @@ const Register = () => {
                                 </div>
                                 <div className="col-md-12">
                                     <label className="form-label">Загрузить файлы</label>
-                                    <input
-                                        type="file"
-                                        className="form-control"
-                                        name="files"
-                                        multiple
-                                        onChange={handleFileChange}
-                                    />
+                                    <div className="input-group">
+                                        <span className="input-group-text">
+                                            <i className="bi bi-paperclip"></i>
+                                        </span>
+                                        <input
+                                            type="file"
+                                            className="form-control"
+                                            name="files"
+                                            multiple
+                                            onChange={handleFileSelection}
+                                            style={{ display: 'none' }}
+                                            id="fileInput"
+                                        />
+                                        <label htmlFor="fileInput" className="btn btn-outline-secondary">
+                                            <i className="bi bi-upload"></i>
+                                        </label>
+                                    </div>
+                                    {selectedFiles.length > 0 && (
+                                        <div className="mt-2">
+                                            <ul className="list-group">
+                                                {selectedFiles.map((file, index) => (
+                                                    <li key={index} className="list-group-item">
+                                                        {file.name}
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
                                     {errors.files && (
                                         <div className="text-danger">{errors.files}</div>
                                     )}
                                 </div>
+
                             </div>
                         )}
 

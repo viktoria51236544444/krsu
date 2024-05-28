@@ -9,6 +9,13 @@ import Sidebar from './Sidebar';
 const Roles = () => {
     const [selectedUser, setSelectedUser] = useState(null);
     const [formData, setFormData] = useState({});
+    const [userEmail, setUserEmail] = useState('');
+    useEffect(() => {
+        const userDataString = localStorage.getItem('userEmail');
+        if (userDataString) {
+            setUserEmail(userDataString);
+        }
+    }, []);
 
     const defaultFormData = {};
 
@@ -43,12 +50,34 @@ const Roles = () => {
 
     return (
         <div className="oll_sistem" >
-          <Sidebar/>
+            <Sidebar />
             <div className="navbar_container">
-               
+
                 <div style={{ display: "flex" }}>
                     <Accordion style={{ width: '30vw', borderRight: "1px solid gray", height: '45vw' }}>
-                        <p >Роли</p>
+                        <div style={{ display: "flex", textAlign: "center", justifyContent: "space-between" }}>
+                          <div>  <span>Роли</span></div>
+                            <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                                <div>{userEmail}</div>
+                                <Link to={"/"}>
+                                    <Button
+                                        variant="primary"
+                                        className="rounded-circle"
+                                        style={{
+                                            width: '25px',
+                                            height: '25px',
+                                            display: 'flex',
+                                            alignItems: 'center',
+                                            justifyContent: 'center',
+                                        }}
+                                    >
+                                        <i className="bi bi-box-arrow-right"></i>
+                                    </Button>
+
+                                </Link>
+
+                            </div>
+                        </div>
                         <Accordion.Item eventKey="0">
                             <Accordion.Header>Администраторы</Accordion.Header>
                             <Accordion.Body>
@@ -57,8 +86,8 @@ const Roles = () => {
                                 <li id="admin3" onClick={() => handleUserSelection("admin3")} style={{ color: selectedUser === "admin3" ? "blue" : "black" }}>Сайора Арыстанбекова</li>
                             </Accordion.Body>
                         </Accordion.Item>
-                        
-                        
+
+
                         <Accordion.Item eventKey="1">
                             <Accordion.Header>Операторы</Accordion.Header>
                             <Accordion.Body>
@@ -80,7 +109,7 @@ const Roles = () => {
                     {selectedUser && (
                         <div className="container_information_client">
                             {selectedUser.startsWith("admin") && (
-                                <div className="admin" style={{ marginLeft: "1vw", marginTop: "1vw", padding:"10px" , width: "40vw" }}>
+                                <div className="admin" style={{ marginLeft: "1vw", marginTop: "1vw", padding: "10px", width: "40vw" }}>
                                     <FormCheck
                                         label="Добавление пользователей"
                                         name="addUsers"
@@ -116,15 +145,15 @@ const Roles = () => {
                                         name="addOrganization"
                                         checked={formData.addOrganization || false}
                                         onChange={handleCheckboxChange}
-                                    />                                  
+                                    />
                                     <div className="admin__checkbox-button" style={{ marginTop: "10vw" }}>
                                         <Button variant="success" size="sm" onClick={handleSaveData}>Сохранить</Button>
-                                        <Button variant="success" size="sm" style={{marginLeft: "1vw"}}>Удалить</Button>
+                                        <Button variant="success" size="sm" style={{ marginLeft: "1vw" }}>Удалить</Button>
                                     </div>
                                 </div>
                             )}
                             {selectedUser.startsWith("supplier") && (
-                                <div className="supplier" style={{ marginLeft: "1vw", marginTop: "1vw", padding:"10px", width: "40vw" }}>
+                                <div className="supplier" style={{ marginLeft: "1vw", marginTop: "1vw", padding: "10px", width: "40vw" }}>
                                     <FormCheck
                                         label="Добавление пользователей"
                                         name="addUsers"
@@ -155,7 +184,7 @@ const Roles = () => {
                                         checked={formData.addRegulation || false}
                                         onChange={handleCheckboxChange}
                                     />
-                                     <FormCheck
+                                    <FormCheck
                                         label="Добавление организаций"
                                         name="addOrganization"
                                         checked={formData.addOrganization || false}
@@ -163,12 +192,12 @@ const Roles = () => {
                                     />
                                     <div className="admin__checkbox-button" style={{ marginTop: "10vw" }}>
                                         <Button variant="success" size="sm" onClick={handleSaveData}>Сохранить</Button>
-                                        <Button variant="success" size="sm" style={{marginLeft: "1vw"}}>Удалить</Button>
+                                        <Button variant="success" size="sm" style={{ marginLeft: "1vw" }}>Удалить</Button>
                                     </div>
                                 </div>
                             )}
                             {selectedUser.startsWith("performer") && (
-                                <div className="performer" style={{ marginLeft: "1vw", marginTop: "1vw", padding:"10px", width: "40vw" }}>
+                                <div className="performer" style={{ marginLeft: "1vw", marginTop: "1vw", padding: "10px", width: "40vw" }}>
                                     <FormCheck
                                         label="Добавление пользователей"
                                         name="addUsers"
@@ -199,7 +228,7 @@ const Roles = () => {
                                         checked={formData.addRegulation || false}
                                         onChange={handleCheckboxChange}
                                     />
-                                     <FormCheck
+                                    <FormCheck
                                         label="Добавление организаций"
                                         name="addOrganization"
                                         checked={formData.addOrganization || false}
@@ -207,12 +236,12 @@ const Roles = () => {
                                     />
                                     <div className="admin__checkbox-button" style={{ marginTop: "10vw" }}>
                                         <Button variant="success" size="sm" onClick={handleSaveData}>Сохранить</Button>
-                                        <Button variant="success" size="sm" style={{marginLeft: "1vw"}}>Удалить</Button>
+                                        <Button variant="success" size="sm" style={{ marginLeft: "1vw" }}>Удалить</Button>
                                     </div>
                                 </div>
                             )}
                             {selectedUser.startsWith("customer") && (
-                                <div className="customer" style={{ marginLeft: "1vw", marginTop: "1vw", padding:"10px", width: "40vw" }}>
+                                <div className="customer" style={{ marginLeft: "1vw", marginTop: "1vw", padding: "10px", width: "40vw" }}>
                                     <FormCheck
                                         label="Добавление пользователей"
                                         name="addUsers"
@@ -243,7 +272,7 @@ const Roles = () => {
                                         checked={formData.addRegulation || false}
                                         onChange={handleCheckboxChange}
                                     />
-                                     <FormCheck
+                                    <FormCheck
                                         label="Добавление организаций"
                                         name="addOrganization"
                                         checked={formData.addOrganization || false}
@@ -251,7 +280,7 @@ const Roles = () => {
                                     />
                                     <div className="admin__checkbox-button" style={{ marginTop: "10vw" }}>
                                         <Button variant="success" size="sm" onClick={handleSaveData}>Сохранить</Button>
-                                        <Button variant="success" size="sm" style={{marginLeft: "1vw"}}>Удалить</Button>
+                                        <Button variant="success" size="sm" style={{ marginLeft: "1vw" }}>Удалить</Button>
                                     </div>
                                 </div>
 

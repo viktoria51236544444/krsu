@@ -114,8 +114,24 @@ const Participants = () => {
                             <Link to={"/deac"}>  <button className="tab-button" style={{ color: "white", background: "#dc3545" }} onClick={() => getByStatus(3)}>Деактивированные</button></Link>
                         </div>
                     </div>
-                    <div>
+                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
                         <div>{userEmail}</div>
+                        <Link to={"/"}>
+                            <Button
+                                variant="primary"
+                                className="rounded-circle"
+                                style={{
+                                    width: '25px',
+                                    height: '25px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <i className="bi bi-box-arrow-right"></i>
+                            </Button>
+
+                        </Link>
                     </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">

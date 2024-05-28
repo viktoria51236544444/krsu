@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Nav, NavItem, NavLink, Table } from 'react-bootstrap';
+import { Button, Nav, NavItem, NavLink, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
@@ -55,8 +55,24 @@ const Archive = () => {
                         </div>
 
                     </div>
-                    <div>
-                    <div>{userEmail}</div>
+                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                        <div>{userEmail}</div>
+                        <Link to={"/"}>
+                            <Button
+                                variant="primary"
+                                className="rounded-circle"
+                                style={{
+                                    width: '25px',
+                                    height: '25px',
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    justifyContent: 'center',
+                                }}
+                            >
+                                <i className="bi bi-box-arrow-right"></i>
+                            </Button>
+
+                        </Link>
                     </div>
                 </div>
                 <div >

@@ -45,7 +45,7 @@ const Footer = () => {
                   
                 </div>
                 <div className="copyright">
-                    <hr className="line" />
+                    
                     <p>Все Права Защищены © 2024 - Кыргызский Национальный Аграрный Университет</p>
                 </div>
             </footer>

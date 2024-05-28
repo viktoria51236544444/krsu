@@ -80,9 +80,12 @@ function NavScrollExample() {
 
     return (
         !isNavBarHidden && (
-            <Navbar expand="lg" className="bg-rgba(173, 168, 168, 0.49) border-bottom shadow-none" style={{ padding: 15 }}>
+            <Navbar expand="lg" className="bg-light border-bottom shadow-none" style={{ padding: "10px 15px", height: "3.5rem" }}>
                 <Container fluid>
-                    <Navbar.Brand as={Link} to="/" className="text-dark"><img style={{ width: "2vw" }} src={logo} alt="" /> <span>КНАУ им. К.И. Скрябина</span></Navbar.Brand>
+                    <Navbar.Brand as={Link} to="/" className="text-dark">
+                        <img style={{ width: "30px" }} src={logo} alt="logo" />
+                        <span>КНАУ им. К.И. Скрябина</span>
+                    </Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
@@ -141,12 +144,16 @@ function NavScrollExample() {
                             {email ? (
                                 <>
                                     <span style={{ marginRight: "10px" }}>{email}</span>
-                                    <Button variant="outline-dark" onClick={signout}>Выход</Button>
+                                    <Button variant="primary" className="rounded-pill" onClick={signout}>Выход</Button>
                                 </>
                             ) : (
                                 <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                                    <Link to="/auth" style={{ textDecoration: "none", color: 'black' }}><p>Войти</p></Link>
-                                    <Link to="/register" style={{ textDecoration: "none", color: 'black' }}><p>Регистрация</p></Link>
+                                    <Link to="/auth" style={{ textDecoration: "none", color: 'black' }}>
+                                        <Button variant="outline-primary" className="rounded-pill">Войти</Button>
+                                    </Link>
+                                    <Link to="/register" style={{ textDecoration: "none", color: 'black' }}>
+                                        <Button variant="primary" className="rounded-pill">Регистрация</Button>
+                                    </Link>
                                 </div>
                             )}
                         </Form>
