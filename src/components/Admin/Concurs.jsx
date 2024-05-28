@@ -183,7 +183,25 @@ const Concurs = () => {
                 deleted_files: [...deletedFiles, removedFile.codeid]
             };
         });
-    }; const handleOpenModal = async (codeid) => {
+    };
+
+
+    const onRemove2 = (index) => {
+        const updated = [...formData.files];
+        const updatedFileName = [...formData.fileNames]
+        updated.splice(index, 1);
+        updatedFileName.splice(index, 1);
+
+        setFormData(prevState => ({
+            ...prevState,
+            files: updated,
+            fileNames: updatedFileName
+        }));
+    };
+
+
+
+    const handleOpenModal = async (codeid) => {
         setUpdateModal(true)
         const response = await axios.get(`http://212.112.105.196:3457/api/contest/getContestDetails/${codeid}`)
 
@@ -491,10 +509,14 @@ const Concurs = () => {
 
                         {formData.fileNames && formData.fileNames.length > 0 && (
                             <div>
-                                <p>Выбранные файлы:</p>
                                 <ul>
                                     {formData.fileNames.map((fileName, index) => (
+                                        <>
+                                            <div key={index} style={{display: "flex", flexDirection: "row", gap: 10, margin: '10px 0'}}>
                                         <li key={index}>{fileName}</li>
+                                        <Button variant="danger" size="sm" onClick={() => onRemove2(index)}>X</Button>
+                                        </div>
+                                        </>
                                     ))}
                                 </ul>
                             </div>
@@ -650,10 +672,10 @@ const Concurs = () => {
                                             style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
                                             <Form.Label type="checkbox" className="me-3" />
                                             <div>
-                                                <a href={file.path} download>{file.file_name}</a>
+                                                <a  target="_blank" rel="noopener noreferrer" href={file.path} download>{file.file_name}</a>
                                             </div>
                                             <Button variant="danger" size="sm" onClick={() => onRemove(index)}>
-                                                Удалить
+                                             X
                                             </Button>
                                         </div>
                                     </Form.Group>
