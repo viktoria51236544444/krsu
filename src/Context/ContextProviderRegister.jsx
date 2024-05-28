@@ -135,9 +135,9 @@ const ContextProviderRegister = ({ children }) => {
     };
 
     //
-    useEffect(() => {
-        getCounts()
-    }, []);
+    // useEffect(() => {
+    //     getCounts()
+    // }, []);
 
     const getCounts = async()  => {
         try {
@@ -320,7 +320,8 @@ const ContextProviderRegister = ({ children }) => {
         wonContest,
         getFiles,
         actt,
-        count
+        count,
+        getCounts
     };
     return (
         <contextProviderRegister.Provider value={values}>

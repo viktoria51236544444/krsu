@@ -77,9 +77,6 @@ const DetailModal = ({ show, onHide, contestId, comment, winner }) => {
 
     return (
         <Modal show={show} onHide={onHide} size="xl">
-            <Modal.Header closeButton>
-                <Modal.Title style={{ fontSize: "18px" }}>Детали конкурса</Modal.Title>
-            </Modal.Header>
             <Modal.Body>
                 <Container fluid className="mt-4">
                     <Row style={{ marginLeft: "2vw" }}>

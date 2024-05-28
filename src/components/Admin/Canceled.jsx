@@ -1,22 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, Button } from 'react-bootstrap';
-import { UseRegister } from '../../Context/ContextProviderRegister';
-import { Nav, NavItem, NavLink, Table, Modal } from 'react-bootstrap';
+import { Button, Modal, Table } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
-import { FileArrowDown } from "@phosphor-icons/react";
-import DetailModal from "../Home/DetailModal";
+import DetailModal from '../Home/DetailModal';
+import { UseRegister } from '../../Context/ContextProviderRegister';
 
 const Canceled = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails, count } = UseRegister();
     const [userEmail, setUserEmail] = useState('');
+    const [show2, setShow2] = useState(false);
+    const [showDetailModal, setShowDetailModal] = useState(false);
+    const [selectedContestId, setSelectedContestId] = useState(null);
+    const [comment, setComment] = useState('');
+
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
             setUserEmail(userDataString);
         }
     }, []);
-    const [show2, setShow2] = useState(false);
+
+    useEffect(() => {
+        contestFilter(4);
+    }, []);
 
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
@@ -26,32 +32,26 @@ const Canceled = () => {
         setSelectedContestId(null);
     };
 
-    const [showDetailModal, setShowDetailModal] = useState(false);
-    const [selectedContestId, setSelectedContestId] = useState(null);
-    useEffect(() => {
-        contestFilter(4);
-    }, []);
+    const watchDetails = (codeid, comment) => {
+        getOrderDetails(codeid);
+        setComment(comment);
+        setSelectedContestId(codeid);
+        setShowDetailModal(true);
+    };
 
     const handleClick = (contest_id) => {
         const arheve = {
             contest_id: contest_id,
             contest_status: 5
         };
-        handleClose2()
+        handleClose2();
         updateContestStatus(arheve);
-    }
-
-    const [comment, setComment] = useState('')
-    const watchDetails = (codeid, comment) => {
-        getOrderDetails(codeid)
-        setComment(comment)
-        setSelectedContestId(codeid);
-        setShowDetailModal(true);
-    }
+    };
 
     if (!compled) {
         return <div>Loading...</div>;
     }
+
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -65,7 +65,7 @@ const Canceled = () => {
                     overflowX: "auto",
                     maxWidth: "100%",
                 }}>
-                    <div >
+                    <div>
                         <div className="pills-outline">
                             <Link to={"/concurs"} className="tab-link" ><button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Черновики [{count.draft_count}]</button></Link>
                             <Link to={"/public"} className="tab-link"><button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button" onClick={() => contestFilter(2)}>Опубликованные [{count.published_count}]</button></Link>
@@ -73,7 +73,6 @@ const Canceled = () => {
                             <Link to="/canceled" className="tab-link"><button style={{ color: "#0D6EFD", background: "White" }} className="tab-button" onClick={() => contestFilter(4)}>Деактивированные [{count.deactivated_count}]</button></Link>
                             <Link to={"/archive"} className="tab-link"><button style={{ color: "#333333", background: "#F0F0F0" }} className="tab-button">Архив [{count.archived_count}]</button></Link>
                         </div>
-
                     </div>
                     <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
                         <div>{userEmail}</div>
@@ -91,11 +90,10 @@ const Canceled = () => {
                             >
                                 <i className="bi bi-box-arrow-right"></i>
                             </Button>
-
                         </Link>
                     </div>
                 </div>
-                <div >
+                <div>
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                         <div className="card">
                             <div className="card-body">
@@ -116,7 +114,6 @@ const Canceled = () => {
                                                 <th>Файлы</th>
                                                 <th>Протокол</th>
                                                 <th>Действия</th>
-
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -137,28 +134,16 @@ const Canceled = () => {
                                                         <td>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
                                                                 <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
-                                                                   
                                                                     <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                         <span>{file.file_name}</span>
                                                                     </a>
                                                                 </div>
                                                             ))}
-
                                                         </td>
-                                                        <td style={{color: "#dc3545"}}>{contest.coment}</td>
+                                                        <td style={{ color: "#dc3545" }}>{contest.coment}</td>
                                                         <td>
-                                                            <Button variant="success" size="sm"  onClick={handleShow2}>В архив</Button>
+                                                            <Button variant="success" size="sm" onClick={handleShow2}>В архив</Button>
                                                         </td>
-                                                        <Modal show={show2} onHide={handleClose2}>
-                                                            <Modal.Header closeButton>
-                                                                <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите добавить в архив</Modal.Title>
-                                                            </Modal.Header>
-                                                            <Modal.Footer>
-                                                                <Button variant="success" size="sm"
-                                                                    onClick={() => handleClick(contest.codeid)} >Подтвердить</Button>
-                                                            </Modal.Footer>
-
-                                                        </Modal>
                                                     </tr>
                                                 ))}
                                         </tbody>
@@ -170,14 +155,18 @@ const Canceled = () => {
                 </div>
             </div>
 
-            <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId} comment={comment}/>
+            <Modal show={show2} onHide={handleClose2}>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите добавить в архив</Modal.Title>
+                </Modal.Header>
+                <Modal.Footer>
+                    <Button variant="success" size="sm" onClick={() => handleClick(selectedContestId)}>Подтвердить</Button>
+                </Modal.Footer>
+            </Modal>
 
-
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails} contestId={selectedContestId} comment={comment} />
         </div>
     );
 }
 
-
-
-
-export default Canceled
+export default Canceled;

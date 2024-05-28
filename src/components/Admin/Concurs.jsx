@@ -12,7 +12,7 @@ import { FileArrowDown, FileX, PencilSimpleLine } from "@phosphor-icons/react";
 import { BsPaperclip } from 'react-icons/bs';
 
 const Concurs = () => {
-    const { addConcurs, spPurchase, updateContestStatus, contestFilter, count } = UseRegister();
+    const { addConcurs, spPurchase, updateContestStatus, contestFilter, count, getCounts } = UseRegister();
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
@@ -37,6 +37,7 @@ const Concurs = () => {
 
     useEffect(() => {
         getContestList();
+        getCounts()
     }, []);
 
     const getContestList = async () => {
@@ -123,6 +124,7 @@ const Concurs = () => {
             console.log(`Конкурс с ID ${contestId} успешно опубликован!`);
             getContestList();
             resetForm();
+            getCounts()
         } catch (error) {
             console.log('Ошибка при публикации конкурса:', error.message);
         }
@@ -151,6 +153,7 @@ const Concurs = () => {
     const closeUpdateModal = () => setUpdateModal(false)
     const closeModalHide = () => setCloseModal(false)
     const [show2, setShow2] = useState(false);
+    console.log(show2);
 
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
@@ -326,25 +329,17 @@ const Concurs = () => {
                                                 </td>
                                                 <td>
                                                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "5px" }}>
-                                                        {/* <Button variant='warning' size='sm' onClick={() => handleOpenModal(contest.codeid)} style={{ display: "flex", flexDirection: 'row', alignItems: 'center', gap: 5, color: "#fff" }}>
+                                                        <Button variant='warning' size='sm' onClick={() => handleOpenModal(contest.codeid)} style={{ display: "flex", flexDirection: 'row', alignItems: 'center', gap: 5, color: "#fff" }}>
                                                             <PencilSimpleLine size={18} color="#fff" />
                                                             Редактировать
-                                                        </Button> */}
-                                                        <Button variant="primary" size="sm" onClick={handleShow2}>Опубликовать</Button>
-                                                        <Modal show={show2} onHide={handleClose2}>
-                                                            <Modal.Header closeButton>
-                                                                <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите опубликовать?</Modal.Title>
-                                                            </Modal.Header>
-                                                            <Modal.Footer>
-                                                                <Button variant="primary" size="sm" onClick={() => handlePublish(contest.codeid)}>Подтвердить</Button>
-                                                            </Modal.Footer>
-                                                        </Modal>
-
-
+                                                        </Button>
+                                                        <Button variant="primary" size="sm" onClick={() => handlePublish(contest.codeid)}>Опубликовать</Button>
                                                     </div>
                                                 </td>
+
                                             </tr>
                                         ))}
+
                                     </tbody>
                                 </table>
                             </div>
@@ -352,7 +347,7 @@ const Concurs = () => {
 
                     </div>
                 </div>
-                {/* <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
+                <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
                     <Form style={{ padding: '1vw' }}>
                         <div className="row">
                             <div className="col-md-6">
@@ -422,7 +417,7 @@ const Concurs = () => {
                                         type="datetime-local"
                                         name="end_date"
                                         value={
-                                            updateFormData.end_date
+                                            formData.end_date
                                                 ? new Date(formData.end_date).toISOString().slice(0, 16)
                                                 : new Date().toISOString().slice(0, 16)
                                         }
@@ -430,6 +425,7 @@ const Concurs = () => {
                                         style={{ width: "100%" }}
                                     />
                                 </Form.Group>
+
 
                                 <Form.Group className="mb-3" controlId="purchaseType">
                                     <Form.Label>Тип закупки</Form.Label>
@@ -486,12 +482,12 @@ const Concurs = () => {
                                 name="files"
                                 onChange={handleChange}
                                 multiple
-                                // style={{ display: "none" }}
+                                style={{ display: "none" }}
                             />
                         </Form.Group>
 
 
-                        {formData.fileNames.length > 0 && (
+                        {formData.fileNames && formData.fileNames.length > 0 && (
                             <div>
                                 <p>Выбранные файлы:</p>
                                 <ul>
@@ -502,14 +498,15 @@ const Concurs = () => {
                             </div>
                         )}
 
+
                         <div className="text-end">
                             <Button variant="success" size="sm" onClick={handleSave}>
                                 Сохранить
                             </Button>
                         </div>
                     </Form>
-                </Modal> */}
-                {/* <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{ marginTop: "8vw" }}>
+                </Modal>
+                <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{ marginTop: "8vw" }}>
                     <Modal.Header closeButton>
                         <Modal.Title style={{ fontSize: "18px" }}>Редактировать данные конкурса</Modal.Title>
                     </Modal.Header>
@@ -669,13 +666,13 @@ const Concurs = () => {
                             Сохранить
                         </Button>
                     </Modal.Footer>
-                </Modal> */}
+                </Modal>
 
                 <div
                     className="modal show"
                     style={{ display: 'block', position: 'initial' }}
                 >
-                    {/* <Modal show={closeModal} onHide={closeModalHide} className="custom-modal"
+                    <Modal show={closeModal} onHide={closeModalHide} className="custom-modal"
                         style={{ marginTop: "8vw" }}>
                         <Modal.Dialog>
                             <Modal.Header>
@@ -690,7 +687,7 @@ const Concurs = () => {
                                 <Button variant="secondary" onClick={closeModalHide}>Закрыть</Button>
                             </Modal.Footer>
                         </Modal.Dialog>
-                    </Modal> */}
+                    </Modal>
                 </div>
             </div>
         </div >

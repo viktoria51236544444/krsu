@@ -8,7 +8,7 @@ import DetailModal from "../Home/DetailModal";
 import {BsPaperclip} from "react-icons/bs";
 
 const Public = () => {
-    const { compled, contestFilter, updateContestStatus, getOrderDetails, count } = UseRegister();
+    const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts } = UseRegister();
     const [showModal, setShowModal] = useState(false);
     const [reason, setReason] = useState('');
     const [selectedContestId, setSelectedContestId] = useState(null);
@@ -23,6 +23,7 @@ const Public = () => {
 
     useEffect(() => {
         contestFilter(2);
+        getCounts()
     }, []);
     const [addAct, setAddAct] = useState({
         fileDescription: "Протокол досрочной деактивации конкурса",
@@ -56,6 +57,7 @@ const Public = () => {
     const handlePublish2 = async (contestId) => {
         setSelectedContestId(contestId);
         setShowModal(true);
+        getCounts()
     };
 
     const handleCloseModal = () => {
