@@ -5,6 +5,7 @@ import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
 import DetailModal from "../Home/DetailModal";
+import {BsPaperclip} from "react-icons/bs";
 
 const Public = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails } = UseRegister();
@@ -23,6 +24,19 @@ const Public = () => {
     useEffect(() => {
         contestFilter(2);
     }, []);
+    const [addAct, setAddAct] = useState({
+        fileDescription: "Протокол досрочной деактивации конкурса",
+        file: null
+    });
+
+    const handleChange = (e) => {
+        const { name, value, files } = e.target;
+        if (name === "file") {
+            setAddAct({ ...addAct, file: files[0] });
+        } else {
+            setAddAct({ ...addAct, [name]: value });
+        }
+    };
 
     const handlePublish = async (contestId) => {
         const publicData = {
@@ -60,14 +74,14 @@ const Public = () => {
             return;
         }
 
-        const publicData = {
-            contest_id: selectedContestId,
-            contest_status: 4,
-            comment: reason
-        };
-
+        const formData = new FormData();
+        formData.append("fileDescription", addAct.fileDescription);
+        formData.append("file", addAct.file);
+        formData.append('contest_id', selectedContestId)
+        formData.append('contest_status', 4)
+        formData.append('comment', reason)
         try {
-            await updateContestStatus(publicData);
+            await updateContestStatus(formData);
             contestFilter(4);
             setShowModal(false);
             setReason('');
@@ -190,12 +204,27 @@ const Public = () => {
                     <Modal.Title style={{ fontSize: "18px" }}>Протокол</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
+                    <Form>
                     <Form.Control
                         as="textarea"
                         placeholder=""
                         value={reason}
                         onChange={(e) => setReason(e.target.value)}
                     />
+                        <Form.Group className="mb-3" controlId="files" style={{ marginTop: "1vw" }}>
+                            <Form.Label style={{ display: 'block' }}>
+                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                Прикрепить файлы
+                            </Form.Label>
+                            <Form.Control
+                                type="file"
+                                name="file"
+                                onChange={handleChange}
+                                multiple
+                                style={{ display: "none" }}
+                            />
+                        </Form.Group>
+                    </Form>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" onClick={handleConfirmDeactivation} size="sm" disabled={!reason.trim()}>
