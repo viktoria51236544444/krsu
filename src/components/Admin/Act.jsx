@@ -220,6 +220,16 @@ const Act = () => {
                                 multiple
                                 style={{ display: "none" }}
                             />
+
+                            {addAct.file && (
+                                <div>
+                                    <p>Выбранные файлы:</p>
+                                    <ul>
+                                        <li>{addAct.file.name}</li>
+                                    </ul>
+                                </div>
+                            )}
+
                         </Form.Group>
                     </Form>
                 </Modal.Body>
