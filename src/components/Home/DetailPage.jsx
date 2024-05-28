@@ -4,6 +4,7 @@ import { Container, Row, Col, ListGroup, Button, Modal, Form } from 'react-boots
 import axios from "axios";
 import { CloudArrowDown } from "@phosphor-icons/react";
 import { UseRegister } from '../../Context/ContextProviderRegister';
+import DetailModal from "./DetailModal";
 
 const DetailPage = () => {
     const { id } = useParams();
@@ -143,7 +144,7 @@ const DetailPage = () => {
                 </Col>
             </Row>
 
-          
+
             <div style={{width: "96vw", marginLeft: "2vw" }}>
                 <Row>
                     <h3>Участники</h3>
@@ -211,6 +212,8 @@ const DetailPage = () => {
                     <Button variant="primary" onClick={handleWonContest}>Назначить</Button>
                 </Modal.Footer>
             </Modal>
+
+
         </Container>
     );
 };
