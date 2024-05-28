@@ -3,7 +3,7 @@ import { Container, Row, Col, ListGroup, Button, Modal, Form } from 'react-boots
 import axios from "axios";
 import { UseRegister } from '../../Context/ContextProviderRegister';
 
-const DetailModal = ({ show, onHide, contestId, comment, winner, diactive}) => {
+const DetailModal = ({ show, onHide, contestId, comment, winner }) => {
     const { wonContest } = UseRegister();
 
     const [contestDetails, setContestDetails] = useState([]);
@@ -105,7 +105,7 @@ const DetailModal = ({ show, onHide, contestId, comment, winner, diactive}) => {
                                                 <div style={{ display: "flex", alignItems: "center" }}>
                                                     <span>{idx + 1}.</span>
                                                     <span style={{ display: 'flex', gap: 10, alignItems: "center" }}>
-                                                        <a href={file.path} download target="_blank" rel="noopener noreferrer">{file.file_name}</a>
+                                                        <a href={file.path} download>{file.file_name}</a>
                                                         {/*<CloudArrowDown size={40} color="#404040" />*/}
                                                     </span>
                                                 </div>
@@ -115,7 +115,7 @@ const DetailModal = ({ show, onHide, contestId, comment, winner, diactive}) => {
                                 </ListGroup>
                             ))}
                         </Col>
-                        <Col md={6}>
+                        <Col md={7}>
                             {contestDetails.map((contest, index) => (
                                 <ListGroup variant="flush" key={index} className="mb-3">
                                     <div style={{ display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw" }}>
@@ -181,7 +181,7 @@ const DetailModal = ({ show, onHide, contestId, comment, winner, diactive}) => {
                                                             <th>Мотивационное письмо</th>
                                                             <th>Название банка</th>
                                                             <th>Файлы</th>
-                                                            {isAdmin && !winner  && !diactive && (
+                                                            {isAdmin && !winner && (
                                                                 <th>Действия</th>
                                                             )}
                                                             {winner && (
@@ -199,12 +199,12 @@ const DetailModal = ({ show, onHide, contestId, comment, winner, diactive}) => {
                                                                 <td>{user.finalUser.user.banc_name}</td>
                                                                 <td>
                                                                     {user.finalUser?.file.map((file, fileIdx) => (
-                                                                        <div key={fileIdx} ><a
-                                                                            href={file.path} target="_blank" rel="noopener noreferrer">{file.file_name}</a></div>
+                                                                        <div key={fileIdx}><a
+                                                                            href={file.path}>{file.file_name}</a></div>
                                                                     ))}
                                                                 </td>
 
-                                                                {isAdmin && !winner && !diactive && (
+                                                                {isAdmin && !winner && (
                                                                     <td>
                                                                         <Button
                                                                             variant="primary"

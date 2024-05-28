@@ -330,7 +330,8 @@ const ContextProviderRegister = ({ children }) => {
         getFiles,
         actt,
         count,
-        getCounts
+        getCounts,
+        diactiveContest
     };
     return (
         <contextProviderRegister.Provider value={values}>

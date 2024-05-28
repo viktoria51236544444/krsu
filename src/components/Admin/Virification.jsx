@@ -7,7 +7,7 @@ import {Link} from 'react-router-dom';
 
 
 const Virification = () => {
-    const {users3, getByStatus2, updateUserStatus, getByStatus} = UseRegister();
+    const {users3, getByStatus2, updateUserStatus, getByStatus, diactiveContest} = UseRegister();
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
@@ -40,7 +40,7 @@ const Virification = () => {
             comment: comment,
             userId: userId
         };
-        updateUserStatus(data);
+        diactiveContest(data);
         getByStatus2();
         setShowModal(false);
         setComment('');
@@ -79,7 +79,7 @@ const Virification = () => {
                             </Link>
                             <Link to={"/verf"}>
                                 <button className="tab-button" onClick={() => getByStatus2(1)}
-                                        style={{color: "black", background: "#198754"}}>Верифицированные
+                                        style={{color: "black", background: "#ccc"}}>Верифицированные
                                 </button>
                             </Link>
                             <Link to={"/deac"}>

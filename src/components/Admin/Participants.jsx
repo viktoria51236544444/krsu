@@ -7,7 +7,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const Participants = () => {
-    const { users2, getUserList, updateUserStatus, getByStatus, getByStatus2 } = UseRegister();
+    const { users2, getUserList, updateUserStatus, getByStatus, getByStatus2, diactiveContest } = UseRegister();
     const [selectedIndex, setSelectedIndex] = useState(null);
     const [showVerifyModal, setShowVerifyModal] = useState(false);
     const [showDeactivateModal, setShowDeactivateModal] = useState(false);
@@ -60,6 +60,7 @@ const Participants = () => {
         getByStatus();
         setShowVerifyModal(false);
         setComment('');
+        getUserList()
     }
 
     const handleDeactivate = (codeId) => {
@@ -73,7 +74,7 @@ const Participants = () => {
             comment: comment,
             userId: userId
         };
-        updateUserStatus(data);
+        diactiveContest(data);
         getByStatus2();
         setShowDeactivateModal(false);
         setComment('');
@@ -104,7 +105,7 @@ const Participants = () => {
                 }}>
                     <div>
                         <div className="pills-outline">
-                            <button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "black", background: "#0D6EFD" }}>Неверифицированные
+                            <button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "black", background: "#ccc" }}>Неверифицированные
                             </button>
                             <Link to={"/verf"}>
                                 <button className="tab-button" onClick={() => getByStatus2(1)}

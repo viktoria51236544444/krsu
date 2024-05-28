@@ -8,7 +8,7 @@ import DetailModal from "../Home/DetailModal";
 import { BsPaperclip } from "react-icons/bs";
 
 const Public = () => {
-    const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts } = UseRegister();
+    const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts, diactiveContest } = UseRegister();
     const [showModal, setShowModal] = useState(false);
     const [reason, setReason] = useState('');
     const [selectedContestId, setSelectedContestId] = useState(null);
@@ -86,7 +86,7 @@ const Public = () => {
         formData.append('comment', reason)
         console.log(formData)
         try {
-            await updateContestStatus(formData);
+            await diactiveContest(formData);
             setShowModal(false);
             setReason('');
             contestFilter(2);

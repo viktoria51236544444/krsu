@@ -40,7 +40,6 @@ const Canceled = () => {
         };
         updateContestStatus(arheve);
         getCounts()
-        handleClose2()
         contestFilter(4)
     }
 
