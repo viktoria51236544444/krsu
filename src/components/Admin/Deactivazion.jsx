@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import './concurs.css';
-import { Button, Table } from 'react-bootstrap';
+import {Button, Modal, Table} from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import Sidebar from './Sidebar';
 import { Link } from 'react-router-dom';
 
 const Deactivazion = () => {
-    const { users2, getByStatus } = UseRegister();
+    const { users2, getByStatus, updateUserStatus} = UseRegister();
     const [userEmail, setUserEmail] = useState('');
+    const [showModal, setShowModal] = useState('')
+    const [userId, setUserId] = useState(0);
 
+    const [comment, setComment] = useState('');
     useEffect(() => {
         getByStatus(3);
     }, []);
@@ -16,12 +19,38 @@ const Deactivazion = () => {
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
-            setUserEmail(userDataString); 
+            setUserEmail(userDataString);
         }
     }, []);
 
     if (!users2) {
         return <div>Loading...</div>;
+    }
+
+
+    const handleVerify = (codeId) => {
+        setUserId(codeId);
+        setShowModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+        handleDeactivate()
+    }
+
+    const handleCommentChange = (event) => {
+        setComment(event.target.value);
+    }
+
+    const handleDeactivate = () => {
+        const data = {
+            status: 1,
+            comment: comment,
+            userId: userId
+        };
+        updateUserStatus(data);
+        setShowModal(false);
+        setComment('');
     }
 
     return (
@@ -37,7 +66,7 @@ const Deactivazion = () => {
                     overflowX: "auto",
                     maxWidth: "100%",
                 }}>
-                    
+
                     <div>
                         <div className="pills-outline">
                             <Link to={"/participants"}><button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "white", background: "#0D6EFD" }} >Неверифицированные</button></Link>
@@ -87,6 +116,7 @@ const Deactivazion = () => {
                                             <th scope="col">Сайт</th>
                                             <th scope="col">Должность</th>
                                             <th scope="col">Причина</th>
+                                            <th scope="col"> Действие</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -107,6 +137,10 @@ const Deactivazion = () => {
                                                 <td>{user.web_site}</td>
                                                 <td>{user.position}</td>
                                                 <td>{user.comment}</td>
+                                                <td>
+                                                    <Button variant="success" onClick={()=> {handleVerify(user.codeid)}}>Активировать</Button>
+
+                                                </td>
                                             </tr>
                                         ))}
                                     </tbody>
@@ -116,6 +150,36 @@ const Deactivazion = () => {
                     </div>
                 </div>
             </div>
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{fontSize: "18px"}}>Протокол</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <textarea
+                        className="form-control"
+                        rows="3"
+                        value={comment}
+                        onChange={handleCommentChange}
+                        placeholder='заключение'
+                        style={{height: 250}}
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                        padding: '0 20px',
+                        width: '100%'
+                    }}>
+                        <p>(будет отправлен на почту)</p>
+                        <Button variant="danger" size="sm" onClick={handleCloseModal}>
+                            Деактивировать
+                        </Button>
+                    </div>
+
+                </Modal.Footer>
+            </Modal>
         </div>
     );
 }

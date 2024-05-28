@@ -142,7 +142,7 @@ const Canceled = () => {
                                                         </td>
                                                         <td style={{ color: "#dc3545" }}>{contest.coment}</td>
                                                         <td>
-                                                            <Button variant="success" size="sm" onClick={handleShow2}>В архив</Button>
+                                                            <Button variant="success" size="sm" onClick={handleShow2} style={{width: 70}}>В архив</Button>
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -164,7 +164,7 @@ const Canceled = () => {
                 </Modal.Footer>
             </Modal>
 
-            <DetailModal show={showDetailModal} onHide={handleCloseDetails} contestId={selectedContestId} comment={comment} />
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails} contestId={selectedContestId} comment={comment} diactive={true}/>
         </div>
     );
 }

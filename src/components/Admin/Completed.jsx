@@ -122,7 +122,7 @@ const Completed = () => {
                                                 <th>Планируемая сумма</th>
                                                 <th>Публикация</th>
                                                 <th>Окончание</th>
-                                                {/*<th>Файлы</th>*/}
+                                                <th>Файлы</th>
                                                 <th>Действия</th>
                                             </tr>
                                         </thead>
@@ -141,25 +141,38 @@ const Completed = () => {
                                                         <td onClick={() => watchDetails(contest.codeid)}>{contest.planned_summ}</td>
                                                         <td onClick={() => watchDetails(contest.codeid)}>{contest.start_date}</td>
                                                         <td onClick={() => watchDetails(contest.codeid)}>{contest.formatted_end_date}</td>
-                                                        {/*<td>*/}
-                                                        {/*    {contest.files.length > 0 && contest.files.map((file, index) => (*/}
-                                                        {/*        <div key={index} style={{ display: 'inline-block', marginRight: '10px' }}>*/}
-                                                        {/*            <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>*/}
-                                                        {/*                <span>{file.file_name}</span>*/}
-                                                        {/*            </a>*/}
-                                                        {/*        </div>*/}
-                                                        {/*    ))}*/}
-                                                        {/*</td>*/}
                                                         <td>
-                                                            <Button variant="success" size="sm" onClick={handleShow2}>В архив</Button>
+                                                            {contest.files && contest.files.length > 0 && contest.files.map((file, index) => (
+                                                                <div key={index} style={{
+                                                                    marginRight: '10px',
+                                                                    display: "flex",
+                                                                    flexDirection: "row",
+                                                                    gap: 10
+                                                                }}>
+
+                                                                    <a href={`${file.path}`} target="_blank"
+                                                                       rel="noopener noreferrer" download style={{
+                                                                        textDecoration: 'none',
+                                                                        color: 'inherit',
+                                                                        display: 'inline-block'
+                                                                    }}>
+                                                                        <span>{file.file_name}</span>
+                                                                    </a>
+                                                                </div>
+                                                            ))}
+                                                        </td>
+                                                        <td>
+                                                            <Button variant="success" size="sm" onClick={handleShow2}>В
+                                                                архив</Button>
                                                         </td>
                                                         <Modal show={show2} onHide={handleClose2}>
                                                             <Modal.Header closeButton>
-                                                                <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите добавить в архив</Modal.Title>
+                                                                <Modal.Title style={{fontSize: "18px"}}>Вы действительно
+                                                                    хотите добавить в архив</Modal.Title>
                                                             </Modal.Header>
                                                             <Modal.Footer>
                                                                 <Button variant="success" size="sm"
-                                                                    onClick={() => handleClick(contest.codeid)} >Подтвердить</Button>
+                                                                        onClick={() => handleClick(contest.codeid)}>Подтвердить</Button>
                                                             </Modal.Footer>
 
                                                         </Modal>
@@ -173,7 +186,8 @@ const Completed = () => {
                     </div>
                 </div>
             </div>
-            <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId} winner={true}/>
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails} contestId={selectedContestId}
+                         winner={true}/>
         </div>
     );
 }

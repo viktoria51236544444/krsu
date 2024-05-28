@@ -244,6 +244,7 @@ const ContextProviderRegister = ({ children }) => {
 
     const getByStatus = async (status) => {
         try {
+            console.log(`http://212.112.105.196:3457/api/users/getByStatus/${status}`)
             const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getByStatus/${status}`)
             SetUsers2(data.result.result);
             console.log(data);
