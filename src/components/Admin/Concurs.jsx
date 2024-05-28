@@ -9,9 +9,17 @@ import Sidebar from './Sidebar';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 import { FileArrowDown, FileX, PencilSimpleLine } from "@phosphor-icons/react";
+import { BsPaperclip } from 'react-icons/bs';
 
 const Concurs = () => {
     const { addConcurs, spPurchase, updateContestStatus, contestFilter } = UseRegister();
+    const [userEmail, setUserEmail] = useState('');
+    useEffect(() => {
+        const userDataString = localStorage.getItem('userEmail');
+        if (userDataString) {
+            setUserEmail(userDataString); 
+        }
+    }, []);
     const [formData, setFormData] = useState({
         year: 0,
         purchase_format_id: 0,
@@ -106,6 +114,7 @@ const Concurs = () => {
             contest_id: contestId,
             contest_status: 2
         };
+        handleClose2()
 
         try {
             await updateContestStatus(publicData);
@@ -139,6 +148,10 @@ const Concurs = () => {
     const handleShow = () => setShow(true);
     const closeUpdateModal = () => setUpdateModal(false)
     const closeModalHide = () => setCloseModal(false)
+    const [show2, setShow2] = useState(false);
+
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
 
     const [updateFormData, setUpdateFormData] = useState({
         codeid: 0,
@@ -238,7 +251,7 @@ const Concurs = () => {
                         </div>
                     </div>
                     <div>
-                        <div>admin@gmail.com</div>
+                    <div>{userEmail}</div> 
                     </div>
                 </div>
 
@@ -312,7 +325,19 @@ const Concurs = () => {
                                                             <PencilSimpleLine size={22} color="#000" />
                                                         </Button>
                                                         <Button variant="primary" size="sm"
-                                                            onClick={() => handlePublish(contest.codeid)}>Опубликовать</Button>
+                                                            onClick={handleShow2}>Опубликовать</Button>
+                                                        <Modal show={show2} onHide={handleClose2}>
+                                                            <Modal.Header closeButton>
+                                                                <Modal.Title>Подтверждение</Modal.Title>
+                                                            </Modal.Header>
+
+                                                            <Modal.Body>Вы уверены что хотите опубликовать?</Modal.Body>
+                                                            <Modal.Footer>
+                                                                <Button variant="primary"
+                                                                    onClick={() => handlePublish(contest.codeid)} >Да</Button>
+                                                            </Modal.Footer>
+
+                                                        </Modal>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -324,6 +349,7 @@ const Concurs = () => {
 
                     </div>
                 </div>
+
                 <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
                     <Form style={{ padding: '1vw' }}>
                         <div className="row">
@@ -336,24 +362,28 @@ const Concurs = () => {
                                         name="year"
                                         value={formData.year}
                                         onChange={handleChange}
+                                        style={{ width: "80%" }}
                                     />
                                 </Form.Group>
                                 <Form.Group className="mb-3" controlId="planned_summ">
                                     <Form.Label>Планируемая сумма</Form.Label>
                                     <Form.Control
                                         type="number"
-                                        placeholder="сумма"
+                                        placeholder="Сумма"
                                         name="planned_summ"
                                         value={formData.planned_summ}
                                         onChange={handleChange}
+                                        style={{ width: "80%" }}
                                     />
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" controlId="purchaseFormat">
+                                    <Form.Label>Формат закупок</Form.Label>
                                     <Form.Select
                                         name="purchase_format_id"
                                         value={formData.purchase_format_id}
                                         onChange={handleChange}
+                                        style={{ width: "80%" }}
                                     >
                                         <option value={0}>Выберите формат закупок</option>
                                         {spPurchase?.format &&
@@ -366,10 +396,12 @@ const Concurs = () => {
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" controlId="purchaseMethod">
+                                    <Form.Label>Метод закупки</Form.Label>
                                     <Form.Select
                                         name="purchase_method_id"
                                         value={formData.purchase_method_id}
                                         onChange={handleChange}
+                                        style={{ width: "80%" }}
                                     >
                                         <option value={0}>Выберите метод закупки</option>
                                         {spPurchase?.method &&
@@ -394,14 +426,17 @@ const Concurs = () => {
                                                 : new Date().toISOString().slice(0, 16)
                                         }
                                         onChange={handleChange}
+                                        style={{ width: "80%" }}
                                     />
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" controlId="purchaseType">
+                                    <Form.Label>Тип закупки</Form.Label>
                                     <Form.Select
                                         name="purchase_type_id"
                                         value={formData.purchase_type_id}
                                         onChange={handleChange}
+                                        style={{ width: "80%" }}
                                     >
                                         <option value={0}>Выберите тип закупки</option>
                                         {spPurchase?.type &&
@@ -414,6 +449,7 @@ const Concurs = () => {
                                 </Form.Group>
 
                                 <Form.Group className="mb-3" controlId="contestName">
+                                    <Form.Label>Название организации</Form.Label>
                                     <Form.Control
                                         as="textarea"
                                         rows={3}
@@ -421,12 +457,14 @@ const Concurs = () => {
                                         name="contest_name"
                                         value={formData.contest_name}
                                         onChange={handleChange}
+                                        style={{ width: "80%" }}
                                     />
                                 </Form.Group>
                             </div>
                         </div>
 
                         <Form.Group className="mb-4" controlId="contestDescription">
+                            <Form.Label>Наименование закупки</Form.Label>
                             <Form.Control
                                 as="textarea"
                                 rows={3}
@@ -438,13 +476,17 @@ const Concurs = () => {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="files">
+                            <Form.Label style={{ display: 'block' }}>
+                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                Прикрепить файлы
+                            </Form.Label>
                             <Form.Control
                                 type="file"
                                 name="files"
                                 multiple
                                 onChange={handleChange}
+                                style={{ display: "none" }}
                             />
-
                         </Form.Group>
 
                         <div className="text-end">
@@ -454,6 +496,7 @@ const Concurs = () => {
                         </div>
                     </Form>
                 </Modal>
+
 
                 <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{ marginTop: "8vw" }}>
                     <Modal.Header closeButton>

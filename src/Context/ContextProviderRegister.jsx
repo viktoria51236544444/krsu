@@ -17,7 +17,7 @@ const ContextProviderRegister = ({ children }) => {
     const [users, SetUsers] = useState(null);
     const [users2, SetUsers2] = useState(null);
     const [users3, SetUsers3] = useState(null);
-     const [actt, setActt] = useState(null);
+    const [actt, setActt] = useState(null);
     const navigate = useNavigate()
 
     // console.log(concurs);
@@ -86,7 +86,7 @@ const ContextProviderRegister = ({ children }) => {
             localStorage.setItem('codeid', res.data.codeid);
             localStorage.setItem('role', res.data.data.role_name || '');
 
-            if (res.data.data.role_name === 'Администратор') {
+            if (res.data.data.role_name === 'Администратор' || res.data.data.role_name === 'Оператор') {
                 navigate('/concurs');
             } else {
                 navigate('/');
@@ -95,6 +95,7 @@ const ContextProviderRegister = ({ children }) => {
             console.log('Error during sign-in:', error.message);
         }
     };
+
 
     //* стягивание данных конкретного юзера по codeId
 
@@ -244,6 +245,7 @@ const ContextProviderRegister = ({ children }) => {
         }
     }
 
+
     const updateUserStatus = async (UserData) => {
         try {
             const { data } = await axios.post(`http://212.112.105.196:3457/api/users/updateUserStatus`, UserData);
@@ -265,7 +267,7 @@ const ContextProviderRegister = ({ children }) => {
         try {
             const { data } = await axios.get(`http://212.112.105.196:3457/api/files/getFiles/${status}`)
             setActt(data.result.updateFiles);
-            // console.log(data.result.updateFiles);
+            console.log(data.result.updateFiles);
 
         } catch (error) {
             console.log(error);

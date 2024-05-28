@@ -12,6 +12,13 @@ const Participants = () => {
     const [showModal, setShowModal] = useState(false);
     const [comment, setComment] = useState('');
     const [userId, setUserId] = useState(0);
+    const [userEmail, setUserEmail] = useState('');
+    useEffect(() => {
+        const userDataString = localStorage.getItem('userEmail');
+        if (userDataString) {
+            setUserEmail(userDataString); 
+        }
+    }, []);
 
     useEffect(() => {
         getUserList();
@@ -49,6 +56,23 @@ const Participants = () => {
         setComment('');
     }
 
+    const handleDeactivate = (codeId) => {
+        setUserId(codeId);
+        setShowModal(true);
+    }
+
+    const handleDeactivateConfirm = () => {
+        const data = {
+            status: 3,
+            comment: comment,
+            userId: userId
+        };
+        updateUserStatus(data);
+        getByStatus2(); // Calling getByStatus2 with status -1
+        setShowModal(false);
+        setComment('');
+    }
+
     const handleCommentChange = (event) => {
         setComment(event.target.value);
     }
@@ -57,35 +81,36 @@ const Participants = () => {
         return <div>Loading...</div>;
     }
 
+    // Проверяем роль пользователя из localStorage
+    const userRole = localStorage.getItem('role');
+
     return (
         <div className="oll_sistem">
             <Sidebar />
             <div className="navbar_container">
                 <div style={{
-                     background: 'white',
+                    background: 'white',
                     display: "flex",
                     justifyContent: "space-between",
                     alignItems: "center",
                     padding: "0.6vw",
-                    overflowX: "auto", 
-                    maxWidth: "100%",   
+                    overflowX: "auto",
+                    maxWidth: "100%",
                 }}>
                     <div>
                         <div className="pills-outline">
-                            <button className="tab-button" style={{ color: "#0D6EFD", background: "White" }}>Неверифицированные
+                            <button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "#0D6EFD", background: "White" }}>Неверифицированные
                             </button>
                             <Link to={"/verf"}>
                                 <button className="tab-button" onClick={() => getByStatus2(1)}
                                     style={{ color: "#333333", background: "#F0F0F0" }}>Верифицированные
                                 </button>
                             </Link>
-                            <button className="tab-button"
-                                style={{ color: "#333333", background: "#F0F0F0" }}>Деактивированные
-                            </button>
+                            <Link to={"/deac"}>  <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }} onClick={() => getByStatus(3)}>Деактивированные</button></Link>
                         </div>
                     </div>
                     <div>
-                        <div>admin@gmail.com</div>
+                    <div>{userEmail}</div> 
                     </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -132,9 +157,14 @@ const Participants = () => {
                                                 <td>{user.position}</td>
                                                 <td>
                                                     <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
-                                                        <Button variant="success" size="sm"
-                                                            onClick={() => handleVerify(user.codeid)}>Верифицировать</Button>
-                                                        <Button variant="danger" size="sm">Деактивировать</Button>
+                                                        {/* Проверяем роль пользователя и скрываем кнопку для Оператора */}
+                                                        {userRole !== 'Оператор' && (
+                                                            <>
+                                                                <Button variant="success" size="sm"
+                                                                    onClick={() => handleVerify(user.codeid)}>Верифицировать</Button>
+                                                                <Button variant="danger" size="sm" onClick={() => handleDeactivate(user.codeid)}>Деактивировать</Button>
+                                                            </>
+                                                        )}
                                                     </div>
                                                 </td>
                                             </tr>
@@ -164,6 +194,9 @@ const Participants = () => {
                     </Button>
                     <Button variant="primary" onClick={handleSendData}>
                         Окей
+                    </Button>
+                    <Button variant="primary" onClick={handleDeactivateConfirm}>
+                        Деактивировать
                     </Button>
                 </Modal.Footer>
             </Modal>

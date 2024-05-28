@@ -7,7 +7,7 @@ import logo from "./image/кнау.png";
 const Footer = () => {
     const location = useLocation();
     
-    const hiddenFooterRoutes = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act", "/verf", "/register", "/auth"];
+    const hiddenFooterRoutes = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act", "/verf", "/register", "/auth", "/deac"];
     const isFooterHidden = hiddenFooterRoutes.includes(location.pathname);
 
     return (
@@ -42,29 +42,7 @@ const Footer = () => {
                             </div>
                         </div>
                     </div>
-                    <div className='footer-block'>
-                        <div className='contacts'>
-                            <div className='contact-title3'>
-                                <h5>Больше о нас </h5>
-                            </div>
-                            <div className='contacts_inner'>
-                                <div className='social'>
-                                    <a href="https://www.instagram.com/knau_official/">
-                                        <InstagramLogo size={34} color="#000"/>
-                                    </a>
-                                    <a href="https://www.facebook.com/knau.kg">
-                                        <FacebookLogo size={34} color="#000"/>
-                                    </a>
-                                    <a href="https://www.youtube.com/channel/UCgpUMPYsegaiqZce_nBLgzg">
-                                        <YoutubeLogo size={34} color="#000"/>
-                                    </a>
-                                    <a href="https://t.me/knaukg">
-                                        <TelegramLogo size={34} color="#000"/>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                  
                 </div>
                 <div className="copyright">
                     <hr className="line" />

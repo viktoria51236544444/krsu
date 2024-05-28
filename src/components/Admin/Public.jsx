@@ -10,6 +10,13 @@ const Public = () => {
     const [showModal, setShowModal] = useState(false);
     const [reason, setReason] = useState('');
     const [selectedContestId, setSelectedContestId] = useState(null);
+    const [userEmail, setUserEmail] = useState('');
+    useEffect(() => {
+        const userDataString = localStorage.getItem('userEmail');
+        if (userDataString) {
+            setUserEmail(userDataString); 
+        }
+    }, []);
 
     useEffect(() => {
         contestFilter(2);
@@ -54,7 +61,7 @@ const Public = () => {
 
         try {
             await updateContestStatus(publicData);
-            contestFilter();
+            contestFilter(4);
             setShowModal(false);
             setReason('');
         } catch (error) {
@@ -65,6 +72,9 @@ const Public = () => {
     if (!compled) {
         return <div>Loading...</div>;
     }
+
+    // Проверяем роль пользователя из localStorage
+    const userRole = localStorage.getItem('role');
 
     return (
         <div className="oll_sistem" style={{ maxWidth: "100vw" }}>
@@ -89,8 +99,8 @@ const Public = () => {
                         </div>
                     </div>
                     <div>
-                        <div>
-                            admin@gmail.com
+                    <div>
+                           {userEmail}
                         </div>
                     </div>
                 </div>
@@ -147,8 +157,10 @@ const Public = () => {
                                                         </td>
                                                         <td>
                                                             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", gap: "0.5vw" }}>
-                                                                {/* <Button variant="success" size="sm" onClick={() => handlePublish(contest.codeid)}>Завершить</Button> */}
-                                                                <Button variant="danger" size="sm" onClick={() => handlePublish2(contest.codeid)}>Деактивировать</Button>
+                                                                {/* Проверяем роль пользователя и скрываем кнопку для Оператора */}
+                                                                {userRole !== 'Оператор' && (
+                                                                    <Button variant="danger" size="sm" onClick={() => handlePublish2(contest.codeid)}>Деактивировать</Button>
+                                                                )}
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -176,7 +188,6 @@ const Public = () => {
                     />
                 </Modal.Body>
                 <Modal.Footer>
-
                     <Button variant="danger" onClick={handleConfirmDeactivation} size="sm" disabled={!reason.trim()}>
                         Подтвердить деактивацию
                     </Button>

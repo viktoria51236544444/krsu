@@ -1,11 +1,22 @@
-import React, { useEffect } from 'react';
-import { Button, Table } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Button, Table, Modal } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 
 const Completed = () => {
     const { compled, contestFilter, updateContestStatus } = UseRegister();
+    const [show2, setShow2] = useState(false);
+    const [userEmail, setUserEmail] = useState('');
+    useEffect(() => {
+        const userDataString = localStorage.getItem('userEmail');
+        if (userDataString) {
+            setUserEmail(userDataString); 
+        }
+    }, []);
+
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
 
     useEffect(() => {
         contestFilter(3);
@@ -16,6 +27,7 @@ const Completed = () => {
             contest_id: contest_id,
             contest_status: 5
         };
+        handleClose2()
         updateContestStatus(arheve);
     }
 
@@ -55,9 +67,7 @@ const Completed = () => {
                             </Link>
                         </div>
                     </div>
-                    <div>
-                        admin@gmail.com
-                    </div>
+                    <div>{userEmail}</div> 
                 </div>
                 <div>
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -106,8 +116,20 @@ const Completed = () => {
                                                         {/*    ))}*/}
                                                         {/*</td>*/}
                                                         <td>
-                                                            <Button variant="success" size="sm" onClick={() => handleClick(contest.codeid)}>В архив</Button>
+                                                            <Button variant="success" size="sm"  onClick={handleShow2}>В архив</Button>
                                                         </td>
+                                                        <Modal show={show2} onHide={handleClose2}>
+                                                            <Modal.Header closeButton>
+                                                                <Modal.Title>Подтверждение</Modal.Title>
+                                                            </Modal.Header>
+
+                                                            <Modal.Body>Добавить в архив?</Modal.Body>
+                                                            <Modal.Footer>
+                                                                <Button variant="primary"
+                                                                    onClick={() => handleClick(contest.codeid)} >Да</Button>
+                                                            </Modal.Footer>
+
+                                                        </Modal>
                                                     </tr>
                                                 ))}
                                         </tbody>

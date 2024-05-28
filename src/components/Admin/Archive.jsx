@@ -9,6 +9,13 @@ import { FileArrowDown } from "@phosphor-icons/react";
 const Archive = () => {
     const { contestFilter } = UseRegister()
     const [contestList, setContestList] = useState([]);
+    const [userEmail, setUserEmail] = useState('');
+    useEffect(() => {
+        const userDataString = localStorage.getItem('userEmail');
+        if (userDataString) {
+            setUserEmail(userDataString); 
+        }
+    }, []);
 
     useEffect(() => {
         getContestList();
@@ -49,9 +56,7 @@ const Archive = () => {
 
                     </div>
                     <div>
-                        <div>
-                            admin@gmail.com
-                        </div>
+                    <div>{userEmail}</div> 
                     </div>
                 </div>
                 <div >

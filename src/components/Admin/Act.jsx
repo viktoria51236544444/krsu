@@ -1,14 +1,29 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import './concurs.css';
-import {Button, Modal, Form} from 'react-bootstrap';
+import { Button, Modal, Form } from 'react-bootstrap';
 import Sidebar from './Sidebar';
 import axios from 'axios';
-import {UseRegister} from '../../Context/ContextProviderRegister';
-import {CloudArrowDown, FileArrowDown, FilePdf} from "@phosphor-icons/react";
+import { UseRegister } from '../../Context/ContextProviderRegister';
+import { CloudArrowDown, FileArrowDown, FilePdf } from "@phosphor-icons/react";
 
 const Act = () => {
-    const {getFiles, actt} = UseRegister()
+    const { getFiles, actt } = UseRegister();
+    const [userEmail, setUserEmail] = useState('');
+    useEffect(() => {
+        const userDataString = localStorage.getItem('userEmail');
+        if (userDataString) {
+            setUserEmail(userDataString); 
+        }
+    }, []);
+
+    const handleDownload = (path) => {
+        console.log(path)
+    };
     console.log(actt);
+    const [show2, setShow2] = useState(false);
+
+    const handleClose2 = () => setShow2(false);
+    const handleShow2 = () => setShow2(true);
 
     const [addAct, setAddAct] = useState({
         fileDescription: "",
@@ -20,25 +35,25 @@ const Act = () => {
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
-
     const fetchData = async () => {
         try {
-            const {data} = await axios.get(`http://212.112.105.196:3457/api/files`);
+            const { data } = await axios.get(`http://212.112.105.196:3457/api/files`);
         } catch (error) {
             console.log(error);
         }
     };
 
     useEffect(() => {
-
+        getFiles(1);
         fetchData();
     }, []);
+
     const handleChange = (e) => {
-        const {name, value, files} = e.target;
+        const { name, value, files } = e.target;
         if (name === "file") {
-            setAddAct({...addAct, file: files[0]});
+            setAddAct({ ...addAct, file: files[0] });
         } else {
-            setAddAct({...addAct, [name]: value});
+            setAddAct({ ...addAct, [name]: value });
         }
     };
 
@@ -48,7 +63,7 @@ const Act = () => {
         formData.append("file", addAct.file);
 
         try {
-            const {data} = await axios.post(`http://212.112.105.196:3457/api/files/upload`, formData);
+            const { data } = await axios.post(`http://212.112.105.196:3457/api/files/upload`, formData);
 
             handleClose();
         } catch (error) {
@@ -62,24 +77,28 @@ const Act = () => {
                 codeFile: codeid
             }
             const response = await axios.post('http://212.112.105.196:3457/api/files/deleteFile', data)
+            console.log(response);
 
-            if(response.status === 200 ){
+            if (response.status === 200) {
                 console.log('Success')
-            }else {
+            } else {
                 alert('ошибка при удалении файла')
             }
-        }catch (error){
+            handleClose2()
+            getFiles(1)
+        } catch (error) {
             console.log(error)
         }
     };
+    
 
-    const handleDownload = (path) => {
-        console.log(path)
-    };
+   
+    const userRole = localStorage.getItem('role');
+    
 
     return (
         <div className="oll_sistem">
-            <Sidebar/>
+            <Sidebar />
             <div className="navbar_container">
                 <div style={{
                     background: 'white',
@@ -93,69 +112,76 @@ const Act = () => {
                     <div>
                         <div className="pills-outline">
                             <button className="tab-button"
-                                    style={{color: "#0D6EFD", background: "White"}}>Опубликованные
+                                style={{ color: "#0D6EFD", background: "White" }}>Опубликованные
                             </button>
-                            {/* <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Удаленные</button> */}
-                            {/* <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}>Архив</button> */}
                         </div>
                     </div>
                     <div>
-                        <div>admin@gmail.com</div>
+                        <div>{userEmail}</div>
                     </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="card">
-                        <div className="card-header" style={{background: "white"}}>
+                        <div className="card-header" style={{ background: "white" }}>
                             <Button variant="success" size="sm" onClick={handleShow}>Новый акт</Button>
                         </div>
                         <div className="card-body">
                             <div className="table-responsive">
                                 <table className="table table-striped table-bordered first">
                                     <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Название файла</th>
-                                        <td>Действие</td>
-                                    </tr>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Название файла</th>
+                                            <td>Действие</td>
+                                        </tr>
                                     </thead>
                                     <tbody>
-                                    {actt && actt.map((item, index) => (
-                                        <tr key={index}>
-                                            <td><p style={{
-                                                color: "black",
-                                                fontSize: 14,
-                                                margin: 0,
-                                                padding: 0
-                                            }}>{index + 1}</p></td>
-                                            <td>
-                                                <div style={{display: "flex", flexDirection: 'row', gap: 10}}>
-                                                    <FilePdf  size={32} color="#3d3d3d"/>
-                                                    <a style={{color: "black", fontSize: 14, margin: 0, padding: 0}}
-                                                       href={item.path} rel="noopener noreferrer">{item.description}</a>
-                                                </div>
-                                            </td>
-                                            <td>
-                                                <div style={{display: "flex", flexDirection: 'row', gap: 10}}>
-                                                    {/*<Button variant="success"*/}
-                                                    {/*        size="sm"*/}
-                                                    {/*        style={{padding: '0 10px', display: 'flex', flexDirection: "row", gap: 8, alignItems: 'center'}}*/}
-                                                    {/*        onClick={() => handleDownload(item.path)}*/}
-                                                    {/*>*/}
-                                                    {/*    <CloudArrowDown size={32} color="#fff" />*/}
-                                                    {/*    Скачать*/}
-                                                    {/*</Button>*/}
-                                                    <Button
-                                                        variant="danger"
-                                                        size="sm"
-                                                        style={{padding: '0 10px', display: 'flex', flexDirection: "row", gap: 8, alignItems: 'center'}}
-                                                        onClick={() => handleDelete(item.codeid)}
-                                                    >
-                                                        Удалить
-                                                    </Button>
-                                                </div>
-                                            </td>
-                                        </tr>
-                                    ))}
+                                        {actt && actt.map((item, index) => (
+                                            <tr key={index}>
+                                                <td><p style={{
+                                                    color: "black",
+                                                    fontSize: 14,
+                                                    margin: 0,
+                                                    padding: 0
+                                                }}>{index + 1}</p></td>
+                                                <td>
+                                                    <div style={{ display: "flex", flexDirection: 'row', gap: 10 }}>
+                                                        <FilePdf size={32} color="#3d3d3d" />
+                                                        <a style={{ color: "black", fontSize: 14, margin: 0, padding: 0 }}
+                                                            href={item.path} rel="noopener noreferrer">{item.description}</a>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div style={{ display: "flex", flexDirection: 'row', gap: 10 }}>
+                                                        {/* Проверяем роль пользователя и скрываем кнопку для Оператора */}
+                                                        {userRole !== 'Оператор' && (
+                                                            <Button
+                                                                variant="danger"
+                                                                size="sm"
+                                                                style={{ padding: '0 10px', display: 'flex', flexDirection: "row", gap: 8, alignItems: 'center' }}
+                                                                onClick={handleShow2}
+                                                            >
+                                                                Удалить
+                                                            </Button>
+                                                        )}
+                                                        <Modal show={show2} onHide={handleClose2}>
+                                                            <Modal.Header closeButton>
+                                                                <Modal.Title>Подтверждение</Modal.Title>
+                                                            </Modal.Header>
+                                                            <Modal.Body>Удалить?</Modal.Body>
+                                                            <Modal.Footer>
+                                                                <Button variant="secondary" onClick={handleClose2}>
+                                                                    Отмена
+                                                                </Button>
+                                                                <Button variant="primary" onClick={() => handleDelete(item.codeid)}>
+                                                                    Да
+                                                                </Button>
+                                                            </Modal.Footer>
+                                                        </Modal>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        ))}
                                     </tbody>
                                 </table>
                             </div>
@@ -163,7 +189,7 @@ const Act = () => {
                     </div>
                 </div>
             </div>
-            <Modal show={show} onHide={handleClose} className="custom-modal" style={{marginTop: "8vw"}}>
+            <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Новый акт</Modal.Title>
                 </Modal.Header>

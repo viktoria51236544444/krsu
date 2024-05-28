@@ -71,7 +71,7 @@ function ResponsiveDrawer(props) {
                         </ListItemButton>
                     </ListItem>
                 </Link>
-                <Link style={{ textDecoration: "none", color: location.pathname === "/roles" ? "#0D6EFD" : "black" }} to={"/roles"}>
+                {/* <Link style={{ textDecoration: "none", color: location.pathname === "/roles" ? "#0D6EFD" : "black" }} to={"/roles"}>
                     <ListItem disablePadding>
                         <ListItemButton>
                             <ListItemIcon>
@@ -82,7 +82,7 @@ function ResponsiveDrawer(props) {
                             <ListItemText primary="Роли" />
                         </ListItemButton>
                     </ListItem>
-                </Link>
+                </Link> */}
                 <Link style={{ textDecoration: "none", color: location.pathname === "/act" ? "#0D6EFD" : "black" }} to={"/act"}>
                     <ListItem disablePadding>
                         <ListItemButton>

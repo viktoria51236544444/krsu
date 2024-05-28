@@ -21,6 +21,7 @@ import DetailPage from '../components/Home/DetailPage'
 import Canceled from '../components/Admin/Canceled'
 import Archive from '../components/Admin/Archive'
 import Virification from '../components/Admin/Virification'
+import Deactivazion from '../components/Admin/Deactivazion'
 
 const MainRoutes = () => {
     return (
@@ -45,6 +46,7 @@ const MainRoutes = () => {
             <Route path="/archive" element={<Archive />} />
             <Route path="/act" element={<Act />} />
             <Route path="/verf" element={<Virification />} />
+            <Route path="/deac" element={<Deactivazion />} />
         </Routes>
     )
 }

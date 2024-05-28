@@ -76,7 +76,7 @@ function NavScrollExample() {
         }
     };
 
-    const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act", "/verf"].includes(activeTab);
+    const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act", "/verf", "/deac"].includes(activeTab);
 
     return (
         !isNavBarHidden && (
