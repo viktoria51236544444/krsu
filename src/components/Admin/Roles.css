@@ -1,0 +1,10 @@
+.saveButton{
+    margin: 0 auto 40px;
+}
+
+
+.action_save{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
