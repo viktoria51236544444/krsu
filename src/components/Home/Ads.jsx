@@ -43,10 +43,6 @@ const Ads = () => {
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [selectedContestId, setSelectedContestId] = useState(null);
 
-    const handleShowDetails = (contestId) => {
-        setSelectedContestId(contestId);
-        setShowDetailModal(true);
-    };
 
     const handleCloseDetails = () => {
         setShowDetailModal(false);

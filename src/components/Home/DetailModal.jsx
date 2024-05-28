@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { Container, Row, Col, ListGroup, Button, Modal, Form } from 'react-bootstrap';
+import React, {useState, useEffect} from 'react';
+import {Container, Row, Col, ListGroup, Button, Modal, Form} from 'react-bootstrap';
 import axios from "axios";
-import { CloudArrowDown } from "@phosphor-icons/react";
-import { UseRegister } from '../../Context/ContextProviderRegister';
+import {UseRegister} from '../../Context/ContextProviderRegister';
 
-const DetailModal = ({ show, onHide, contestId }) => {
-    const { wonContest } = UseRegister();
+const DetailModal = ({show, onHide, contestId, comment, winner}) => {
+    const {wonContest} = UseRegister();
 
     const [contestDetails, setContestDetails] = useState([]);
     const [detailUsers, setDetailUsers] = useState([]);
@@ -13,6 +12,8 @@ const DetailModal = ({ show, onHide, contestId }) => {
     const [selectedWinner, setSelectedWinner] = useState(null);
     const [showWinnerModal, setShowWinnerModal] = useState(false);
     const [winnerComment, setWinnerComment] = useState('');
+    const [winnerName, setWinnerName] = useState([])
+
 
     useEffect(() => {
         const userRole = localStorage.getItem('role');
@@ -39,6 +40,7 @@ const DetailModal = ({ show, onHide, contestId }) => {
     const getOrdersByContest = async () => {
         try {
             const response = await axios.get(`http://212.112.105.196:3457/api/orders/getOrderDetails/${contestId}`);
+            console.log(response)
             if (response.status === 200) {
                 const result = response.data.result.data;
                 setDetailUsers(result);
@@ -80,31 +82,33 @@ const DetailModal = ({ show, onHide, contestId }) => {
             <Modal.Body>
                 <Container fluid className="mt-4">
                     <Row style={{marginLeft: "2vw"}}>
-                        <Col md={6} >
+                        <Col md={6}>
                             {contestDetails.map((contest, index) => (
                                 <ListGroup variant="flush" key={index} className="mb-3">
                                     <h4 className="title_text">{contest.contest_description}</h4>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw" }}>
-                                        <span style={{ color: "gray" }} className="title_text">Название организации:</span>
-                                        <span style={{ fontSize: "18px" }}>{contest.contest_name}</span>
+                                    <div style={{display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw"}}>
+                                        <span style={{color: "gray"}}
+                                              className="title_text">Название организации:</span>
+                                        <span style={{fontSize: "18px"}}>{contest.contest_name}</span>
                                     </div>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw" }}>
-                                        <span style={{ color: "gray" }} className="title_text">Номер:</span>
-                                        <span style={{ fontSize: "18px" }}>{contest.codeid + contest.year + index + 1}</span>
+                                    <div style={{display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw"}}>
+                                        <span style={{color: "gray"}} className="title_text">Номер:</span>
+                                        <span
+                                            style={{fontSize: "18px"}}>{contest.codeid + contest.year + index + 1}</span>
                                     </div>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw" }}>
-                                        <span style={{ color: "gray" }} className="title_text">Способ закупки:</span>
-                                        <span style={{ fontSize: "18px" }}>{contest.method_purchase}</span>
+                                    <div style={{display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw"}}>
+                                        <span style={{color: "gray"}} className="title_text">Способ закупки:</span>
+                                        <span style={{fontSize: "18px"}}>{contest.method_purchase}</span>
                                     </div>
-                                    <div style={{ color: "gray", marginTop: "1vw" }}>
+                                    <div style={{color: "gray", marginTop: "1vw"}}>
                                         <p>Наименование файла</p>
                                         {contest.files.map((file, idx) => (
                                             <div className="table w-100" key={idx}>
-                                                <div style={{ display: "flex", alignItems: "center" }}>
+                                                <div style={{display: "flex", alignItems: "center"}}>
                                                     <span>{idx + 1}.</span>
-                                                    <span style={{ display: 'flex', gap: 10, alignItems: "center" }}>
+                                                    <span style={{display: 'flex', gap: 10, alignItems: "center"}}>
                                                         <a href={file.path} download>{file.file_name}</a>
-                                                        <CloudArrowDown size={40} color="#404040" />
+                                                        {/*<CloudArrowDown size={40} color="#404040" />*/}
                                                     </span>
                                                 </div>
                                             </div>
@@ -116,29 +120,51 @@ const DetailModal = ({ show, onHide, contestId }) => {
                         <Col md={6}>
                             {contestDetails.map((contest, index) => (
                                 <ListGroup variant="flush" key={index} className="mb-3">
-                                    <div style={{ display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw" }}>
-                                        <span style={{ color: "gray" }} className="title_text">Формат закупки:</span>
-                                        <span style={{ fontSize: "18px" }}>{contest.format_purchase}</span>
+                                    <div style={{display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw"}}>
+                                        <span style={{color: "gray"}} className="title_text">Формат закупки:</span>
+                                        <span style={{fontSize: "18px"}}>{contest.format_purchase}</span>
                                     </div>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw" }}>
-                                        <span style={{ color: "gray" }} className="title_text">Тип закупки:</span>
-                                        <span style={{ fontSize: "18px" }}>{contest.type_purchase}</span>
+                                    <div style={{display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw"}}>
+                                        <span style={{color: "gray"}} className="title_text">Тип закупки:</span>
+                                        <span style={{fontSize: "18px"}}>{contest.type_purchase}</span>
                                     </div>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw" }}>
-                                        <span style={{ color: "gray" }} className="title_text">Планируемая сумма:</span>
-                                        <span style={{ fontSize: "18px" }}>{contest.planned_summ} сом</span>
+                                    <div style={{display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw"}}>
+                                        <span style={{color: "gray"}} className="title_text">Планируемая сумма:</span>
+                                        <span style={{fontSize: "18px"}}>{contest.planned_summ} сом</span>
                                     </div>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw" }}>
-                                        <span style={{ color: "gray" }} className="title_text">Статус конкурса:</span>
-                                        <span style={{ fontSize: "18px" }}>{contest.status_contest}</span>
+                                    <div style={{display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw"}}>
+                                        <span style={{color: "gray"}}
+                                              className="title_text">Статус конкурса:</span><span
+                                        style={{
+                                            fontSize: "18px",
+                                            color: contest.contest_status === 4 ? "red" : (contest.contest_status === 3 ? "green" : "black")
+                                        }}>{contest.status_contest}</span>
+
                                     </div>
-                                    <div style={{ display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw" }}>
-                                        <span style={{ color: "gray" }} className="title_text">Окончание закупки:</span>
-                                        <span style={{ fontSize: "18px" }}>{new Date(contest.end_date).toLocaleDateString()}</span>
+                                    <div style={{display: "flex", alignItems: "center", gap: "1vw", marginTop: "1vw"}}>
+                                        <span style={{color: "gray"}} className="title_text">Окончание закупки:</span>
+                                        <span style={{fontSize: "18px"}}>
+                    {new Date(contest.end_date).toLocaleDateString()}
+                </span>
                                     </div>
+
+                                    {comment && (
+                                        <>
+                                            <div style={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                gap: "1vw",
+                                                marginTop: "1vw"
+                                            }}>
+                                                <span style={{color: "gray"}}
+                                                      className="title_text">Причина завершения:</span>
+                                                <span style={{fontSize: "18px", color: 'red'}}>{comment}</span>
+                                            </div>
+                                        </>)}
                                 </ListGroup>
                             ))}
                         </Col>
+
                     </Row>
                     <div style={{width: "95%", margin: '0 auto'}}>
                         <Row>
@@ -157,7 +183,12 @@ const DetailModal = ({ show, onHide, contestId }) => {
                                                         <th>Мотивационное письмо</th>
                                                         <th>Название банка</th>
                                                         <th>Файлы</th>
-                                                        <th>Действия</th>
+                                                        {isAdmin && !winner  && (
+                                                            <th>Действия</th>
+                                                        )}
+                                                        {winner && (
+                                                        <th>Сумма победителя</th>
+                                                        )}
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -170,14 +201,28 @@ const DetailModal = ({ show, onHide, contestId }) => {
                                                             <td>{user.finalUser.user.banc_name}</td>
                                                             <td>
                                                                 {user.finalUser?.file.map((file, fileIdx) => (
-                                                                    <div key={fileIdx}><a href={file.path}>{file.file_name}</a></div>
+                                                                    <div key={fileIdx}><a
+                                                                        href={file.path}>{file.file_name}</a></div>
                                                                 ))}
                                                             </td>
-                                                            <td>
-                                                                {isAdmin && (
-                                                                    <Button variant="primary" size="sm" onClick={() => handleSelectWinner(user)}>Назначить победителем</Button>
-                                                                )}
-                                                            </td>
+
+                                                            {isAdmin && !winner && (
+                                                                <td>
+                                                                    <Button
+                                                                        variant="primary"
+                                                                        size="sm"
+                                                                        onClick={() => handleSelectWinner(user)}
+                                                                    >
+                                                                        Назначить победителем
+                                                                    </Button>
+                                                                </td>
+                                                            )}
+
+                                                            {winner && (
+                                                                <td>
+                                                                    <p style={{color: 'green'}}>{user.summ} Сом</p>
+                                                                </td>
+                                                            )}
                                                         </tr>
                                                     ))}
                                                     </tbody>
@@ -197,7 +242,8 @@ const DetailModal = ({ show, onHide, contestId }) => {
                         <Modal.Body>
                             <Form.Group controlId="winnerComment">
                                 <Form.Label>Комментарий</Form.Label>
-                                <Form.Control as="textarea" rows={3} value={winnerComment} onChange={handleWinnerCommentChange} />
+                                <Form.Control as="textarea" rows={3} value={winnerComment}
+                                              onChange={handleWinnerCommentChange}/>
                             </Form.Group>
                         </Modal.Body>
                         <Modal.Footer>

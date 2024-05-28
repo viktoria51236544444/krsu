@@ -120,14 +120,14 @@ const Act = () => {
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="card">
                         <div className="card-header" style={{ background: "white" }}>
-                            <Button variant="success" size="sm" onClick={handleShow}>Добавить акт</Button>
+                            <Button variant="success" size="sm" onClick={handleShow}> + Добавить акт</Button>
                         </div>
                         <div className="card-body">
                             <div className="table-responsive">
                                 <table className="table table-striped table-bordered first">
                                     <thead>
                                         <tr>
-                                         
+
                                         </tr>
                                     </thead>
                                     <tbody>
