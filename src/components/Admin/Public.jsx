@@ -14,7 +14,7 @@ const Public = () => {
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
-            setUserEmail(userDataString); 
+            setUserEmail(userDataString);
         }
     }, []);
 
@@ -99,8 +99,8 @@ const Public = () => {
                         </div>
                     </div>
                     <div>
-                    <div>
-                           {userEmail}
+                        <div>
+                            {userEmail}
                         </div>
                     </div>
                 </div>
@@ -157,8 +157,9 @@ const Public = () => {
                                                         </td>
                                                         <td>
                                                             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", gap: "0.5vw" }}>
-                                                                {/* Проверяем роль пользователя и скрываем кнопку для Оператора */}
+                                                                <Button variant="success" size="sm">Завершить</Button>
                                                                 {userRole !== 'Оператор' && (
+
                                                                     <Button variant="danger" size="sm" onClick={() => handlePublish2(contest.codeid)}>Деактивировать</Button>
                                                                 )}
                                                             </div>
@@ -174,22 +175,21 @@ const Public = () => {
                 </div>
             </div>
 
-            {/* Modal for Deactivation */}
             <Modal show={showModal} onHide={handleCloseModal} centered>
                 <Modal.Header closeButton>
-                    <Modal.Title>Причина деактивации</Modal.Title>
+                    <Modal.Title style={{ fontSize: "18px" }}>Протокол</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form.Control
                         as="textarea"
-                        placeholder="Введите причину деактивации"
+                        placeholder=""
                         value={reason}
                         onChange={(e) => setReason(e.target.value)}
                     />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" onClick={handleConfirmDeactivation} size="sm" disabled={!reason.trim()}>
-                        Подтвердить деактивацию
+                        Даективировать
                     </Button>
                 </Modal.Footer>
             </Modal>

@@ -82,7 +82,7 @@ const Canceled = () => {
                                                 <th>Публикация</th>
                                                 <th>Окончание</th>
                                                 <th>Файлы</th>
-                                                <th>Причина</th>
+                                                <th>Протокол</th>
                                                 <th>Действия</th>
 
                                             </tr>
@@ -113,19 +113,17 @@ const Canceled = () => {
                                                             ))}
 
                                                         </td>
-                                                        <td>{contest.coment}</td>
+                                                        <td style={{color: "#dc3545"}}>{contest.coment}</td>
                                                         <td>
                                                             <Button variant="success" size="sm"  onClick={handleShow2}>В архив</Button>
                                                         </td>
                                                         <Modal show={show2} onHide={handleClose2}>
                                                             <Modal.Header closeButton>
-                                                                <Modal.Title>Подтверждение</Modal.Title>
+                                                                <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите добавить в архив</Modal.Title>
                                                             </Modal.Header>
-
-                                                            <Modal.Body>Добавить в архив?</Modal.Body>
                                                             <Modal.Footer>
-                                                                <Button variant="primary"
-                                                                    onClick={() => handleClick(contest.codeid)} >Да</Button>
+                                                                <Button variant="success" size="sm" 
+                                                                    onClick={() => handleClick(contest.codeid)} >Подтвердить</Button>
                                                             </Modal.Footer>
 
                                                         </Modal>

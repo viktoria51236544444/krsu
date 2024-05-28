@@ -12,7 +12,7 @@ const Act = () => {
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
-            setUserEmail(userDataString); 
+            setUserEmail(userDataString);
         }
     }, []);
 
@@ -90,11 +90,11 @@ const Act = () => {
             console.log(error)
         }
     };
-    
 
-   
+
+
     const userRole = localStorage.getItem('role');
-    
+
 
     return (
         <div className="oll_sistem">
@@ -153,7 +153,6 @@ const Act = () => {
                                                 </td>
                                                 <td>
                                                     <div style={{ display: "flex", flexDirection: 'row', gap: 10 }}>
-                                                        {/* Проверяем роль пользователя и скрываем кнопку для Оператора */}
                                                         {userRole !== 'Оператор' && (
                                                             <Button
                                                                 variant="danger"
@@ -166,15 +165,14 @@ const Act = () => {
                                                         )}
                                                         <Modal show={show2} onHide={handleClose2}>
                                                             <Modal.Header closeButton>
-                                                                <Modal.Title>Подтверждение</Modal.Title>
+                                                                <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите удалить нормативно правовой акт?</Modal.Title>
                                                             </Modal.Header>
-                                                            <Modal.Body>Удалить?</Modal.Body>
+
                                                             <Modal.Footer>
-                                                                <Button variant="secondary" onClick={handleClose2}>
-                                                                    Отмена
-                                                                </Button>
-                                                                <Button variant="primary" onClick={() => handleDelete(item.codeid)}>
-                                                                    Да
+
+                                                                <Button variant="danger"
+                                                                    size="sm" onClick={() => handleDelete(item.codeid)}>
+                                                                    Удалить
                                                                 </Button>
                                                             </Modal.Footer>
                                                         </Modal>
@@ -191,7 +189,7 @@ const Act = () => {
             </div>
             <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Новый акт</Modal.Title>
+                    <Modal.Title style={{ fontSize: "18px" }}>Новый акт</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>

@@ -4,11 +4,14 @@ body {
   padding: 0;
   margin: 0;
   /* font-family: Dosis !important; */
-  font-weight: 300;
+  font-weight: 400;
 }
+
+
 
 .nav-link.active {
   color: blue !important;
+
 }
 
 
@@ -215,4 +218,29 @@ body {
 
 .content-wrap {
   flex: 1;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Button{
+  font-size: 12px !important;
+  /* color: #fff !important; */
 }

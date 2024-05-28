@@ -326,7 +326,7 @@ const Concurs = () => {
                                                     display: "flex",
                                                     alignItems: "center",
                                                     justifyContent: "space-between",
-                                                    gap: 10
+                                                    gap: "5px"
                                                 }}>
                                                     <Button variant='warning' size='sm'
                                                             onClick={() => handleOpenModal(contest.codeid)} style={{
@@ -334,21 +334,21 @@ const Concurs = () => {
                                                                 flexDirection: 'row',
                                                                 alignItems: 'center',
                                                                 gap: 5,
-                                                            }}>
+                                                                color: "#fff"
+                                                        }}>
+                                                        <PencilSimpleLine size={18} color="#fff" />
                                                             Редактировать
-                                                            <PencilSimpleLine size={22} color="#000" />
+                                                            
                                                         </Button>
                                                         <Button variant="primary" size="sm"
                                                             onClick={handleShow2}>Опубликовать</Button>
                                                         <Modal show={show2} onHide={handleClose2}>
                                                             <Modal.Header closeButton>
-                                                                <Modal.Title>Подтверждение</Modal.Title>
+                                                                <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите опубликовать?</Modal.Title>
                                                             </Modal.Header>
-
-                                                            <Modal.Body>Вы уверены что хотите опубликовать?</Modal.Body>
                                                             <Modal.Footer>
-                                                                <Button variant="primary"
-                                                                    onClick={() => handlePublish(contest.codeid)} >Да</Button>
+                                                                <Button variant="primary" size="sm"
+                                                                    onClick={() => handlePublish(contest.codeid)}>Подтвердить</Button>
                                                             </Modal.Footer>
 
                                                         </Modal>
@@ -515,7 +515,7 @@ const Concurs = () => {
 
                 <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{marginTop: "8vw"}}>
                     <Modal.Header closeButton>
-                        <Modal.Title>Редактировать данные конкурса</Modal.Title>
+                        <Modal.Title style={{ fontSize: "18px" }}>Редактировать данные конкурса</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form>
@@ -662,9 +662,7 @@ const Concurs = () => {
                         </Form>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button variant="secondary" onClick={closeUpdateModal}>
-                            Отмена
-                        </Button>
+                       
                         <Button variant="primary" onClick={updateContestData}>
                             Сохранить
                         </Button>
@@ -679,7 +677,7 @@ const Concurs = () => {
                            style={{marginTop: "8vw"}}>
                         <Modal.Dialog>
                             <Modal.Header>
-                                <Modal.Title>Успешно</Modal.Title>
+                                <Modal.Title style={{ fontSize: "18px" }}>Успешно</Modal.Title>
                             </Modal.Header>
 
                             <Modal.Body>

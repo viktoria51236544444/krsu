@@ -9,10 +9,12 @@ import { Link } from 'react-router-dom';
 const Participants = () => {
     const { users2, getUserList, updateUserStatus, getByStatus, getByStatus2 } = UseRegister();
     const [selectedIndex, setSelectedIndex] = useState(null);
-    const [showModal, setShowModal] = useState(false);
+    const [showVerifyModal, setShowVerifyModal] = useState(false);
+    const [showDeactivateModal, setShowDeactivateModal] = useState(false);
     const [comment, setComment] = useState('');
     const [userId, setUserId] = useState(0);
     const [userEmail, setUserEmail] = useState('');
+
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
@@ -29,22 +31,25 @@ const Participants = () => {
         try {
             const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeId}`);
             setSelectedIndex(index);
-            setShowModal(true);
         } catch (error) {
             console.log(error);
         }
     }
 
-    const handleCloseModal = () => {
-        setShowModal(false);
+    const handleCloseVerifyModal = () => {
+        setShowVerifyModal(false);
+    }
+
+    const handleCloseDeactivateModal = () => {
+        setShowDeactivateModal(false);
     }
 
     const handleVerify = (codeId) => {
         setUserId(codeId);
-        setShowModal(true);
+        setShowVerifyModal(true);
     }
 
-    const handleSendData = () => {
+    const handleSendVerifyData = () => {
         const data = {
             status: 1,
             comment: comment,
@@ -52,24 +57,24 @@ const Participants = () => {
         };
         updateUserStatus(data);
         getByStatus();
-        setShowModal(false);
+        setShowVerifyModal(false);
         setComment('');
     }
 
     const handleDeactivate = (codeId) => {
         setUserId(codeId);
-        setShowModal(true);
+        setShowDeactivateModal(true);
     }
 
-    const handleDeactivateConfirm = () => {
+    const handleSendDeactivateData = () => {
         const data = {
             status: 3,
             comment: comment,
             userId: userId
         };
         updateUserStatus(data);
-        getByStatus2(); // Calling getByStatus2 with status -1
-        setShowModal(false);
+        getByStatus2(); 
+        setShowDeactivateModal(false);
         setComment('');
     }
 
@@ -81,7 +86,6 @@ const Participants = () => {
         return <div>Loading...</div>;
     }
 
-    // Проверяем роль пользователя из localStorage
     const userRole = localStorage.getItem('role');
 
     return (
@@ -110,7 +114,7 @@ const Participants = () => {
                         </div>
                     </div>
                     <div>
-                    <div>{userEmail}</div> 
+                        <div>{userEmail}</div> 
                     </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -157,12 +161,17 @@ const Participants = () => {
                                                 <td>{user.position}</td>
                                                 <td>
                                                     <div style={{ display: 'flex', flexDirection: 'row', gap: 10 }}>
-                                                        {/* Проверяем роль пользователя и скрываем кнопку для Оператора */}
                                                         {userRole !== 'Оператор' && (
                                                             <>
                                                                 <Button variant="success" size="sm"
-                                                                    onClick={() => handleVerify(user.codeid)}>Верифицировать</Button>
-                                                                <Button variant="danger" size="sm" onClick={() => handleDeactivate(user.codeid)}>Деактивировать</Button>
+                                                                    onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleVerify(user.codeid);
+                                                                    }}>Верифицировать</Button>
+                                                                <Button variant="danger" size="sm" onClick={(e) => {
+                                                                        e.stopPropagation();
+                                                                        handleDeactivate(user.codeid);
+                                                                    }}>Деактивировать</Button>
                                                             </>
                                                         )}
                                                     </div>
@@ -176,9 +185,9 @@ const Participants = () => {
                     </div>
                 </div>
             </div>
-            <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal show={showVerifyModal} onHide={handleCloseVerifyModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Введите комментарий</Modal.Title>
+                    <Modal.Title style={{ fontSize: "18px" }}>Подтверждение (будет отправлено на почту)</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <textarea
@@ -186,16 +195,31 @@ const Participants = () => {
                         rows="3"
                         value={comment}
                         onChange={handleCommentChange}
+                        placeholder='письмо контрагенту'
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Отмена
+                 
+                    <Button variant="success" size='sm' onClick={handleSendVerifyData}>
+                        Верифицировать
                     </Button>
-                    <Button variant="primary" onClick={handleSendData}>
-                        Окей
-                    </Button>
-                    <Button variant="primary" onClick={handleDeactivateConfirm}>
+                </Modal.Footer>
+            </Modal>
+            <Modal show={showDeactivateModal} onHide={handleCloseDeactivateModal}>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ fontSize: "18px" }}>Протокол (будет отправлен на почту)</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <textarea
+                        className="form-control"
+                        rows="3"
+                        value={comment}
+                        onChange={handleCommentChange}
+                        placeholder='заключение'
+                    />
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="danger" size="sm" onClick={handleSendDeactivateData}>
                         Деактивировать
                     </Button>
                 </Modal.Footer>

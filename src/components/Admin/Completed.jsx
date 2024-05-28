@@ -11,7 +11,7 @@ const Completed = () => {
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
-            setUserEmail(userDataString); 
+            setUserEmail(userDataString);
         }
     }, []);
 
@@ -67,7 +67,7 @@ const Completed = () => {
                             </Link>
                         </div>
                     </div>
-                    <div>{userEmail}</div> 
+                    <div>{userEmail}</div>
                 </div>
                 <div>
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -116,17 +116,15 @@ const Completed = () => {
                                                         {/*    ))}*/}
                                                         {/*</td>*/}
                                                         <td>
-                                                            <Button variant="success" size="sm"  onClick={handleShow2}>В архив</Button>
+                                                            <Button variant="success" size="sm" onClick={handleShow2}>В архив</Button>
                                                         </td>
                                                         <Modal show={show2} onHide={handleClose2}>
                                                             <Modal.Header closeButton>
-                                                                <Modal.Title>Подтверждение</Modal.Title>
+                                                                <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите добавить в архив</Modal.Title>
                                                             </Modal.Header>
-
-                                                            <Modal.Body>Добавить в архив?</Modal.Body>
                                                             <Modal.Footer>
-                                                                <Button variant="primary"
-                                                                    onClick={() => handleClick(contest.codeid)} >Да</Button>
+                                                                <Button variant="success" size="sm"
+                                                                    onClick={() => handleClick(contest.codeid)} >Подтвердить</Button>
                                                             </Modal.Footer>
 
                                                         </Modal>

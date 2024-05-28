@@ -12,7 +12,7 @@ const Virification = () => {
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
-            setUserEmail(userDataString); 
+            setUserEmail(userDataString);
         }
     }, []);
 
@@ -53,7 +53,7 @@ const Virification = () => {
         return <div>Loading...</div>;
     }
 
-   
+
     const userRole = localStorage.getItem('role');
 
     return (
@@ -77,8 +77,8 @@ const Virification = () => {
                         </div>
                     </div>
                     <div>
-                    <div>
-                           {userEmail}
+                        <div>
+                            {userEmail}
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ const Virification = () => {
 
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Введите комментарий</Modal.Title>
+                    <Modal.Title style={{ fontSize: "18px" }}>Протокол (будет отправлен на почту)</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <textarea
@@ -150,15 +150,14 @@ const Virification = () => {
                         rows="3"
                         value={comment}
                         onChange={handleCommentChange}
+                        placeholder='заключение'
                     />
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseModal}>
-                        Отмена
+                    <Button variant="danger" size="sm" onClick={handleCloseModal}>
+                    Деактивировать
                     </Button>
-                    <Button variant="primary" onClick={handleDeactivate}>
-                        Деактивировать
-                    </Button>
+                  
                 </Modal.Footer>
             </Modal>
         </div>
