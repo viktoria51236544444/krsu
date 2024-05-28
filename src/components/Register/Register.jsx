@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import {Button} from "react-bootstrap";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -115,6 +116,13 @@ const Register = () => {
         }
     };
 
+    const onRemove2 = (index) => {
+        const updated = [...selectedFiles];
+        updated.splice(index, 1);
+
+        setSelectedFiles(updated);
+    };
+
     const validateStep = (step) => {
         const fieldsToValidate = getFieldNamesForStep(step);
         let isValid = true;
@@ -159,11 +167,12 @@ const Register = () => {
         return isValid;
     };
 
+
     const [selectedFiles, setSelectedFiles] = useState([]);
 
     const handleFileSelection = (event) => {
         const files = Array.from(event.target.files);
-        setSelectedFiles(files);
+        setSelectedFiles(prevFiles => [...prevFiles, ...files]);
         handleFileChange(event);
     };
 
@@ -535,17 +544,22 @@ const Register = () => {
                                             id="fileInput"
                                         />
                                         <label htmlFor="fileInput" className="btn btn-outline-secondary">
-                                            <i className="bi bi-upload"></i>
+                                            <i> Прикрепить файлы</i>
                                         </label>
                                     </div>
                                     {selectedFiles.length > 0 && (
                                         <div className="mt-2">
                                             <ul className="list-group">
                                                 {selectedFiles.map((file, index) => (
+                                                    <>
+                                                        <div style={{display: "flex", flexDirection: 'row', gap: 10, margin: '10px 0'}}>
                                                     <li key={index} className="list-group-item">
                                                         {file.name}
                                                     </li>
-                                                ))}
+                                                    <Button variant="danger" size="sm" onClick={() => onRemove2(index)}>X</Button>
+                                                        </div>
+                                                    </>
+                                            ))}
                                             </ul>
                                         </div>
                                     )}
@@ -557,7 +571,7 @@ const Register = () => {
                             </div>
                         )}
 
-                        <div className="mt-4 d-flex justify-content-between">
+                        <div className="mt-4"  style={{width: 300, margin: '0 auto', display: "flex", flexDirection: 'row', gap: 15, alignItems: "center", justifyContent: 'center'}}>
                             {currentStep > 1 && (
                                 <button
                                     type="button"
