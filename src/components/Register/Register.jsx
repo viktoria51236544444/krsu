@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import { BsPaperclip } from 'react-icons/bs';
-import { Form } from 'react-bootstrap';
 
 const Register = () => {
     const navigate = useNavigate();
@@ -424,42 +422,42 @@ const Register = () => {
                                     )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">ПИН руководителя отдела закупок</label>
+                                    <label className="form-label">ПИН</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        name="pin_manager"
-                                        value={formState.pin_manager}
+                                        name="pin_sales_manager"
+                                        value={formState.pin_sales_manager}
                                         onChange={handleChange}
                                     />
-                                    {errors.pin_manager && (
-                                        <div className="text-danger">{errors.pin_manager}</div>
+                                    {errors.pin_sales_manager && (
+                                        <div className="text-danger">{errors.pin_sales_manager}</div>
                                     )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">ФИО руководителя отдела закупок</label>
+                                    <label className="form-label">ФИО</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        name="fio_manager"
-                                        value={formState.fio_manager}
+                                        name="fio"
+                                        value={formState.fio}
                                         onChange={handleChange}
                                     />
-                                    {errors.fio_manager && (
-                                        <div className="text-danger">{errors.fio_manager}</div>
+                                    {errors.fio && (
+                                        <div className="text-danger">{errors.fio}</div>
                                     )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">Должность руководителя отдела закупок</label>
+                                    <label className="form-label">Должность</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        name="position_manager"
-                                        value={formState.position_manager}
+                                        name="position"
+                                        value={formState.position}
                                         onChange={handleChange}
                                     />
-                                    {errors.position_manager && (
-                                        <div className="text-danger">{errors.position_manager}</div>
+                                    {errors.position && (
+                                        <div className="text-danger">{errors.position}</div>
                                     )}
                                 </div>
                                 <div className="col-md-6">
@@ -514,26 +512,18 @@ const Register = () => {
                                         <div className="text-danger">{errors.password_manager}</div>
                                     )}
                                 </div>
-                                <div className="row">
-                                    <div className="col-md-12">
-                                        <Form.Group className="mb-3" controlId="files" style={{ marginTop: "1vw" }}>
-                                            <Form.Label style={{ display: 'block' }}>
-                                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
-                                                Прикрепить файлы
-                                            </Form.Label>
-                                            <Form.Control
-                                                type="file"
-                                                className="form-control"
-                                                name="files"
-                                                multiple
-                                                onChange={handleFileChange}
-                                                style={{display: "none"}}
-                                            />
-                                        </Form.Group>
-                                        {errors.files && (
-                                            <div className="text-danger">{errors.files}</div>
-                                        )}
-                                    </div>
+                                <div className="col-md-12">
+                                    <label className="form-label">Загрузить файлы</label>
+                                    <input
+                                        type="file"
+                                        className="form-control"
+                                        name="files"
+                                        multiple
+                                        onChange={handleFileChange}
+                                    />
+                                    {errors.files && (
+                                        <div className="text-danger">{errors.files}</div>
+                                    )}
                                 </div>
                             </div>
                         )}

@@ -105,7 +105,7 @@ const Canceled = () => {
                                                         <td>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
                                                                 <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
-                                                                    <FileArrowDown size={24} color='inherit' />
+                                                                   
                                                                     <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                         <span>{file.file_name}</span>
                                                                     </a>

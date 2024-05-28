@@ -36,20 +36,14 @@ const RegulatoryLegalAct = () => {
               <Table striped bordered hover>
                 <thead>
                   <tr>
-                    <th style={{ width: '50px', textAlign: 'center' }}>
-                      <p style={{ fontSize: 16 }}>№</p>
-                    </th>
-                    <th>
-                      <p style={{ fontSize: 16 }}>Наименование файла</p>
-                    </th>
+                    
+                    
                   </tr>
                 </thead>
                 <tbody className="file-table">
                   {files?.map((file, index) => (
                     <tr key={index}>
-                      <td style={{ width: '50px', textAlign: 'center' }}>
-                        <p style={{ fontSize: 16 }}>{index + 1}</p>
-                      </td>
+                     
                       <td>
                         <div style={{ display: 'flex', flexDirection: 'row', gap: 5 }}>
                           <a href={file.path} download style={{ fontSize: 16, color: 'black', display: 'flex', flexDirection: 'row', gap: 10 }}>

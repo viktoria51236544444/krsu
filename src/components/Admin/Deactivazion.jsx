@@ -39,9 +39,9 @@ const Deactivazion = () => {
                 }}>
                     <div>
                         <div className="pills-outline">
-                            <Link to={"/participants"}><button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "#333333", background: "#F0F0F0" }} >Неверифицированные</button></Link>
-                            <Link to={"/verf"}><button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }} onClick={() => getByStatus(1)}  >Верифицированные</button></Link>
-                            <Link to={"/deac"}>  <button style={{ color: "#0D6EFD", background: "White" }} className="tab-button" onClick={() => getByStatus(3)}>Деактивированные</button></Link>
+                            <Link to={"/participants"}><button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "white", background: "#0D6EFD" }} >Неверифицированные</button></Link>
+                            <Link to={"/verf"}><button className="tab-button" style={{ color: "white", background: "#198754" }} onClick={() => getByStatus(1)}  >Верифицированные</button></Link>
+                            <Link to={"/deac"}>  <button style={{ color: "black", background: "#dc3545" }}  className="tab-button" onClick={() => getByStatus(3)}>Деактивированные</button></Link>
                         </div>
                     </div>
                     <div>

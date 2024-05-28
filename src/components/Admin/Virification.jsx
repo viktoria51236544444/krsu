@@ -71,9 +71,9 @@ const Virification = () => {
                 }}>
                     <div>
                         <div className="pills-outline">
-                            <Link to={"/participants"}><button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "#333333", background: "#F0F0F0" }} >Неверифицированные</button></Link>
-                            <Link to={"/verf"}><button className="tab-button" onClick={() => getByStatus2(1)} style={{ color: "#0D6EFD", background: "White" }} >Верифицированные</button></Link>
-                            <Link to={"/deac"}>  <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }} onClick={() => getByStatus(3)}>Деактивированные</button></Link>
+                            <Link to={"/participants"}><button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "white", background: "#0D6EFD" }} >Неверифицированные</button></Link>
+                            <Link to={"/verf"}><button className="tab-button" onClick={() => getByStatus2(1)} style={{ color: "black", background: "#198754" }} >Верифицированные</button></Link>
+                            <Link to={"/deac"}>  <button className="tab-button" style={{ color: "white", background: "#dc3545" }} onClick={() => getByStatus(3)}>Деактивированные</button></Link>
                         </div>
                     </div>
                     <div>

@@ -104,14 +104,14 @@ const Participants = () => {
                 }}>
                     <div>
                         <div className="pills-outline">
-                            <button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "#0D6EFD", background: "White" }}>Неверифицированные
+                            <button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "black", background: "#0D6EFD" }}>Неверифицированные
                             </button>
                             <Link to={"/verf"}>
                                 <button className="tab-button" onClick={() => getByStatus2(1)}
-                                    style={{ color: "#333333", background: "#F0F0F0" }}>Верифицированные
+                                    style={{ color: "white", background: "#198754" }}>Верифицированные
                                 </button>
                             </Link>
-                            <Link to={"/deac"}>  <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }} onClick={() => getByStatus(3)}>Деактивированные</button></Link>
+                            <Link to={"/deac"}>  <button className="tab-button" style={{ color: "white", background: "#dc3545" }} onClick={() => getByStatus(3)}>Деактивированные</button></Link>
                         </div>
                     </div>
                     <div>

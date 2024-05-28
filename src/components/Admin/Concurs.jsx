@@ -267,7 +267,7 @@ const Concurs = () => {
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="card">
                         <div className="card-header" style={{background: "white"}}>
-                            <Button variant="success" size="sm" onClick={handleShow}>Новый конкурс</Button>
+                            <Button variant="success" size="sm" onClick={handleShow}>Добавить конкурс</Button>
                         </div>
                         <div className="card-body">
                             <div className="table-responsive">
@@ -310,7 +310,7 @@ const Concurs = () => {
                                                              flexDirection: "row",
                                                              gap: 10
                                                          }}>
-                                                        <FileArrowDown size={24} color='inherit'/>
+                                                        
                                                         <a href={`http://212.112.105.196:3457/${file.path}`} style={{
                                                             textDecoration: 'none',
                                                             color: 'inherit',
