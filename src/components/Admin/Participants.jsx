@@ -226,7 +226,7 @@ const Participants = () => {
             </Modal>
             <Modal show={showDeactivateModal} onHide={handleCloseDeactivateModal}>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ fontSize: "18px" }}>Протокол (будет отправлен на почту)</Modal.Title>
+                    <Modal.Title style={{ fontSize: "18px" }}>Протокол </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <textarea
@@ -235,12 +235,16 @@ const Participants = () => {
                         value={comment}
                         onChange={handleCommentChange}
                         placeholder='заключение'
+                        style={{height: 250}}
                     />
                 </Modal.Body>
                 <Modal.Footer>
+                    <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", padding: '0 20px', width: '100%'}}>
+                    <p>(будет отправлен на почту)</p>
                     <Button variant="danger" size="sm" onClick={handleSendDeactivateData}>
                         Деактивировать
                     </Button>
+                    </div>
                 </Modal.Footer>
             </Modal>
         </div>

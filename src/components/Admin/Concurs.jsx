@@ -219,6 +219,8 @@ const Concurs = () => {
             console.log(error)
         }
     }
+
+    console.log(formData)
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -321,7 +323,7 @@ const Concurs = () => {
                                                 <td>
                                                     {contest.files.length > 0 && contest.files.map((file, index) => (
                                                         <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
-                                                            <a href={`http://212.112.105.196:3457/${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
+                                                            <a href={file.path} target="_blank" rel="noopener noreferrer" download style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                 <span>{file.file_name}</span>
                                                             </a>
                                                         </div>

@@ -84,6 +84,7 @@ const Public = () => {
         formData.append('contest_id', selectedContestId)
         formData.append('contest_status', 4)
         formData.append('comment', reason)
+        console.log(formData)
         try {
             await updateContestStatus(formData);
             setShowModal(false);
@@ -190,11 +191,11 @@ const Public = () => {
                                                         <th onClick={() => watchDetails(contest.codeid)}>{contest.planned_summ}</th>
                                                         <td onClick={() => watchDetails(contest.codeid)}>{contest.start_date}</td>
                                                         <td onClick={() => watchDetails(contest.codeid)}>{contest.formatted_end_date}</td>
-                                                        <td onClick={() => watchDetails(contest.codeid)}>
-                                                            {contest.files.length > 0 && contest.files.map((file, index) => (
+                                                        <td >
+                                                            { contest.files && contest.files.length > 0 && contest.files.map((file, index) => (
                                                                 <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
 
-                                                                    <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
+                                                                    <a href={`${file.path}`}  target="_blank" rel="noopener noreferrer" download  style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
                                                                         <span>{file.file_name}</span>
                                                                     </a>
                                                                 </div>
@@ -227,12 +228,13 @@ const Public = () => {
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
-                        <Form.Control
-                            as="textarea"
-                            placeholder=""
-                            value={reason}
-                            onChange={(e) => setReason(e.target.value)}
-                        />
+                    <Form.Control
+                        as="textarea"
+                        placeholder=""
+                        value={reason}
+                        style={{height: 250}}
+                        onChange={(e) => setReason(e.target.value)}
+                    />
                         <Form.Group className="mb-3" controlId="files" style={{ marginTop: "1vw" }}>
                             <Form.Label style={{ display: 'block' }}>
                                 <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />

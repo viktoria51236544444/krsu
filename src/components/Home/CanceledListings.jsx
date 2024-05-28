@@ -119,7 +119,16 @@ const CanceledListings = () => {
                                     <td>{ad.start_date}</td>
                                     <td>{ad.formatted_end_date}</td>
                                     <td>{ad.planned_summ} сом</td>
-                                    <td>{ad.coment}</td>
+                                    <td style={{color: "red"}}>
+                                        <p>{ad.coment}</p>
+                                        {ad.files&& ad.files.length > 0 && ad.files.map((file, index) => (
+                                            <>
+                                                <div key={index}>
+                                                    <a href= {file.path} target="_blank" rel="noopener noreferrer" download>{file.description}</a>
+                                                </div>
+                                            </>
+                                        ))}
+                                    </td>
                                     {/*{ad.canceled && (*/}
                                         <td> <div style={{color: 'red', border: '1px solid red', width: 80, height: 30, display: "flex", justifyContent: 'center', alignItems: "center", borderRadius: 8}}>Отменено</div></td>
                                     {/*)}*/}
