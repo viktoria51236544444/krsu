@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { ArrowFatLeft, ArrowFatRight, CaretLeft, CaretRight, Eye, MagnifyingGlass } from "@phosphor-icons/react";
 import './homePage.css'
 import axios from "axios";
+import DetailModal from "./DetailModal";
 
 
 const Ads = () => {
@@ -21,7 +22,7 @@ const Ads = () => {
         summ: 0,
         files: []
     });
-    
+
 
     const [showModal, setShowModal] = useState(false);
     const [selectedContest, setSelectedContest] = useState(null);
@@ -34,7 +35,22 @@ const Ads = () => {
 
     const handleClick = (codeid) => {
         getOrderDetails(codeid)
-        navigate(`/detail/${codeid}`)
+        setSelectedContestId(codeid);
+        setShowDetailModal(true);
+       // navigate(`/detail/${codeid}`)
+    };
+
+    const [showDetailModal, setShowDetailModal] = useState(false);
+    const [selectedContestId, setSelectedContestId] = useState(null);
+
+    const handleShowDetails = (contestId) => {
+        setSelectedContestId(contestId);
+        setShowDetailModal(true);
+    };
+
+    const handleCloseDetails = () => {
+        setShowDetailModal(false);
+        setSelectedContestId(null);
     };
 
     useEffect(() => {
@@ -83,7 +99,7 @@ const Ads = () => {
             files: [...prevState.files, ...files]
         }));
     };
-    
+
 
     const itemsPerPage = 20;
     const totalPages = publick ? Math.ceil(publick.length / itemsPerPage) : 0;
@@ -105,7 +121,7 @@ const Ads = () => {
         if (!selectedContest) {
             return;
         }
-    
+
         const formData = new FormData();
         formData.append('userId', useCurrentData ? parseInt(userId) : User.userId);
         formData.append('contest_id', selectedContest.codeid);
@@ -114,7 +130,7 @@ const Ads = () => {
         User.files.forEach(file => {
             formData.append('files', file);
         });
-    
+
         try {
             await createOrder(formData);
             console.log('Order submitted successfully!');
@@ -126,7 +142,7 @@ const Ads = () => {
             console.error('Error submitting order:', error);
         }
     };
-    
+
 
     const [searchText, setSearchText] = useState('');
     const [searchResults, setSearchResults] = useState([]);
@@ -250,6 +266,8 @@ const Ads = () => {
                     </div>
                 </div>
             </div>
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId}/>
+
             <Modal show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Подача заявки на конкурс</Modal.Title>
@@ -289,7 +307,7 @@ const Ads = () => {
                     <Button variant="primary" onClick={handleSubmitOrder}>Подать заявку</Button>
                 </Modal.Footer>
             </Modal>
-          
+
         </div>
     );
 }
