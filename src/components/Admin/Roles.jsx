@@ -5,6 +5,7 @@ import axios from 'axios';
 import './Roles.css'
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import {UseRegister} from "../../Context/ContextProviderRegister";
+import {BsPaperclip} from "react-icons/bs";
 
 const Roles = () => {
     const {organizationType} = UseRegister();
@@ -779,7 +780,7 @@ const Roles = () => {
                                     <label className="form-label">Загрузить файлы</label>
                                     <div className="input-group">
                                         <span className="input-group-text">
-                                            <i className="bi bi-paperclip"></i>
+                                              <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                         </span>
                                         <input
                                             type="file"
@@ -805,6 +806,7 @@ const Roles = () => {
                                                             gap: 10,
                                                             margin: '10px 0'
                                                         }}>
+                                                            <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                                             <li key={index} className="list-group-item">
                                                                 {file.name}
                                                             </li>

@@ -471,7 +471,7 @@ const Participants = () => {
                                                         {user.files.length > 0 && user.files.map((file, index) => (
                                                             <>
                                                                 <div className='d-flex flex-row gap-2'>
-                                                                    <i className="bi bi-paperclip"></i>
+                                                                    <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                                                     <a target="_blank" rel="noopener noreferrer"
                                                                        download
                                                                        href={file.path}>{file.file_name}</a>
@@ -897,7 +897,7 @@ const Participants = () => {
                                         <label className="form-label">Загрузить файлы</label>
                                         <div className="input-group">
                                         <span className="input-group-text">
-                                            <i className="bi bi-paperclip"></i>
+                                              <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                         </span>
                                             <input
                                                 type="file"

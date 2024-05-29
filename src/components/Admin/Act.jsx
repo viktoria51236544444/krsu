@@ -24,9 +24,12 @@ const Act = () => {
     };
     console.log(actt);
     const [show2, setShow2] = useState(false);
-
+    const [selectedFileCodeId, setSelectedFileCodeid] = useState(null)
     const handleClose2 = () => setShow2(false);
-    const handleShow2 = () => setShow2(true);
+    const handleShow2 = (codeid) => {
+        setSelectedFileCodeid(codeid)
+        setShow2(true);
+    }
 
     const [addAct, setAddAct] = useState({
         fileDescription: "",
@@ -74,10 +77,10 @@ const Act = () => {
         }
     };
 
-    const handleDelete = async (codeid) => {
+    const handleDelete = async () => {
         try {
             const data = {
-                codeFile: codeid
+                codeFile: selectedFileCodeId
             }
             const response = await axios.post('http://212.112.105.196:3457/api/files/deleteFile', data)
             handleClose2()
@@ -170,24 +173,11 @@ const Act = () => {
                                                                 variant="danger"
                                                                 size="sm"
                                                                 style={{ padding: '0 10px', display: 'flex', flexDirection: "row", gap: 8, alignItems: 'center' }}
-                                                                onClick={handleShow2}
+                                                                onClick={ () => handleShow2(item.codeid)}
                                                             >
                                                                 Удалить
                                                             </Button>
                                                         )}
-                                                        <Modal show={show2} onHide={handleClose2}>
-                                                            <Modal.Header closeButton>
-                                                                <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите удалить нормативно правовой акт?</Modal.Title>
-                                                            </Modal.Header>
-
-                                                            <Modal.Footer>
-
-                                                                <Button variant="danger"
-                                                                    size="sm" onClick={() => handleDelete(item.codeid)}>
-                                                                    Удалить
-                                                                </Button>
-                                                            </Modal.Footer>
-                                                        </Modal>
                                                     </div>
                                                 </td>
                                             </tr>
@@ -199,6 +189,21 @@ const Act = () => {
                     </div>
                 </div>
             </div>
+
+            <Modal show={show2} onHide={handleClose2}>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите удалить нормативно правовой акт?</Modal.Title>
+                </Modal.Header>
+
+                <Modal.Footer>
+
+                    <Button variant="danger"
+                            size="sm" onClick={() => handleDelete()}>
+                        Удалить
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
             <Modal show={show} onHide={handleClose} className="custom-modal ">
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: '18px' }}>Добавление нормативно правового акта</Modal.Title>
@@ -230,7 +235,10 @@ const Act = () => {
                             {addAct.file && (
                                 <div>
                                     <ul>
-                                        <li>{addAct.file.name}</li>
+                                        <div className='d-flex flex-row gap-1'>
+                                        <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                        <p>{addAct.file.name}</p>
+                                        </div>
                                     </ul>
                                 </div>
                             )}

@@ -3,6 +3,7 @@ import {Container, Row, Col, ListGroup, Button, Modal, Form} from 'react-bootstr
 import axios from "axios";
 import {UseRegister} from '../../Context/ContextProviderRegister';
 import "./detailStyle.css"
+import {BsPaperclip} from "react-icons/bs";
 
 const DetailModal = ({show, onHide, contestId, comment, winner}) => {
     const {wonContest} = UseRegister();
@@ -155,8 +156,9 @@ const DetailModal = ({show, onHide, contestId, comment, winner}) => {
                                             <div className="table w-100" key={idx}>
                                                 <div style={{display: "flex", alignItems: "center"}}>
                                                     <span>{idx + 1}.</span>
+                                                    <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+
                                                     <span style={{display: 'flex', alignItems: "center"}}>
-                                                    <i className="bi bi-paperclip"></i>
                                                         <a href={file.path} target='_blank'
                                                            download>{file.file_name}</a>
                                                         {/*<CloudArrowDown size={40} color="#404040" />*/}
@@ -209,7 +211,7 @@ const DetailModal = ({show, onHide, contestId, comment, winner}) => {
                                                                     {user.finalUser?.file.map((file, fileIdx) => (
                                                                         <>
                                                                             <div className='d-flex flex-row gap-2'>
-                                                                                <i className="bi bi-paperclip"></i>
+                                                                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                                                                 <a target="_blank"
                                                                                    rel="noopener noreferrer" download
                                                                                    href={file.path}>{file.file_name}</a>

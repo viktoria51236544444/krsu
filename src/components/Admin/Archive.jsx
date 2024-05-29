@@ -6,6 +6,7 @@ import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
 import {Power} from "phosphor-react";
+import {BsPaperclip} from "react-icons/bs";
 
 const Archive = () => {
     const { contestFilter, count, getCounts } = UseRegister()
@@ -25,7 +26,7 @@ const Archive = () => {
 
     const getContestList = async () => {
         try {
-            const response = await axios.get('http://212.112.105.196:3457/api/contest/getContestList');
+            const response = await axios.get('http://212.112.105.196:3457/api/contest/contestFilter/5');
             const contests = response.data.result.data;
             setContestList(contests);
         } catch (error) {
@@ -33,7 +34,6 @@ const Archive = () => {
         }
     };
 
-    console.log(contestList)
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -119,7 +119,7 @@ const Archive = () => {
                                                         {contest.files.length > 0 && contest.files.map((file, index) => (
                                                             <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
                                                                     <div className='d-flex flex-row gap-2'>
-                                                                        <i className="bi bi-paperclip"></i>
+                                                                        <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                                                         <a target="_blank" rel="noopener noreferrer" download
                                                                            href={file.path}>{file.file_name}</a>
                                                                     </div>

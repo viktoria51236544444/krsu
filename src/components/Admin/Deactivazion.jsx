@@ -5,6 +5,7 @@ import { UseRegister } from '../../Context/ContextProviderRegister';
 import Sidebar from './Sidebar';
 import { Link } from 'react-router-dom';
 import {Power} from "phosphor-react";
+import {BsPaperclip} from "react-icons/bs";
 
 const Deactivazion = () => {
     const { users2, getByStatus, updateUserStatus} = UseRegister();
@@ -144,7 +145,7 @@ const Deactivazion = () => {
                                                         {user.files.length > 0 && user.files.map((file, index) => (
                                                             <>
                                                                 <div className='d-flex flex-row gap-2'>
-                                                                    <i className="bi bi-paperclip"></i>
+                                                                    <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                                                     <a target="_blank" rel="noopener noreferrer"
                                                                        download
                                                                        href={file.path}>{file.file_name}</a>
@@ -158,7 +159,7 @@ const Deactivazion = () => {
                                                         <p style={{color: 'red'}}>{user.comment}</p>
                                                         {user.files.length > 0 && (
                                                             <div className='d-flex flex-row gap-2'>
-                                                                <i className="bi bi-paperclip"></i>
+                                                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                                                 <a target="_blank" rel="noopener noreferrer"
                                                                    download
                                                                    href={user.files[0].path}>{user.files[0].file_name}</a>

@@ -83,7 +83,7 @@ const ContextProviderRegister = ({ children }) => {
             console.log(res);
 
             localStorage.setItem('authToken', res.data.token);
-            localStorage.setItem('userEmail', signinData.email);
+            localStorage.setItem('userEmail', res.data.data.fio);
             localStorage.setItem('codeid', res.data.codeid);
             localStorage.setItem('role', res.data.data.role_name || '');
 

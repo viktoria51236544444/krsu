@@ -7,6 +7,7 @@ import Sidebar from './Sidebar';
 import { FileArrowDown } from "@phosphor-icons/react";
 import DetailModal from "../Home/DetailModal";
 import {Power} from "phosphor-react";
+import {BsPaperclip} from "react-icons/bs";
 
 const Canceled = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts } = UseRegister();
@@ -141,18 +142,27 @@ const Canceled = () => {
                                                         <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{contest.formatted_end_date}</td>
                                                         <td>
                                                             {contest.files.length > 0 && contest.files.map((file, index) => (
-                                                                <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
-
-                                                                    <a href={`${file.path}`} style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
-                                                                        <span>{file.file_name}</span>
-                                                                    </a>
+                                                                <div key={index} style={{
+                                                                    marginRight: '10px',
+                                                                    display: "flex",
+                                                                    flexDirection: "row",
+                                                                    gap: 10
+                                                                }}>
+                                                                    <div className='d-flex flex-row gap-2'>
+                                                                        <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                                                        <a target="_blank" rel="noopener noreferrer"
+                                                                           download
+                                                                           href={file.path}>{file.file_name}</a>
+                                                                    </div>
                                                                 </div>
                                                             ))}
 
                                                         </td>
                                                         <td style={{color: "#dc3545"}}>{contest.coment}</td>
                                                         <td>
-                                                            <Button variant="success" size="sm"  onClick={() => handleAcrhive(contest.codeid)} style={{width: 70}}>В архив</Button>
+                                                            <Button variant="success" size="sm"
+                                                                    onClick={() => handleAcrhive(contest.codeid)}
+                                                                    style={{width: 70}}>В архив</Button>
                                                         </td>
 
                                                     </tr>
@@ -166,7 +176,8 @@ const Canceled = () => {
                 </div>
             </div>
 
-            <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId} comment={comment}/>
+            <DetailModal show={showDetailModal} onHide={handleCloseDetails} contestId={selectedContestId}
+                         comment={comment}/>
 
             <Modal show={finalContestModal} onHide={handleCloseFinalModal} centered>
                 <Modal.Header closeButton>

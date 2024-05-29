@@ -28,7 +28,7 @@ function NavScrollExample() {
                 const storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
                 if (!storedUserInfo) {
                     getUserInfo(codeid);
-                } 
+                }
             }
         } else {
             setEmail(null);
@@ -57,7 +57,7 @@ function NavScrollExample() {
                 console.log(data.user.user);
                 localStorage.setItem('userInfo', JSON.stringify(data.user.user));
                 setIsAdmin(data.user.user.role === 'Администратор');
-            } 
+            }
         } catch (error) {
             console.log('Ошибка при получении информации о пользователе:', error);
         }
@@ -84,7 +84,7 @@ function NavScrollExample() {
             navigate('/concurs');
         }
     };
-    
+
 
     const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act", "/verf", "/deac"].includes(activeTab);
 

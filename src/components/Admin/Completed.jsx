@@ -25,7 +25,11 @@ const Completed = () => {
   }, []);
 
   const handleClose2 = () => setShow2(false);
-  const handleShow2 = () => setShow2(true);
+  const handleShow2 = (codeid) =>{
+    setSelectedCodeid(codeid)
+    setShow2(true);
+  }
+
 
   const handleCloseDetails = () => {
     setShowDetailModal(false);
@@ -35,18 +39,20 @@ const Completed = () => {
   const [showDetailModal, setShowDetailModal] = useState(false);
   const [selectedContestId, setSelectedContestId] = useState(null);
 
+  const [selectedCodeid, setSelectedCodeid] = useState(null)
   useEffect(() => {
-    contestFilter(2);
+    contestFilter(3);
     getCounts();
   }, []);
 
-  const handleClick = (contest_id) => {
+  const handleClick = () => {
     const arheve = {
-      contest_id: contest_id,
+      contest_id: selectedCodeid,
       contest_status: 5,
     };
     updateContestStatus(arheve);
     handleClose2();
+    contestFilter(3);
     getCounts();
   };
 
@@ -168,7 +174,7 @@ const Completed = () => {
                     { compled && compled
                         .filter(contest => {
                           console.log('Contest:', contest);
-                          return contest.contest_status === 2;
+                          return contest.contest_status === 3;
                         })
                         .map((contest, index) => (
                             <tr key={contest.codeid}>
@@ -235,28 +241,12 @@ const Completed = () => {
                               <Button
                                 variant="success"
                                 size="sm"
-                                onClick={handleShow2}
+                                onClick={() => {handleShow2(contest.codeid)}}
                                 style={{width: 70}}
                               >
                                 В архив
                               </Button>
                             </td>
-                            <Modal show={show2} onHide={handleClose2}>
-                              <Modal.Header closeButton>
-                                <Modal.Title style={{ fontSize: "18px" }}>
-                                  Вы действительно хотите добавить в архив
-                                </Modal.Title>
-                              </Modal.Header>
-                              <Modal.Footer>
-                                <Button
-                                  variant="success"
-                                  size="sm"
-                                  onClick={() => handleClick(contest.codeid)}
-                                >
-                                  Подтвердить
-                                </Button>
-                              </Modal.Footer>
-                            </Modal>
                           </tr>
                         ))}
                     </tbody>
@@ -267,6 +257,24 @@ const Completed = () => {
           </div>
         </div>
       </div>
+
+      <Modal show={show2} onHide={handleClose2}>
+        <Modal.Header closeButton>
+          <Modal.Title style={{ fontSize: "18px" }}>
+            Вы действительно хотите добавить в архив
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Footer>
+          <Button
+              variant="success"
+              size="sm"
+              onClick={() => handleClick()}
+          >
+            Подтвердить
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
       <DetailModal
         show={showDetailModal}
         onHide={handleCloseDetails}

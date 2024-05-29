@@ -200,20 +200,34 @@ const Public = () => {
                                                         <td onClick={() => watchDetails(contest.codeid)}>{contest.formatted_end_date}</td>
                                                         <td >
                                                             { contest.files && contest.files.length > 0 && contest.files.map((file, index) => (
-                                                                <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
-
-                                                                    <a href={`${file.path}`}  target="_blank" rel="noopener noreferrer" download  style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
-                                                                        <span>{file.file_name}</span>
-                                                                    </a>
+                                                                <div key={index} style={{
+                                                                    marginRight: '10px',
+                                                                    display: "flex",
+                                                                    flexDirection: "row",
+                                                                    gap: 10
+                                                                }}>
+                                                                    <div className='d-flex flex-row gap-2'>
+                                                                        <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                                                        <a target="_blank" rel="noopener noreferrer"
+                                                                           download
+                                                                           href={file.path}>{file.file_name}</a>
+                                                                    </div>
                                                                 </div>
                                                             ))}
                                                         </td>
-                                                        <td>
-                                                            <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", gap: "0.5vw" }}>
-                                                                <Button variant="success" size="sm" onClick={() => handleFinalContest(contest.codeid)}>Завершить</Button>
-                                                                {userRole !== 'Оператор' && (
+                                                    <td>
+                                                        <div style={{
+                                                            display: "flex",
+                                                            justifyContent: "space-around",
+                                                            alignItems: "center",
+                                                            gap: "0.5vw"
+                                                        }}>
+                                                            <Button variant="success" size="sm"
+                                                                    onClick={() => handleFinalContest(contest.codeid)}>Завершить</Button>
+                                                            {userRole !== 'Оператор' && (
 
-                                                                    <Button variant="danger" size="sm" onClick={() => handlePublish2(contest.codeid)}>Деактивировать</Button>
+                                                                <Button variant="danger" size="sm"
+                                                                        onClick={() => handlePublish2(contest.codeid)}>Деактивировать</Button>
                                                                 )}
                                                             </div>
                                                         </td>

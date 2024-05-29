@@ -7,6 +7,7 @@ import "./homePage.css";
 import axios from "axios";
 import DetailModal from "./DetailModal";
 import debounce from "lodash.debounce";
+import {BsPaperclip} from "react-icons/bs";
 
 const Ads = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -459,7 +460,7 @@ const Ads = () => {
             <Form.Group>
               <div className="input-group">
                                         <span className="input-group-text">
-                                            <i className="bi bi-paperclip"></i>
+                                              <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                         </span>
                 <input
                     type="file"
@@ -481,6 +482,7 @@ const Ads = () => {
                       {selectedFiles.map((file, index) => (
                           <>
                             <div style={{display: "flex", flexDirection: 'row', gap: 10, margin: '10px 0'}}>
+                              <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                               <li key={index} className="list-group-item">
                                 {file.name}
                               </li>

@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react';
-import Footer from './Footer';
 import axios from "axios";
 
 const InfoDogovor = () => {
@@ -46,7 +45,7 @@ const InfoDogovor = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {data.map((item, index) => (
+                            {data.winner?.map((item, index) => (
                                 <tr key={index}>
                                     <td>{index+1}</td>
                                     <td>{item.codeid + item.year + index + 1}</td>
@@ -64,7 +63,7 @@ const InfoDogovor = () => {
                     </div>
                 </div>
             </div>
-  
+
         </div>
     );
 }

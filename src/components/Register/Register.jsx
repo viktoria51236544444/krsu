@@ -3,6 +3,7 @@ import { UseRegister } from '../../Context/ContextProviderRegister';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import {Button} from "react-bootstrap";
+import {BsPaperclip} from "react-icons/bs";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -532,7 +533,7 @@ const Register = () => {
                                     <label className="form-label">Загрузить файлы</label>
                                     <div className="input-group">
                                         <span className="input-group-text">
-                                            <i className="bi bi-paperclip"></i>
+                                              <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                         </span>
                                         <input
                                             type="file"
