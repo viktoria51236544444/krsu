@@ -1,5 +1,5 @@
 .footer {
-    background-color: rgba(190, 189, 189, 0.49);
+    background-color: #1c1f229b;
     padding: 20px 0;
     margin-top: 2vw;
     width: 100%;
@@ -15,6 +15,7 @@
     margin: 0 auto;
 }
 
+
 .footer-block {
     text-align: start;
     max-width: 300px;
@@ -23,12 +24,30 @@
 .footer-block h5 {
     margin-bottom: 10px;
     font-size: 18px;
+    font-weight: 600;
+    color: #fff;
 }
 
 .footer-block p {
     margin: 5px 0;
-    font-size: 16px;
+    font-size: 14px;
+    color: #d3dde1c3; 
+    font-weight: 600;
+
 }
+
+.footer-block a {
+    display: block; 
+    text-align: left;
+    color: #d3dde1c3; 
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.footer-block a:hover {
+    text-decoration: underline;
+}
+
 
 @media (max-width: 768px) {
     .footer-container {
@@ -82,10 +101,25 @@
 
 .copyright {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    /* flex-direction: column;
+    align-items: center; */
     margin-top: 20px;
     font-size: 14px;
+    border-top: 1px solid #d3dde1c3;    
+}
+
+.copyright p {
+    display: block;
+    text-align: left;
+    color: #d3dde1c3; 
+    font-weight: 600;   
+}
+
+
+.copyright__inner {
+    margin: 10px auto 0;
+    width: 1250px;
+    /* background: red;     */
 }
 
 .line {
@@ -103,6 +137,8 @@
 
 .logo-container h4 {
     margin: 0;
+    color: #fff !important;
+
 }
 
 @media (max-width: 768px) {

@@ -27,7 +27,7 @@ const MainRoutes = () => {
     return (
         <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/ads" element={<Ads />} />
+            <Route path="/ads" element={<Ads />} /> 
             <Route path="/cancele" element={<CanceledListings />} />
             <Route path="/info" element={<InfoDogovor />} />
             <Route path="/contact" element={<ContactsAndDetails />} />
@@ -38,7 +38,7 @@ const MainRoutes = () => {
             <Route path="/register" element={<Register />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/password" element={<Password />} />
-            <Route path="/persona" element={<PersonalArea />} /> 
+            <Route path="/persona" element={<PersonalArea />} />    
             <Route path="/public" element={<Public />} /> 
             <Route path="/completed" element={<Completed />} /> 
             <Route path="/detail/:id" element={<DetailPage />} />

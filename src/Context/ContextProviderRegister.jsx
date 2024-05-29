@@ -194,6 +194,7 @@ const ContextProviderRegister = ({ children }) => {
         }
     };
 
+    //* ДЕАКТИВИРОВАНИЕ 
     const diactiveContest = async (Public) => {
         try {
             const res = await axios.post(`http://212.112.105.196:3457/api/contest/diactiveContest`, Public);
@@ -331,7 +332,8 @@ const ContextProviderRegister = ({ children }) => {
         actt,
         count,
         getCounts,
-        diactiveContest
+        diactiveContest,
+        SetPublic
     };
     return (
         <contextProviderRegister.Provider value={values}>

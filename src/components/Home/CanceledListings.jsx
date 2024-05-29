@@ -13,9 +13,6 @@ const CanceledListings = () => {
     const [showPageList, setShowPageList] = useState(false);
     const { getOrderDetails } = UseRegister();
 
-    const handlePageChange = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
     const navigate = useNavigate()
 
     const handleCloseDetails = () => {
@@ -80,47 +77,62 @@ const CanceledListings = () => {
     const endIndex = Math.min(startIndex + itemsPerPage, data.length);
     const currentPageData = data.slice(startIndex, endIndex);
 
+
+    
+  const handlePageChange = (pageNumber) => {
+    if (+pageNumber === 0) {
+      return;       
+    }
+    if (pageNumbers?.length < pageNumber) {
+      return;
+    }
+    setCurrentPage(pageNumber);
+    window.scrollTo(0, 0);
+  }; 
+
     return (
         <div className="container-fluid" >
             <div className="card" style={{border: "none"}}>
-                <div className="card-body">
-                    <div className="input-group mb-3">
-                        <input type="text" className="form-control"
+                <div className="card-body moreTable">
+                    {/* <div className="input-group mb-3">
+                        <input type="text" className="form-control searchInput"
                                placeholder="По наименованию объявления, закупающей организации, по № объявления"/>
                         <div className="input-group-append">
 
                         </div>
-                    </div>
-                    <hr/>
+                    </div> */}
+                    <hr className='hr' />
 
                     <div className="table-responsive">
                         <table className="table table-striped">
                             <thead>
                             <tr>
-                                <th>№</th>
-                                <th>Организация</th>
-                                <th>Номер</th>
-                                <th>Способ закупки</th>
-                                <th>Предмет закупки</th>
-                                <th>Начало закупки</th>
-                                <th>Окончание закупки</th>
-                                <th>Планируемая сумма</th>
-                                <th>Причина</th>
+                                <th className="titleTh">№</th>
+                                <th className="titleTh">Номер</th>
+                                <th className="titleTh">Организация</th>
+                                <th className="choiceZakup titleTh">Способ закупки</th>
+                                <th className="titleTh">Предмет закупки</th>
+                                <th className="titleTh">Начало закупки</th>
+                                <th className="titleTh">Окончание закупки</th>
+                                <th className="titleTh">Планируемая сумма</th>
+                                <th className="titleTh">Статус</th> 
+                                <th className="titleTh">Причина</th>
                             </tr>
                             </thead>
                             <tbody className='main-table'>
                             {currentPageData.map((ad, index) => (
                                 <tr key={index} onClick={()=>handleClick(ad.codeid)} style={{cursor: "pointer"}}>
                                     <td>{index + 1}</td>
+                                    <td>{ad.codeid + ad.year + index + 1}</td>      
                                     <td>{ad.contest_name}</td>
-                                    <td>{ad.codeid + ad.year + index + 1}</td>
-                                    <td>{ad.method_purchase}</td>
+                                    <td className="choiceZakup">{ad.method_purchase}</td>
                                     <td>{ad.contest_description}</td>
-                                    <td>{ad.start_date}</td>
+                                    <td className='good'>{ad.start_date}</td>
                                     <td>{ad.formatted_end_date}</td>
                                     <td>{ad.planned_summ} сом</td>
-                                    <td style={{color: "red"}}>
-                                        <p>{ad.coment}</p>
+                                    <td> <div className='cancelStatus'>Отменено</div></td>
+                                    <td>
+                                        <p className='cancel'>{ad.coment}</p>
                                         {ad.files&& ad.files.length > 0 && ad.files.map((file, index) => (
                                             <>
                                                 <div key={index}>
@@ -129,33 +141,33 @@ const CanceledListings = () => {
                                             </>
                                         ))}
                                     </td>
-                                    {/*{ad.canceled && (*/}
-                                        <td> <div style={{color: 'red', border: '1px solid red', width: 80, height: 30, display: "flex", justifyContent: 'center', alignItems: "center", borderRadius: 8}}>Отменено</div></td>
-                                    {/*)}*/}
+                                   
                                 </tr>
                             ))}
                             </tbody>
                         </table>
                     </div>
-                    <div className="pagination-wrapper ">
-                        <ul className="pagination justify-content-center pagination-panel">
-                            <li className={`page-item ${currentPage === 1 ? 'disabled' : ''}`}
-                                onClick={() => handlePageChange(currentPage - 1)}>
-                                <CaretLeft size={24} color="#212121" weight="bold"/>
-                            </li>
-                            {pageNumbers.map((number) => (
-                                <li className={`dt-paging-button page-item ${number === currentPage ? 'active' : ''}`}
-                                    key={number}>
-                                    <a className="page-link" onClick={() => handlePageChange(number)}
-                                       style={{borderRadius: 10}}>{number}</a>
+                    {currentPageData?.length !== 0 && ( ///// скрываю пагинацию, если данных нет
+                        <div className="pagination-wrapper ">
+                            <ul className="pagination justify-content-center pagination-panel cursor">
+                                <li className={`page-item arrowPagination ${currentPage === 1 ? 'disabled' : ''}`}
+                                    onClick={() => handlePageChange(currentPage - 1)}>
+                                    <CaretLeft size={24} color="#212121" weight="bold"/>
                                 </li>
-                            ))}
-                            <li className={`page-item ${currentPage === totalPages ? 'disabled' : ''}`}
-                                onClick={() => handlePageChange(currentPage + 1)}>
-                                <CaretRight size={24} color="#212121" weight="bold"/>
-                            </li>
-                        </ul>
-                    </div>
+                                {pageNumbers?.map((number) => (
+                                    <li className={`dt-paging-button page-item ${number === currentPage ? 'active' : ''}`}
+                                        key={number}>
+                                        <a className="page-link" onClick={() => handlePageChange(number)}
+                                        style={{borderRadius: 10}}>{number}</a>
+                                    </li>
+                                ))}
+                                <li className={`page-item arrowPagination ${currentPage === totalPages ? 'disabled' : ''}`}
+                                    onClick={() => handlePageChange(currentPage + 1)}>
+                                    <CaretRight size={24} color="#212121" weight="bold"/>
+                                </li>
+                            </ul>
+                        </div>)
+                    }   
                 </div>
             </div>
 
