@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
+import {Power} from "phosphor-react";
 
 const Archive = () => {
     const { contestFilter, count, getCounts } = UseRegister()
@@ -59,19 +60,16 @@ const Archive = () => {
                     <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
                         <div>{userEmail}</div>
                         <Link to={"/"}>
-                            <Button
-                                variant="primary"
-                                className="rounded-circle"
+                            <button
+                                className="btn btn-danger"
                                 style={{
-                                    width: '25px',
-                                    height: '25px',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}
                             >
-                                <i className="bi bi-box-arrow-right"></i>
-                            </Button>
+                                <Power size={16} color="#fff" />
+                            </button>
 
                         </Link>
                     </div>

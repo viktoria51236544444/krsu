@@ -4,6 +4,7 @@ import { UseRegister } from '../../Context/ContextProviderRegister';
 import { Link } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import DetailModal from "../Home/DetailModal";
+import {Power} from "phosphor-react";
 
 const Completed = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts } = UseRegister();
@@ -89,19 +90,16 @@ const Completed = () => {
                     <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
                         <div>{userEmail}</div>
                         <Link to={"/"}>
-                            <Button
-                                variant="primary"
-                                className="rounded-circle"
+                            <button
+                                className="btn btn-danger"
                                 style={{
-                                    width: '25px',
-                                    height: '25px',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}
                             >
-                                <i className="bi bi-box-arrow-right"></i>
-                            </Button>
+                                <Power size={16} color="#fff" />
+                            </button>
 
                         </Link>
                     </div>

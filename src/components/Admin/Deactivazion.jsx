@@ -4,6 +4,7 @@ import {Button, Modal, Table} from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import Sidebar from './Sidebar';
 import { Link } from 'react-router-dom';
+import {Power} from "phosphor-react";
 
 const Deactivazion = () => {
     const { users2, getByStatus, updateUserStatus} = UseRegister();
@@ -23,11 +24,7 @@ const Deactivazion = () => {
         }
     }, []);
 
-    if (!users2) {
-        return <div>Loading...</div>;
-    }
-
-
+    console.log(users2)
     const handleVerify = (codeId) => {
         setUserId(codeId);
         setShowModal(true);
@@ -48,6 +45,7 @@ const Deactivazion = () => {
             comment: comment,
             userId: userId
         };
+
         updateUserStatus(data);
         setShowModal(false);
         setComment('');
@@ -77,19 +75,16 @@ const Deactivazion = () => {
                     <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
                         <div>{userEmail}</div>
                         <Link to={"/"}>
-                            <Button
-                                variant="primary"
-                                className="rounded-circle"
+                            <button
+                                className="btn btn-danger"
                                 style={{
-                                    width: '25px',
-                                    height: '25px',
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
                                 }}
                             >
-                                <i className="bi bi-box-arrow-right"></i>
-                            </Button>
+                                <Power size={16} color="#fff" />
+                            </button>
 
                         </Link>
                     </div>
@@ -120,7 +115,9 @@ const Deactivazion = () => {
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {users2.map((user, index) => (
+                                        {users2 && users2.length > 0 &&  users2.map((user, index) => (
+                                            user.status ===3
+                                            )&&(
                                             <tr key={index}>
                                                 <td>{index + 1}</td>
                                                 <td>{user.fio}</td>
@@ -136,7 +133,14 @@ const Deactivazion = () => {
                                                 <td>{user.deposit_account}</td>
                                                 <td>{user.web_site}</td>
                                                 <td>{user.position}</td>
-                                                <td>{user.comment}</td>
+                                                <td >
+                                                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                                                    <p style={{color: 'red'}}>{user.comment}</p>
+                                                    { user.files.length > 0 && (
+                                                        <a   target="_blank" rel="noopener noreferrer" download href={user.files[0].path}>{user.files[0].file_name}</a>
+                                                    )}
+                                                    </div>
+                                                </td>
                                                 <td>
                                                     <Button variant="success" onClick={()=> {handleVerify(user.codeid)}}>Активировать</Button>
 
