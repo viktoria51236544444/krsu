@@ -80,8 +80,7 @@ const PersonalArea = () => {
                                 </div>
                                 </div>
 
-                            </Col>
-                            <Col md={4}>
+                            
                                 {/* <p className="info-title"><strong>Электронная почта менеджера по закупу:</strong></p>
                                 <p>{userInfo.manager_email}</p>
                                 <p className="info-title"><strong>ФИО менеджера по закупу:</strong></p>
@@ -94,14 +93,6 @@ const PersonalArea = () => {
                                <div className='personal-area-data'> <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0D6EFD" class="bi bi-house-door-fill" viewBox="0 0 16 16">
                                 <path d="M6.5 14.5v-3.505c0-.245.25-.495.5-.495h2c.25 0 .5.25.5.5v3.5a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5v-7a.5.5 0 0 0-.146-.354L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293L8.354 1.146a.5.5 0 0 0-.708 0l-6 6A.5.5 0 0 0 1.5 7.5v7a.5.5 0 0 0 .5.5h4a.5.5 0 0 0 .5-.5z"/>
                                </svg> <h6 style={{margin: 0}}>Адрес:</h6></div>
-                                <span> {userInfo.address}</span>
-                                </div>
-
-                                <div>
-                               <div className='personal-area-data'><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0D6EFD" class="bi bi-house" viewBox="0 0 16 16">
-                               <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-                                  <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
-                                  </svg> <h6 style={{margin: 0}}>Фактический адрес:</h6></div>
                                 <span> {userInfo.address}</span>
                                 </div>
 
@@ -131,20 +122,13 @@ const PersonalArea = () => {
                                 </div>
 
                                 <div>
-                               <div className='personal-area-data'> <h6 style={{margin: 0}}>ПИН менеджера:</h6></div>
-                                <span> {userInfo.pin_manager}</span>
-                                </div>
-
-                                <div>
-                               <div className='personal-area-data'> <h6 style={{margin: 0}}>Юридический адрес:</h6></div>
+                               <div className='personal-area-data'><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#0D6EFD" class="bi bi-house" viewBox="0 0 16 16">
+                               <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
+                                  <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                                  </svg> <h6 style={{margin: 0}}>Юридический адрес:</h6></div>
                                 <span> {userInfo.ur_address}</span>
                                 </div>
-                                {userInfo.web_site && (
-                                <div>
-                               <div className='personal-area-data'> <h6 style={{margin: 0}}>Веб-сайт:</h6></div>
-                                <span> {userInfo.web_site}</span>
-                                </div>
-                                )}
+                                
                              
                                   
                               
