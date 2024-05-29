@@ -8,3 +8,13 @@
     flex-direction: column;
     justify-content: space-between;
 }
+
+.modalact .modal-dialog {
+    max-width: 30%;
+    margin: auto;
+    margin-top: 2vw;
+}
+
+.modalact .modal-content {
+    padding: 20px;
+}

@@ -6,6 +6,7 @@ import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
 import DetailModal from "../Home/DetailModal";
 import { BsPaperclip } from "react-icons/bs";
+import {Power} from "phosphor-react";
 
 const Public = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts, diactiveContest } = UseRegister();
@@ -59,7 +60,7 @@ const Public = () => {
         setSelectedContestId(contestId);
         setShowModal(true);
         getCounts()
-       
+
     };
 
     const handleCloseModal = () => {
@@ -136,19 +137,16 @@ const Public = () => {
                         <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
                             <div>{userEmail}</div>
                             <Link to={"/"}>
-                                <Button
-                                    variant="primary"
-                                    className="rounded-circle"
+                                <button
+                                    className="btn btn-danger"
                                     style={{
-                                        width: '25px',
-                                        height: '25px',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
                                     }}
                                 >
-                                    <i className="bi bi-box-arrow-right"></i>
-                                </Button>
+                                    <Power size={16} color="#fff" />
+                                </button>
 
                             </Link>
                         </div>
@@ -252,7 +250,7 @@ const Public = () => {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="danger" onClick={handleConfirmDeactivation} size="sm" disabled={!reason.trim()}>
-                        Даективировать
+                        Деактивировать
                     </Button>
                 </Modal.Footer>
             </Modal>
