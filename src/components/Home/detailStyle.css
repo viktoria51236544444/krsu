@@ -1,5 +1,71 @@
+.blockList {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 8px;
+}
+
 .title_text{
-    font-size: 18px;
-    color: #252424;
+    font-size: 14px;
     font-weight: 600;
+    color: #000 !important;
+    
+}
+
+.title_descr {
+    font-size: 14px;
+    color: #222;
+    font-weight: 400;    
+    text-transform: lowercase;
+}
+
+.pushBlock {
+    margin-top: 8px;
+}
+
+.parentModal {
+    height: 100vh !important;
+    /* background: red; */
+    display: flex;
+    align-items: center;
+    justify-content: center;                
+}
+
+.parentModal > div {
+    /* background: blue; */
+    height: 90vh !important;            
+    top: 8% !important;
+    position: relative;
+
+}
+
+.parentModal__inner {
+    /* background: green; */
+    padding-bottom: 20px;
+    height: 80vh !important;
+    overflow-y: scroll;
+
+}
+
+/* ///// для скрытия скрола */
+.parentModal__inner::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .parentModal__inner {
+    -ms-overflow-style: none; 
+    scrollbar-width: none; 
+  }
+/* ///// для скрытия скрола */
+
+
+.closeModal{
+    cursor: pointer !important;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-bottom: none !important;
+    z-index: 10;
 }

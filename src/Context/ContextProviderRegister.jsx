@@ -332,7 +332,8 @@ const ContextProviderRegister = ({ children }) => {
         actt,
         count,
         getCounts,
-        diactiveContest
+        diactiveContest,
+        SetPublic
     };
     return (
         <contextProviderRegister.Provider value={values}>

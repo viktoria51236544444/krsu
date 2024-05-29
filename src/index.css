@@ -8,10 +8,21 @@ body {
 }
 
 
+.nav-link{
+  font-weight: 400 !important;
+}
 
 .nav-link.active {
   color: blue !important;
+}
 
+.text-dark{
+  display: flex;
+  gap: 10px;
+}
+
+.logoText{
+  font-weight:500;
 }
 
 

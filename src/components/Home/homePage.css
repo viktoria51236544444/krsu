@@ -65,3 +65,52 @@
         font-size: 20px;
     }
 }
+
+/* /// page cancele and ads/// */
+.choiceZakup {
+    max-width: 600px !important;
+}
+
+.moreTable {
+    padding: 8px 3px !important;
+}
+
+.cancelStatus {
+    color: red;
+    width: 70px;
+    border: 1px solid red;
+    text-align: center;
+    transform: rotate(-5deg);
+    border-radius: 5px;
+}
+
+.searchInput{
+    margin-top: 12px !important;
+}
+
+.cancel{
+    color: red !important;
+}
+
+.good{
+    color: green !important;
+}
+
+.arrowPagination{
+    display: flex;
+    align-items: center;
+}
+
+.hr {
+    margin: 25px 0 0 0 !important;
+}
+
+.titleTh {
+    font-weight: 600;
+    line-height: 13px;
+    padding: 15px 10px !important;
+}
+
+.cursor {
+    cursor: pointer;
+}
