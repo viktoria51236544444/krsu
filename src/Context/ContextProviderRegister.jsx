@@ -194,7 +194,7 @@ const ContextProviderRegister = ({ children }) => {
         }
     };
 
-    //* ДЕАКТИВИРОВАНИЕ 
+    //* ДЕАКТИВИРОВАНИЕ
     const diactiveContest = async (Public) => {
         try {
             const res = await axios.post(`http://212.112.105.196:3457/api/contest/diactiveContest`, Public);
@@ -222,10 +222,11 @@ const ContextProviderRegister = ({ children }) => {
 
     //* стягивание конкурсов по id
     const contestFilter = async (codeId) => {
+        console.log('contestFilter', codeId)
         try {
             const { data } = await axios.get(`http://212.112.105.196:3457/api/contest/contestFilter/${codeId}`)
             SetCompled(data.result.data);
-            // console.log(data.result.data);
+            console.log(data.result.data);
         } catch (error) {
             console.log(error);
         }
@@ -325,7 +326,7 @@ const ContextProviderRegister = ({ children }) => {
         getByStatus,
         users2,
         users3,
-        updateUserStatus,   
+        updateUserStatus,
         getByStatus2,
         wonContest,
         getFiles,

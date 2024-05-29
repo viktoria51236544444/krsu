@@ -67,23 +67,29 @@ const Deactivazion = () => {
 
                     <div>
                         <div className="pills-outline">
-                            <Link to={"/participants"}><button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "white", background: "#0D6EFD" }} >Неверифицированные</button></Link>
-                            <Link to={"/verf"}><button className="tab-button" style={{ color: "white", background: "#198754" }} onClick={() => getByStatus(1)}  >Верифицированные</button></Link>
-                            <Link to={"/deac"}>  <button style={{ color: "black", background: "#ccc" }}  className="tab-button" onClick={() => getByStatus(3)}>Деактивированные</button></Link>
+                            <Link to={"/participants"}><button className="tab-button" onClick={() => getByStatus(2)}  style={{ color: "#333333", background: "#F0F0F0" }} >Неверифицированные</button></Link>
+                            <Link to={"/verf"}><button className="tab-button"  style={{ color: "#333333", background: "#F0F0F0" }} onClick={() => getByStatus(1)}  >Верифицированные</button></Link>
+                            <Link to={"/deac"}>  <button   style={{ color: "#0D6EFD", background: "White" }}  className="tab-button" onClick={() => getByStatus(3)}>Деактивированные</button></Link>
                         </div>
                     </div>
-                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                    <div style={{ display: "flex",
+                        textAlign: "center",
+                        gap: '10px',
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}>
                         <div>{userEmail}</div>
                         <Link to={"/"}>
                             <button
-                                className="btn btn-danger"
+                                className="btn"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
+                                    background: 'transparent'
                                 }}
                             >
-                                <Power size={16} color="#fff" />
+                                <Power size={30} color="red" />
                             </button>
 
                         </Link>
@@ -111,7 +117,7 @@ const Deactivazion = () => {
                                             <th scope="col">Сайт</th>
                                             <th scope="col">Должность</th>
                                             <th scope="col">Причина</th>
-                                            <th scope="col"> Действие</th>
+                                            <th scope="col">Действие</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -133,16 +139,37 @@ const Deactivazion = () => {
                                                 <td>{user.deposit_account}</td>
                                                 <td>{user.web_site}</td>
                                                 <td>{user.position}</td>
-                                                <td >
-                                                    <div style={{display: 'flex', flexDirection: 'column'}}>
-                                                    <p style={{color: 'red'}}>{user.comment}</p>
-                                                    { user.files.length > 0 && (
-                                                        <a   target="_blank" rel="noopener noreferrer" download href={user.files[0].path}>{user.files[0].file_name}</a>
-                                                    )}
+                                                <td>
+                                                    <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
+                                                        {user.files.length > 0 && user.files.map((file, index) => (
+                                                            <>
+                                                                <div className='d-flex flex-row gap-2'>
+                                                                    <i className="bi bi-paperclip"></i>
+                                                                    <a target="_blank" rel="noopener noreferrer"
+                                                                       download
+                                                                       href={file.path}>{file.file_name}</a>
+                                                                </div>
+                                                            </>
+                                                        ))}
                                                     </div>
                                                 </td>
                                                 <td>
-                                                    <Button variant="success" onClick={()=> {handleVerify(user.codeid)}}>Активировать</Button>
+                                                    <div style={{display: 'flex', flexDirection: 'column'}}>
+                                                        <p style={{color: 'red'}}>{user.comment}</p>
+                                                        {user.files.length > 0 && (
+                                                            <div className='d-flex flex-row gap-2'>
+                                                                <i className="bi bi-paperclip"></i>
+                                                                <a target="_blank" rel="noopener noreferrer"
+                                                                   download
+                                                                   href={user.files[0].path}>{user.files[0].file_name}</a>
+                                                            </div>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <Button variant="success" onClick={() => {
+                                                        handleVerify(user.codeid)
+                                                    }}>Активировать</Button>
 
                                                 </td>
                                             </tr>
@@ -157,7 +184,7 @@ const Deactivazion = () => {
             <Modal show={showModal} onHide={handleCloseModal} className='modalVerification'>
                 <Modal.Header closeButton>
                     <Modal.Title style={{fontSize: "18px"}}>Протокол</Modal.Title>
-                </Modal.Header> 
+                </Modal.Header>
                 <Modal.Body>
                     <textarea
                         className="form-control"
@@ -180,7 +207,7 @@ const Deactivazion = () => {
                         <Button  variant="success" size="sm" onClick={handleCloseModal}>
                             Деактивировать
                         </Button>
-                    </div>  
+                    </div>
 
                 </Modal.Footer>
             </Modal>

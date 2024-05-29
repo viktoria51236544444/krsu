@@ -9,13 +9,13 @@
     font-size: 14px;
     font-weight: 600;
     color: #000 !important;
-    
+
 }
 
 .title_descr {
     font-size: 14px;
     color: #222;
-    font-weight: 400;    
+    font-weight: 400;
     text-transform: lowercase;
 }
 
@@ -28,12 +28,12 @@
     /* background: red; */
     display: flex;
     align-items: center;
-    justify-content: center;                
+    justify-content: center;
 }
 
 .parentModal > div {
     /* background: blue; */
-    height: 90vh !important;            
+    height: 90vh !important;
     top: 8% !important;
     position: relative;
 
@@ -51,10 +51,10 @@
 .parentModal__inner::-webkit-scrollbar {
     display: none;
   }
-  
+
   .parentModal__inner {
-    -ms-overflow-style: none; 
-    scrollbar-width: none; 
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 /* ///// для скрытия скрола */
 
@@ -68,4 +68,16 @@
     top: 0;
     border-bottom: none !important;
     z-index: 10;
+}
+
+.title_text {
+    color: gray;
+    text-align: left;
+    padding-right: 1rem;
+}
+.title_descr {
+    text-align: left;
+}
+td {
+    padding: 0.5rem 0;
 }

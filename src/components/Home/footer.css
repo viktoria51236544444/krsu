@@ -31,15 +31,15 @@
 .footer-block p {
     margin: 5px 0;
     font-size: 14px;
-    color: #d3dde1c3; 
+    color: #d3dde1c3;
     font-weight: 600;
 
 }
 
 .footer-block a {
-    display: block; 
+    display: block;
     text-align: left;
-    color: #d3dde1c3; 
+    color: #d3dde1c3;
     text-decoration: none;
     cursor: pointer;
 }
@@ -105,20 +105,23 @@
     align-items: center; */
     margin-top: 20px;
     font-size: 14px;
-    border-top: 1px solid #d3dde1c3;    
+    border-top: 1px solid #d3dde1c3;
 }
 
 .copyright p {
     display: block;
     text-align: left;
-    color: #d3dde1c3; 
-    font-weight: 600;   
+    color: #d3dde1c3;
+    font-weight: 600;
 }
 
 
 .copyright__inner {
     margin: 10px auto 0;
     width: 1250px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     /* background: red;     */
 }
 

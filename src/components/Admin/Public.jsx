@@ -11,6 +11,7 @@ import {Power} from "phosphor-react";
 const Public = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts, diactiveContest } = UseRegister();
     const [showModal, setShowModal] = useState(false);
+    const [finalContestModal, setFinalContestModal] = useState(false);
     const [reason, setReason] = useState('');
     const [selectedContestId, setSelectedContestId] = useState(null);
     const [showDetailModal, setShowDetailModal] = useState(false);
@@ -41,16 +42,16 @@ const Public = () => {
         }
     };
 
-    const handlePublish = async (contestId) => {
+    const handlePublish = async () => {
         const publicData = {
-            contest_id: contestId,
+            contest_id: selectedContestId,
             contest_status: 3,
             comment: ""
         };
-        contestFilter(2);
         try {
             await updateContestStatus(publicData);
-
+            contestFilter(2);
+            setFinalContestModal(false)
         } catch (error) {
             console.log(error.message);
         }
@@ -97,9 +98,6 @@ const Public = () => {
         }
     };
 
-    if (!compled) {
-        return <div>Loading...</div>;
-    }
 
     const watchDetails = (codeid) => {
         getOrderDetails(codeid)
@@ -109,8 +107,15 @@ const Public = () => {
 
 
     const userRole = localStorage.getItem('role');
-    console.log(addAct);
 
+    const  handleCloseFinalModal = () => {
+        setFinalContestModal(false)
+    }
+    const handleFinalContest = (codeid) => {
+        setSelectedContestId(codeid);
+        setFinalContestModal(true);
+        getCounts()
+    };
     return (
         <div className="oll_sistem" style={{ maxWidth: "100vw" }}>
             <Sidebar />
@@ -134,18 +139,19 @@ const Public = () => {
                         </div>
                     </div>
                     <div>
-                        <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                        <div style={{ display: "flex", textAlign: "center", gap: '10px', justifyContent: "center", alignItems: "center" }}>
                             <div>{userEmail}</div>
                             <Link to={"/"}>
                                 <button
-                                    className="btn btn-danger"
+                                    className="btn"
                                     style={{
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
+                                        background: 'transparent'
                                     }}
                                 >
-                                    <Power size={16} color="#fff" />
+                                    <Power size={30} color="red" />
                                 </button>
 
                             </Link>
@@ -175,10 +181,13 @@ const Public = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {compled
-                                                .filter(contest => contest.contest_status === 2)
-                                                .map((contest, index) => (
-                                                    <tr key={contest.codeid}>
+                                        { compled && compled
+                                            .filter(contest => {
+                                                console.log('Contest:', contest);
+                                                return contest.contest_status === 2;
+                                            })
+                                            .map((contest, index) => (
+                                                <tr key={contest.codeid}>
                                                         <td onClick={() => watchDetails(contest.codeid)}>{index + 1}</td>
                                                         <th onClick={() => watchDetails(contest.codeid)}>{contest.contest_name}</th>
                                                         <td onClick={() => watchDetails(contest.codeid)}>{contest.contest_description}</td>
@@ -201,7 +210,7 @@ const Public = () => {
                                                         </td>
                                                         <td>
                                                             <div style={{ display: "flex", justifyContent: "space-around", alignItems: "center", gap: "0.5vw" }}>
-                                                                <Button variant="success" size="sm">Завершить</Button>
+                                                                <Button variant="success" size="sm" onClick={() => handleFinalContest(contest.codeid)}>Завершить</Button>
                                                                 {userRole !== 'Оператор' && (
 
                                                                     <Button variant="danger" size="sm" onClick={() => handlePublish2(contest.codeid)}>Деактивировать</Button>
@@ -254,6 +263,22 @@ const Public = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+
+            <Modal show={finalContestModal} onHide={handleCloseFinalModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ fontSize: "18px" }}>Подтверждение</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>По данному конкурсу не был выбран победитель, Вы действительно хотите завершить конкурс ?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={handlePublish} size="sm" >
+                        Завершить
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </div>
     );
 };

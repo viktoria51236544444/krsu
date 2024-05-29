@@ -111,6 +111,7 @@ const Ads = () => {
   const currentPageData = publick ? publick.slice(startIndex, endIndex) : [];
 
   const handleApplyClick = (contest) => {
+    console.log('contest', contest)
     setSelectedContest(contest);
     setShowModal(true);
   };
@@ -121,7 +122,7 @@ const Ads = () => {
     }
 
     const formData = new FormData();
-    formData.append("userId", useCurrentData ? parseInt(userId) : User.userId);
+    formData.append("userId", userId);
     formData.append("contest_id", selectedContest.codeid);
     formData.append("cover_later", comment);
     formData.append("summ", parseFloat(summValue));
@@ -139,6 +140,13 @@ const Ads = () => {
     } catch (error) {
       console.error("Error submitting order:", error);
     }
+  };
+
+  const onRemove2 = (index) => {
+    const updated = [...selectedFiles];
+    updated.splice(index, 1);
+
+    setSelectedFiles(updated);
   };
 
   const [searchText, setSearchText] = useState("");
@@ -173,6 +181,15 @@ const Ads = () => {
       console.error("Error fetching contest list:", error);
     }
   };
+
+  const [selectedFiles, setSelectedFiles] = useState([]);
+
+  const handleFileSelection = (event) => {
+    const files = Array.from(event.target.files);
+    setSelectedFiles(prevFiles => [...prevFiles, ...files]);
+    handleFileChange(event);
+  };
+
 
   const searchDebounce = useCallback(
     debounce((value) => {
@@ -405,7 +422,7 @@ const Ads = () => {
         contestId={selectedContestId}
       />
 
-      {/* <Modal show={showModal} onHide={() => setShowModal(false)}>
+     <Modal show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Подача заявки на конкурс</Modal.Title>
         </Modal.Header>
@@ -418,6 +435,7 @@ const Ads = () => {
                 rows={3}
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
+                style={{height: 150}}
               />
             </Form.Group>
             <Form.Group>
@@ -428,32 +446,61 @@ const Ads = () => {
                 onChange={(e) => setSummValue(e.target.value)}
               />
             </Form.Group>
+            {/*<Form.Group>*/}
+            {/*  <Form.Check*/}
+            {/*    type="checkbox"*/}
+            {/*    id="useCurrentDataCheckbox"*/}
+            {/*    label="Использовать текущие данные пользователя"*/}
+            {/*    checked={useCurrentData}*/}
+            {/*    onChange={(e) => setUseCurrentData(e.target.checked)}*/}
+            {/*  />*/}
+            {/*</Form.Group>*/}
             <br />
             <Form.Group>
-              <Form.Check
-                type="checkbox"
-                id="useCurrentDataCheckbox"
-                label="Использовать текущие данные пользователя"
-                checked={useCurrentData}
-                onChange={(e) => setUseCurrentData(e.target.checked)}
-              />
-            </Form.Group>
-            <br />
-            <Form.Group>
-              <Form.Label>Добавить дополнительные</Form.Label>
-              <Form.Control type="file" multiple onChange={handleFileChange} />
+              <div className="input-group">
+                                        <span className="input-group-text">
+                                            <i className="bi bi-paperclip"></i>
+                                        </span>
+                <input
+                    type="file"
+                    className="form-control"
+                    name="files"
+                    multiple
+                    onChange={handleFileSelection}
+                    style={{display: 'none'}}
+                    id="fileInput"
+                />
+                <label htmlFor="fileInput" className="btn btn-outline-secondary">
+                  <i> Прикрепить файлы</i>
+                </label>
+              </div>
+
+              {selectedFiles.length > 0 && (
+                  <div className="mt-2">
+                    <ul className="list-group">
+                      {selectedFiles.map((file, index) => (
+                          <>
+                            <div style={{display: "flex", flexDirection: 'row', gap: 10, margin: '10px 0'}}>
+                              <li key={index} className="list-group-item">
+                                {file.name}
+                              </li>
+                              <Button variant="danger" size="sm" onClick={() => onRemove2(index)}>X</Button>
+                            </div>
+                          </>
+                      ))}
+                    </ul>
+                  </div>
+              )}
+
             </Form.Group>
           </Form>
         </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>
-            Закрыть
-          </Button>
-          <Button variant="primary" onClick={handleSubmitOrder}>
-            Подать заявку
-          </Button>
-        </Modal.Footer>
-      </Modal> */}
+       <Modal.Footer>
+         <Button variant="primary" onClick={handleSubmitOrder}>
+           Подать заявку
+         </Button>
+       </Modal.Footer>
+     </Modal>
     </div>
   );
 };

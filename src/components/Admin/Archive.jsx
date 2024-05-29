@@ -57,18 +57,25 @@ const Archive = () => {
                         </div>
 
                     </div>
-                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                    <div style={{
+                        display: "flex",
+                        textAlign: "center",
+                        gap: '10px',
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}>
                         <div>{userEmail}</div>
                         <Link to={"/"}>
                             <button
-                                className="btn btn-danger"
+                                className="btn"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
+                                    background: 'transparent'
                                 }}
                             >
-                                <Power size={16} color="#fff" />
+                                <Power size={30} color="red" />
                             </button>
 
                         </Link>
@@ -111,11 +118,11 @@ const Archive = () => {
                                                     <td>
                                                         {contest.files.length > 0 && contest.files.map((file, index) => (
                                                             <div key={index} style={{ marginRight: '10px', display: "flex", flexDirection: "row", gap: 10 }}>
-
-                                                                <a href={file.path}  target="_blank"
-                                                                   rel="noopener noreferrer" download  style={{ textDecoration: 'none', color: 'inherit', display: 'inline-block' }}>
-                                                                    <span>{file.file_name}</span>
-                                                                </a>
+                                                                    <div className='d-flex flex-row gap-2'>
+                                                                        <i className="bi bi-paperclip"></i>
+                                                                        <a target="_blank" rel="noopener noreferrer" download
+                                                                           href={file.path}>{file.file_name}</a>
+                                                                    </div>
                                                             </div>
                                                         ))}
                                                     </td>

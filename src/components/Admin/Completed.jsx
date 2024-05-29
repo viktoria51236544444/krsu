@@ -36,7 +36,7 @@ const Completed = () => {
   const [selectedContestId, setSelectedContestId] = useState(null);
 
   useEffect(() => {
-    contestFilter(3);
+    contestFilter(2);
     getCounts();
   }, []);
 
@@ -49,10 +49,6 @@ const Completed = () => {
     handleClose2();
     getCounts();
   };
-
-//   if (!compled) {
-//     return <div>Loading...</div>;
-//   }  
 
   const watchDetails = (codeid) => {
     getOrderDetails(codeid);
@@ -122,19 +118,27 @@ const Completed = () => {
               </Link>
             </div>
           </div>
-          <div style={{ display: "flex", textAlign: "center", gap: "1vw" }}>
-            <div>{userEmail}</div>
+          <div style={{
+            display: "flex",
+            textAlign: "center",
+            gap: '10px',
+            justifyContent: "center",
+            alignItems: "center"
+          }}>
+              <div>{userEmail}</div>
             <Link to={"/"}>
               <button
-                className="btn btn-danger"
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
+                  className="btn"
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    background: 'transparent'
+                  }}
               >
-                <Power size={16} color="#fff" />
+                <Power size={30} color="red" />
               </button>
+
             </Link>
           </div>
         </div>
@@ -161,10 +165,13 @@ const Completed = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {compled  
-                        ?.filter((contest) => contest.contest_status === 3)
-                        ?.map((contest, index) => (
-                          <tr key={contest.codeid}>
+                    { compled && compled
+                        .filter(contest => {
+                          console.log('Contest:', contest);
+                          return contest.contest_status === 2;
+                        })
+                        .map((contest, index) => (
+                            <tr key={contest.codeid}>
                             <td onClick={() => watchDetails(contest.codeid)}>
                               {index + 1}
                             </td>
@@ -187,12 +194,12 @@ const Completed = () => {
                               {contest.year}
                             </td>
                             <td onClick={() => watchDetails(contest.codeid)}>
-                              {contest.planned_summ}
+                              {contest.planned_summ} сом
                             </td>
                             <td onClick={() => watchDetails(contest.codeid)}>
                               {contest.start_date}
                             </td>
-                            <td onClick={() => watchDetails(contest.codeid)}>
+                            <td onClick={() => watchDetails(contest.codeid)} >
                               {contest.formatted_end_date}
                             </td>
                             <td>
@@ -229,6 +236,7 @@ const Completed = () => {
                                 variant="success"
                                 size="sm"
                                 onClick={handleShow2}
+                                style={{width: 70}}
                               >
                                 В архив
                               </Button>

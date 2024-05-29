@@ -4,6 +4,7 @@ import {Button, Table, Modal} from 'react-bootstrap';
 import {UseRegister} from '../../Context/ContextProviderRegister';
 import Sidebar from './Sidebar';
 import {Link} from 'react-router-dom';
+import {Power} from "phosphor-react";
 
 
 const Virification = () => {
@@ -74,38 +75,41 @@ const Virification = () => {
                         <div className="pills-outline">
                             <Link to={"/participants"}>
                                 <button className="tab-button" onClick={() => getByStatus(2)}
-                                        style={{color: "white", background: "#0D6EFD"}}>Неверифицированные
+                                        style={{ color: "#333333", background: "#F0F0F0" }}>Не верифицированные
                                 </button>
                             </Link>
                             <Link to={"/verf"}>
                                 <button className="tab-button" onClick={() => getByStatus2(1)}
-                                        style={{color: "black", background: "#ccc"}}>Верифицированные
+                                        style={{ color: "#0D6EFD", background: "White" }}>Верифицированные
                                 </button>
                             </Link>
                             <Link to={"/deac"}>
-                                <button className="tab-button" style={{color: "white", background: "#dc3545"}}
+                                <button className="tab-button" style={{ color: "#333333", background: "#F0F0F0" }}
                                         onClick={() => getByStatus(3)}>Деактивированные
                                 </button>
                             </Link>
                         </div>
                     </div>
                     <div>
-                        <div style={{display: "flex", textAlign: "center", gap: '1vw'}}>
+                        <div style={{ display: "flex",
+                            textAlign: "center",
+                            gap: '10px',
+                            justifyContent: "center",
+                            alignItems: "center"
+                        }}>
                             <div>{userEmail}</div>
                             <Link to={"/"}>
-                                <Button
-                                    variant="primary"
-                                    className="rounded-circle"
+                                <button
+                                    className="btn"
                                     style={{
-                                        width: '25px',
-                                        height: '25px',
                                         display: 'flex',
                                         alignItems: 'center',
                                         justifyContent: 'center',
+                                        background: 'transparent'
                                     }}
                                 >
-                                    <i className="bi bi-box-arrow-right"></i>
-                                </Button>
+                                    <Power size={30} color="red" />
+                                </button>
 
                             </Link>
                         </div>
@@ -132,6 +136,7 @@ const Virification = () => {
                                         <th scope="col">Расчетный счет</th>
                                         <th scope="col">Сайт</th>
                                         <th scope="col">Должность</th>
+                                        <th scope='col'>Файлы</th>
                                         <th scope='col'></th>
                                     </tr>
                                     </thead>
@@ -152,6 +157,19 @@ const Virification = () => {
                                             <td>{user.deposit_account}</td>
                                             <td>{user.web_site}</td>
                                             <td>{user.position}</td>
+                                            <td>
+                                                <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
+                                                    {user.files.length > 0 && user.files.map((file, index) => (
+                                                        <>
+                                                            <div className='d-flex flex-row gap-2'>
+                                                            <i className="bi bi-paperclip"></i>
+                                                            <a target="_blank" rel="noopener noreferrer" download
+                                                               href={file.path}>{file.file_name}</a>
+                                                            </div>
+                                                        </>
+                                                    ))}
+                                                </div>
+                                            </td>
                                             <td>
                                                 <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
                                                     {userRole !== 'Оператор' && (

@@ -236,7 +236,7 @@ const Concurs = () => {
             setUpdateModal(false)
 
         } catch (error) {
-            console.log(error)  
+            console.log(error)
         }
     }
 
@@ -283,18 +283,23 @@ const Concurs = () => {
                             </Link>
                         </div>
                     </div>
-                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                    <div style={{ display: "flex", textAlign: "center",
+                        gap: '10px',
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}>
                         <div>{userEmail}</div>
                         <Link to={"/"}>
-                            <button
-                                className="btn btn-danger"
+                        <button
+                                className="btn"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
+                                    background: 'transparent'
                                 }}
                             >
-                                <Power size={16} color="#fff" />
+                                <Power size={30} color="red" />
                             </button>
 
                         </Link>
@@ -367,9 +372,9 @@ const Concurs = () => {
                     </div>
                 </div>
                 <Modal show={show} onHide={handleClose} className="custom-modal">
-                 <Modal.Header closeButton></Modal.Header> 
-                    <Form style={{ padding: '1vw' }}>   
-                        <div className="row">   
+                 <Modal.Header closeButton></Modal.Header>
+                    <Form style={{ padding: '1vw' }}>
+                        <div className="row">
                             <div className="col-md-6">
                                 <div style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center", width: '100%' }}>
                                     <Form.Group className="mb-3" controlId="year" style={{ width: "50%" }}>

@@ -11,6 +11,7 @@ import {Power} from "phosphor-react";
 const Canceled = () => {
     const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts } = UseRegister();
     const [userEmail, setUserEmail] = useState('');
+    const [finalContestModal, setFinalContestModal] = useState(false);
     useEffect(() => {
         const userDataString = localStorage.getItem('userEmail');
         if (userDataString) {
@@ -18,14 +19,14 @@ const Canceled = () => {
         }
     }, []);
     const [show2, setShow2] = useState(false);
-
-    const handleClose2 = () => setShow2(false);
-    const handleShow2 = () => setShow2(true);
-
     const handleCloseDetails = () => {
         setShowDetailModal(false);
         setSelectedContestId(null);
     };
+
+    const  handleCloseFinalModal = () => {
+        setFinalContestModal(false)
+    }
 
     const [showDetailModal, setShowDetailModal] = useState(false);
     const [selectedContestId, setSelectedContestId] = useState(null);
@@ -34,9 +35,9 @@ const Canceled = () => {
         getCounts()
     }, []);
 
-    const handleClick = (contest_id) => {
+    const handleClick = () => {
         const arheve = {
-            contest_id: contest_id,
+            contest_id: selectedId,
             contest_status: 5
         };
         updateContestStatus(arheve);
@@ -44,6 +45,11 @@ const Canceled = () => {
         contestFilter(4)
     }
 
+    const [selectedId, setSelectedId] = useState(null)
+    const handleAcrhive = (codeid) => {
+        setSelectedId(codeid)
+       setFinalContestModal(true)
+    }
     const [comment, setComment] = useState('')
     const watchDetails = (codeid, comment) => {
         getOrderDetails(codeid)
@@ -52,9 +58,7 @@ const Canceled = () => {
         setShowDetailModal(true);
     }
 
-    if (!compled) {
-        return <div>Loading...</div>;
-    }
+
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -78,18 +82,19 @@ const Canceled = () => {
                         </div>
 
                     </div>
-                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                    <div style={{ display: "flex", textAlign: "center", gap: '10px', justifyContent: "center", alignItems: "center" }}>
                         <div>{userEmail}</div>
                         <Link to={"/"}>
                             <button
-                                className="btn btn-danger"
+                                className="btn"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
+                                    background: 'transparent'
                                 }}
                             >
-                                <Power size={16} color="#fff" />
+                                <Power size={30} color="red" />
                             </button>
 
                         </Link>
@@ -147,7 +152,7 @@ const Canceled = () => {
                                                         </td>
                                                         <td style={{color: "#dc3545"}}>{contest.coment}</td>
                                                         <td>
-                                                            <Button variant="success" size="sm"  onClick={() => handleClick(contest.codeid)} style={{width: 70}}>В архив</Button>
+                                                            <Button variant="success" size="sm"  onClick={() => handleAcrhive(contest.codeid)} style={{width: 70}}>В архив</Button>
                                                         </td>
 
                                                     </tr>
@@ -163,6 +168,19 @@ const Canceled = () => {
 
             <DetailModal show={showDetailModal} onHide={handleCloseDetails}  contestId={selectedContestId} comment={comment}/>
 
+            <Modal show={finalContestModal} onHide={handleCloseFinalModal} centered>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ fontSize: "18px" }}>Подтверждение</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <p>Вы действительно хотите сохранить конкурс а архиве?</p>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="success" onClick={handleClick} size="sm" >
+                        Архивировать
+                    </Button>
+                </Modal.Footer>
+            </Modal>
 
         </div>
     );

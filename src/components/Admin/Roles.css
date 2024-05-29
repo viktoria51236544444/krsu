@@ -5,8 +5,15 @@
 
 .action_save{
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: space-between;
+}
+
+.action-center{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
 }
 
 .modalact .modal-dialog {
@@ -18,3 +25,5 @@
 .modalact .modal-content {
     padding: 20px;
 }
+
+

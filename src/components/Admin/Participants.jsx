@@ -378,28 +378,41 @@ const Participants = () => {
                 }}>
                     <div>
                         <div className="pills-outline">
-                            <button className="tab-button" onClick={() => getByStatus(2)} style={{ color: "black", background: "#ccc" }}>Неверифицированные
+                            <button className="tab-button" onClick={() => getByStatus(2)}
+                                    style={{color: "#0D6EFD", background: "White"}}>Не верифицированные
                             </button>
                             <Link to={"/verf"}>
                                 <button className="tab-button" onClick={() => getByStatus2(1)}
-                                    style={{ color: "white", background: "#198754" }}>Верифицированные
+                                        style={{color: "#333333", background: "#F0F0F0"}}>Верифицированные
                                 </button>
                             </Link>
-                            <Link to={"/deac"}>  <button className="tab-button" style={{ color: "white", background: "#dc3545" }} onClick={() => getByStatus(3)}>Деактивированные</button></Link>
+                            <Link to={"/deac"}>
+                                <button className="tab-button" style={{color: "#333333", background: "#F0F0F0"}}
+                                        onClick={() => getByStatus(3)}>Деактивированные
+                                </button>
+                            </Link>
                         </div>
                     </div>
-                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                    <div style={{
+                        display: "flex",
+                        textAlign: "center",
+                        gap: '10px',
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}>
+
                         <div>{userEmail}</div>
                         <Link to={"/"}>
                             <button
-                                className="btn btn-danger"
+                                className="btn"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
+                                    background: 'transparent'
                                 }}
                             >
-                                <Power size={16} color="#fff" />
+                                <Power size={30} color="red"/>
                             </button>
 
                         </Link>
@@ -407,7 +420,7 @@ const Participants = () => {
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
                     <div className="card">
-                        <div className="card-body">
+                    <div className="card-body">
                             <div className="card-header" style={{background: "white"}}>
                                 <Button variant="success" size="sm" onClick={handleShow}> + Добавить контрагента</Button>
                             </div>
@@ -454,10 +467,16 @@ const Participants = () => {
                                                 <td>{user.web_site}</td>
                                                 <td>{user.position}</td>
                                                 <td>
-                                                    <div style={{display: 'flex', flexDirection: 'column'}}>
-                                                        {user.files.length > 0 && user.files.map( (file, index)=> (
-                                                            <a target="_blank" rel="noopener noreferrer" download
-                                                               href={file.path}>{file.file_name}</a>
+                                                    <div style={{display: 'flex', flexDirection: 'column', gap: 5}}>
+                                                        {user.files.length > 0 && user.files.map((file, index) => (
+                                                            <>
+                                                                <div className='d-flex flex-row gap-2'>
+                                                                    <i className="bi bi-paperclip"></i>
+                                                                    <a target="_blank" rel="noopener noreferrer"
+                                                                       download
+                                                                       href={file.path}>{file.file_name}</a>
+                                                                </div>
+                                                            </>
                                                         ))}
                                                     </div>
                                                 </td>
@@ -489,9 +508,9 @@ const Participants = () => {
                     </div>
                 </div>
             </div>
-            <Modal show={showVerifyModal} onHide={handleCloseVerifyModal} className='modalVerification' >
+            <Modal show={showVerifyModal} onHide={handleCloseVerifyModal} className='modalVerification'>
                 <Modal.Header closeButton>
-                    <Modal.Title style={{fontSize: "18px"}}>Подтверждение </Modal.Title>    
+                    <Modal.Title style={{fontSize: "18px"}}>Подтверждение </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <textarea
@@ -561,7 +580,7 @@ const Participants = () => {
 
             <Modal show={show} onHide={handleClose} className="custom-modal" >
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ fontSize: "18px" }}>Добавление контрагента</Modal.Title>  
+                    <Modal.Title style={{ fontSize: "18px" }}>Добавление контрагента</Modal.Title>
                 </Modal.Header>
                 <Form style={{padding: '1vw'}} onSubmit={handleSubmit}>
                     <div className="card-body">

@@ -80,6 +80,9 @@ const Act = () => {
                 codeFile: codeid
             }
             const response = await axios.post('http://212.112.105.196:3457/api/files/deleteFile', data)
+            handleClose2()
+            getFiles(1)
+            fetchData()
             console.log(response);
 
             if (response.status === 200) {
@@ -87,8 +90,6 @@ const Act = () => {
             } else {
                 alert('ошибка при удалении файла')
             }
-            handleClose2()
-            getFiles(1)
         } catch (error) {
             console.log(error)
         }
@@ -115,18 +116,25 @@ const Act = () => {
                     <div>
 
                     </div>
-                    <div style={{ display: "flex", textAlign: "center", gap: '1vw' }}>
+                    <div style={{
+                        display: "flex",
+                        textAlign: "center",
+                        gap: '10px',
+                        justifyContent: "center",
+                        alignItems: "center"
+                    }}>
                         <div>{userEmail}</div>
                         <Link to={"/"}>
                             <button
-                                className="btn btn-danger"
+                                className="btn"
                                 style={{
                                     display: 'flex',
                                     alignItems: 'center',
                                     justifyContent: 'center',
+                                    background: 'transparent'
                                 }}
                             >
-                                <Power size={16} color="#fff" />
+                                <Power size={30} color="red" />
                             </button>
 
                         </Link>
