@@ -191,7 +191,7 @@ const Act = () => {
                     </div>
                 </div>
             </div>
-            <Modal show={show} onHide={handleClose} className="custom-modal modalact">
+            <Modal show={show} onHide={handleClose} className="custom-modal ">
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: '18px' }}>Добавление нормативно правового акта</Modal.Title>
                 </Modal.Header>

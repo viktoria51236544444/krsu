@@ -489,9 +489,9 @@ const Participants = () => {
                     </div>
                 </div>
             </div>
-            <Modal show={showVerifyModal} onHide={handleCloseVerifyModal}>
+            <Modal show={showVerifyModal} onHide={handleCloseVerifyModal} className='modalVerification' >
                 <Modal.Header closeButton>
-                    <Modal.Title style={{fontSize: "18px"}}>Подтверждение </Modal.Title>
+                    <Modal.Title style={{fontSize: "18px"}}>Подтверждение </Modal.Title>    
                 </Modal.Header>
                 <Modal.Body>
                     <textarea
@@ -512,7 +512,7 @@ const Participants = () => {
                     </div>
                 </Modal.Footer>
             </Modal>
-            <Modal show={showDeactivateModal} onHide={handleCloseDeactivateModal}>
+            <Modal show={showDeactivateModal} onHide={handleCloseDeactivateModal} className='modalVerification'>
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Протокол </Modal.Title>
                 </Modal.Header>
@@ -559,9 +559,9 @@ const Participants = () => {
                 </Modal.Footer>
             </Modal>
 
-            <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
+            <Modal show={show} onHide={handleClose} className="custom-modal" >
                 <Modal.Header closeButton>
-                    <Modal.Title style={{ fontSize: "18px" }}>Добавление контрагента</Modal.Title>
+                    <Modal.Title style={{ fontSize: "18px" }}>Добавление контрагента</Modal.Title>  
                 </Modal.Header>
                 <Form style={{padding: '1vw'}} onSubmit={handleSubmit}>
                     <div className="card-body">

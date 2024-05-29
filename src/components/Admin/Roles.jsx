@@ -435,7 +435,7 @@ const Roles = () => {
             </div>
 
 
-            <Modal show={addContrAgent} onHide={handleClose} className="custom-modal" style={{marginTop: "8vw"}}>
+            <Modal show={addContrAgent} onHide={handleClose} className="custom-modal" >
                 <Modal.Header closeButton>
                     <Modal.Title style={{fontSize: "18px"}}>Добавление контрагента</Modal.Title>
                 </Modal.Header>
