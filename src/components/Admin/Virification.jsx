@@ -213,7 +213,7 @@ const Virification = () => {
                 </div>
             </div>
 
-            <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal show={showModal} onHide={handleCloseModal} className='custom-modal'>
                 <Modal.Header closeButton>
                     <Modal.Title style={{fontSize: "18px"}}>Протокол</Modal.Title>
                 </Modal.Header>

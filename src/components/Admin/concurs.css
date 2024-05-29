@@ -188,3 +188,42 @@
     align-items: center;
     gap: 2vw;
 }
+
+.custom-modal{
+    display: flex !important;
+    align-items: center !important;
+}
+
+.custom-modal > div {
+    height: 100vh !important;
+    display: flex;
+    align-items: center;    
+    margin: auto !important;
+
+}
+
+
+.modalVerification {
+    width: 600px;
+}
+    
+.modalVerification > div {
+    height: 100vh !important;
+    display: flex;
+    align-items: center;    
+    margin: auto !important;
+
+}
+
+.modalConcurs{
+    margin: auto !important ;
+    width: 750px;
+    
+}
+
+.css-d9ml5t-MuiDrawer-docked .MuiDrawer-paper{
+    z-index: 98;
+}   
+
+
+/* <Modal.Header closeButton></Modal.Header>  */

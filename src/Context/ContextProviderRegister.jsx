@@ -325,7 +325,7 @@ const ContextProviderRegister = ({ children }) => {
         getByStatus,
         users2,
         users3,
-        updateUserStatus,
+        updateUserStatus,   
         getByStatus2,
         wonContest,
         getFiles,

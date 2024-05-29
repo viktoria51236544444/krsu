@@ -11,6 +11,7 @@ import Navbar from 'react-bootstrap/Navbar';
 import { FileArrowDown, FileX, PencilSimpleLine } from "@phosphor-icons/react";
 import { BsPaperclip } from 'react-icons/bs';
 import {Power} from "phosphor-react";
+// import "./concurs.css"
 
 const Concurs = () => {
     const { addConcurs, spPurchase, updateContestStatus, contestFilter, count, getCounts } = UseRegister();
@@ -235,7 +236,7 @@ const Concurs = () => {
             setUpdateModal(false)
 
         } catch (error) {
-            console.log(error)
+            console.log(error)  
         }
     }
 
@@ -365,9 +366,10 @@ const Concurs = () => {
 
                     </div>
                 </div>
-                <Modal show={show} onHide={handleClose} className="custom-modal" style={{ marginTop: "8vw" }}>
-                    <Form style={{ padding: '1vw' }}>
-                        <div className="row">
+                <Modal show={show} onHide={handleClose} className="custom-modal">
+                 <Modal.Header closeButton></Modal.Header> 
+                    <Form style={{ padding: '1vw' }}>   
+                        <div className="row">   
                             <div className="col-md-6">
                                 <div style={{ display: "flex", flexDirection: "row", gap: 10, alignItems: "center", width: '100%' }}>
                                     <Form.Group className="mb-3" controlId="year" style={{ width: "50%" }}>
@@ -528,7 +530,7 @@ const Concurs = () => {
                         </div>
                     </Form>
                 </Modal>
-                <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal" style={{ marginTop: "8vw" }}>
+                <Modal show={updateModal} onHide={closeUpdateModal} className="custom-modal modalConcurs" >
                     <Modal.Header closeButton>
                         <Modal.Title style={{ fontSize: "18px" }}>Редактировать данные конкурса</Modal.Title>
                     </Modal.Header>

@@ -154,10 +154,10 @@ const Deactivazion = () => {
                     </div>
                 </div>
             </div>
-            <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal show={showModal} onHide={handleCloseModal} className='modalVerification'>
                 <Modal.Header closeButton>
                     <Modal.Title style={{fontSize: "18px"}}>Протокол</Modal.Title>
-                </Modal.Header>
+                </Modal.Header> 
                 <Modal.Body>
                     <textarea
                         className="form-control"
@@ -177,10 +177,10 @@ const Deactivazion = () => {
                         width: '100%'
                     }}>
                         <p>(будет отправлен на почту)</p>
-                        <Button variant="danger" size="sm" onClick={handleCloseModal}>
+                        <Button  variant="success" size="sm" onClick={handleCloseModal}>
                             Деактивировать
                         </Button>
-                    </div>
+                    </div>  
 
                 </Modal.Footer>
             </Modal>
