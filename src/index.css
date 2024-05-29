@@ -276,7 +276,8 @@ body {
   display: flex;
   align-items: center;
   gap: 1vw;
-  margin-top: 3vw;
+  margin-top: 1.5vw;
+  
 }
 
 .modalact .modal-dialog {
@@ -296,3 +297,6 @@ Button{
   /* color: #fff !important; */
 }
 
+input::placeholder{
+  font-size: 5px !important;
+}

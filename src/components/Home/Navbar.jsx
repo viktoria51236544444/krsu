@@ -11,6 +11,7 @@ function NavScrollExample() {
     const [isAdmin, setIsAdmin] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
+    console.log(isAdmin);
 
     useEffect(() => {
         setActiveTab(location.pathname);
@@ -27,9 +28,7 @@ function NavScrollExample() {
                 const storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
                 if (!storedUserInfo) {
                     getUserInfo(codeid);
-                } else {
-                    setIsAdmin(storedUserInfo.role === 'Администратор');
-                }
+                } 
             }
         } else {
             setEmail(null);
@@ -58,9 +57,7 @@ function NavScrollExample() {
                 console.log(data.user.user);
                 localStorage.setItem('userInfo', JSON.stringify(data.user.user));
                 setIsAdmin(data.user.user.role === 'Администратор');
-            } else {
-                setIsAdmin(storedUserInfo.role === 'Администратор');
-            }
+            } 
         } catch (error) {
             console.log('Ошибка при получении информации о пользователе:', error);
         }
@@ -82,10 +79,12 @@ function NavScrollExample() {
     };
 
     const handleEmailClick = () => {
-        if (isAdmin) {
+        const storedRole = localStorage.getItem('role');
+        if (isAdmin || storedRole === 'Администратор') {
             navigate('/concurs');
         }
     };
+    
 
     const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act", "/verf", "/deac"].includes(activeTab);
 
@@ -95,7 +94,7 @@ function NavScrollExample() {
                 <Container fluid>
                     <Navbar.Brand as={Link} to="/" className="text-dark">
                         <img style={{ width: "30px" }} src={logo} alt="logo" />
-                        <span className='logoText'>КНАУ им. К.И. Скрябина</span>
+                        <span>КНАУ им. К.И. Скрябина</span>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
