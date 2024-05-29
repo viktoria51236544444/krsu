@@ -223,18 +223,50 @@ body {
 
 
 
+/* homePage.css */
+
+.home-container {
+  padding: 40px;
+}
+
+.home-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.home-description {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.home-card {
+  border: none;
+  box-shadow: none;
+}
+
+.map-container {
+  position: relative;
+  padding-bottom: 75%; /* Измените это значение по вашему усмотрению */
+  height: 0;
+  overflow: hidden;
+}
+
+.map-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
 
 
-
-
-
-
-
-
-
-
-
-
+.personal-area-data{
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+  margin-top: 3vw;
+}
 
 .modalact .modal-dialog {
   max-width: 30%; 

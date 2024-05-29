@@ -14,9 +14,7 @@ const HomePage = () => {
             <Row className="justify-content-center align-items-center text-center">
                 <Col xs={12} md={6} className="order-md-last">
                     <Card className="map-card">
-                        <div className="map-image-container">
-                            <img src="https://img.freepik.com/premium-vector/grey-world-map-vector-illustration-flat-design_230610-1396.jpg" alt="Карта" className="map-image" />
-                        </div>
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d78694.71539150541!2d74.48373497128125!3d42.862081595046654!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x389eb6301e663e2d%3A0x623be3ff09d65a63!2z0JrRi9GA0LPRi9C30YHQutC40Lkg0L3QsNGG0LjQvtC90LDQu9GM0L3Ri9C5INCw0LPRgNCw0YDQvdGL0Lkg0YPQvdC40LLQtdGA0YHQuNGC0LXRgg!5e0!3m2!1sru!2skg!4v1716933453453!5m2!1sru!2skg" width="635" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </Card>
                 </Col>
                 <Col xs={12} md={6} className="order-md-first">
