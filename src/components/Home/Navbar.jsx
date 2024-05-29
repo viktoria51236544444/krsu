@@ -95,7 +95,7 @@ function NavScrollExample() {
                 <Container fluid>
                     <Navbar.Brand as={Link} to="/" className="text-dark">
                         <img style={{ width: "30px" }} src={logo} alt="logo" />
-                        <span>КНАУ им. К.И. Скрябина</span>
+                        <span className='logoText'>КНАУ им. К.И. Скрябина</span>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
