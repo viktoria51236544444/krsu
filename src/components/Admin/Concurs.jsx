@@ -3,7 +3,7 @@ import { Accordion, Button, Form } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import axios from 'axios';
 import { Nav, NavItem, NavLink, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Modal from 'react-bootstrap/Modal';
 import Sidebar from './Sidebar';
 import Container from 'react-bootstrap/Container';
@@ -36,6 +36,7 @@ const Concurs = () => {
         start_date: '',
         contests: [],
     });
+
 
     useEffect(() => {
         getContestList();
@@ -239,6 +240,19 @@ const Concurs = () => {
             console.log(error)
         }
     }
+    const navigate = useNavigate()
+    const signout = () => {
+        const confirmed = window.confirm("Вы уверены, что хотите выйти из аккаунта?");
+        if (confirmed) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('codeid');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('role');
+            console.log('User signed out');
+            navigate('/');
+        }
+    };
 
     console.log(formData)
     return (
@@ -289,8 +303,9 @@ const Concurs = () => {
                         alignItems: "center"
                     }}>
                         <div>{userEmail}</div>
-                        <Link to={"/"}>
+
                         <button
+                            onClick={signout}
                                 className="btn"
                                 style={{
                                     display: 'flex',
@@ -302,7 +317,7 @@ const Concurs = () => {
                                 <Power size={30} color="red" />
                             </button>
 
-                        </Link>
+
                     </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -576,7 +591,7 @@ const Concurs = () => {
                         <Form>
                             <div className="row">
                                 <div className="col-md-6">
-                                    <div style={{display: "flex", flexDirection: 'row', width: '100%', gap: 20}}>
+                                    <div style={{display: "flex", flexDirection: 'row', width: '100%', gap: 10}}>
                                         <Form.Group className="mb-3" controlId="year" style={{width: '50%'}}>
                                             <Form.Label>Год</Form.Label>
                                             <Form.Control

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button, Table, Modal, Form } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
@@ -116,6 +116,21 @@ const Public = () => {
         setFinalContestModal(true);
         getCounts()
     };
+
+
+    const navigate = useNavigate()
+    const signout = () => {
+        const confirmed = window.confirm("Вы уверены, что хотите выйти из аккаунта?");
+        if (confirmed) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('codeid');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('role');
+            console.log('User signed out');
+            navigate('/');
+        }
+    };
     return (
         <div className="oll_sistem" style={{ maxWidth: "100vw" }}>
             <Sidebar />
@@ -141,8 +156,8 @@ const Public = () => {
                     <div>
                         <div style={{ display: "flex", textAlign: "center", gap: '10px', justifyContent: "center", alignItems: "center" }}>
                             <div>{userEmail}</div>
-                            <Link to={"/"}>
                                 <button
+                                    onClick={signout}
                                     className="btn"
                                     style={{
                                         display: 'flex',
@@ -153,8 +168,6 @@ const Public = () => {
                                 >
                                     <Power size={30} color="red" />
                                 </button>
-
-                            </Link>
                         </div>
                     </div>
                 </div>
@@ -268,6 +281,15 @@ const Public = () => {
                                 multiple
                                 style={{ display: "none" }}
                             />
+
+                            {addAct.file && (
+                                <div>
+                                    <p>Выбранные файлы:</p>
+                                    <ul>
+                                        <li>{addAct.file.name}</li>
+                                    </ul>
+                                </div>
+                            )}
                         </Form.Group>
                     </Form>
                 </Modal.Body>

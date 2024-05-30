@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Accordion, Button } from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { Nav, NavItem, NavLink, Table, Modal } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { FileArrowDown } from "@phosphor-icons/react";
 import DetailModal from "../Home/DetailModal";
@@ -58,7 +58,19 @@ const Canceled = () => {
         setSelectedContestId(codeid);
         setShowDetailModal(true);
     }
-
+    const navigate = useNavigate()
+    const signout = () => {
+        const confirmed = window.confirm("Вы уверены, что хотите выйти из аккаунта?");
+        if (confirmed) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('codeid');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('role');
+            console.log('User signed out');
+            navigate('/');
+        }
+    };
 
     return (
         <div className="oll_sistem">
@@ -85,8 +97,8 @@ const Canceled = () => {
                     </div>
                     <div style={{ display: "flex", textAlign: "center", gap: '10px', justifyContent: "center", alignItems: "center" }}>
                         <div>{userEmail}</div>
-                        <Link to={"/"}>
                             <button
+                                onClick={signout}
                                 className="btn"
                                 style={{
                                     display: 'flex',
@@ -97,8 +109,6 @@ const Canceled = () => {
                             >
                                 <Power size={30} color="red" />
                             </button>
-
-                        </Link>
                     </div>
                 </div>
                 <div >
@@ -126,8 +136,11 @@ const Canceled = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {compled
-                                                .filter(contest => contest.contest_status === 4)
+                                        { compled && compled
+                                            .filter(contest => {
+                                                console.log('Contest:', contest);
+                                                return contest.contest_status === 4;
+                                            })
                                                 .map((contest, index) => (
                                                     <tr key={contest.codeid}>
                                                         <td onClick={() => watchDetails(contest.codeid, contest.coment)}>{index + 1}</td>

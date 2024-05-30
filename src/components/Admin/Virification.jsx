@@ -1,11 +1,12 @@
 import React, {useEffect, useState} from 'react';
 import './concurs.css';
-import {Button, Table, Modal} from 'react-bootstrap';
+import {Button, Table, Modal, Form} from 'react-bootstrap';
 import {UseRegister} from '../../Context/ContextProviderRegister';
 import Sidebar from './Sidebar';
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {Power} from "phosphor-react";
 import {BsPaperclip} from "react-icons/bs";
+import axios from "axios";
 
 
 const Virification = () => {
@@ -21,14 +22,42 @@ const Virification = () => {
     const [userId, setUserId] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [comment, setComment] = useState('');
+    const [addAct, setAddAct] = useState({
+        fileDescription: "Протокол деактивации пользователя",
+        file: null
+    });
 
     useEffect(() => {
         getByStatus2(1);
     }, []);
 
+    const navigate = useNavigate()
+    const signout = () => {
+        const confirmed = window.confirm("Вы уверены, что хотите выйти из аккаунта?");
+        if (confirmed) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('codeid');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('role');
+            console.log('User signed out');
+            navigate('/');
+        }
+    };
+
+    const handleChangeFile = (e) => {
+        const { name, value, files } = e.target;
+        if (name === "file") {
+            setAddAct({ ...addAct, file: files[0] });
+        } else {
+            setAddAct({ ...addAct, [name]: value });
+        }
+    };
+
+
     const handleCloseModal = () => {
         setShowModal(false);
-        handleDeactivate()
+        handleSubmitDiactive()
     }
 
     const handleVerify = (codeId) => {
@@ -36,17 +65,25 @@ const Virification = () => {
         setShowModal(true);
     }
 
-    const handleDeactivate = () => {
-        const data = {
-            status: 3,
-            comment: comment,
-            userId: userId
-        };
-        diactiveContest(data);
-        getByStatus2();
-        setShowModal(false);
-        setComment('');
-    }
+    const handleSubmitDiactive = async () => {
+        const formData = new FormData();
+        formData.append("fileDescription", addAct.fileDescription);
+        formData.append("file", addAct.file);
+        formData.append('status', 3)
+        formData.append('comment', comment)
+        formData.append('userId', userId)
+
+        try {
+            const { data } = await axios.post(`http://212.112.105.196:3457/api/users/updateUserStatus`, formData);
+            console.log(data)
+            setShowModal(false);
+            diactiveContest(data);
+            getByStatus2();
+            setComment('');
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     const handleCommentChange = (event) => {
         setComment(event.target.value);
@@ -58,6 +95,10 @@ const Virification = () => {
 
 
     const userRole = localStorage.getItem('role');
+
+
+
+
 
     return (
         <div className="oll_sistem">
@@ -99,8 +140,8 @@ const Virification = () => {
                             alignItems: "center"
                         }}>
                             <div>{userEmail}</div>
-                            <Link to={"/"}>
                                 <button
+                                    onClick={signout}
                                     className="btn"
                                     style={{
                                         display: 'flex',
@@ -111,8 +152,6 @@ const Virification = () => {
                                 >
                                     <Power size={30} color="red" />
                                 </button>
-
-                            </Link>
                         </div>
                     </div>
                 </div>
@@ -202,6 +241,28 @@ const Virification = () => {
                         placeholder='заключение'
                         style={{height: 250}}
                     />
+
+                    <Form.Group className="mb-3" controlId="files" style={{ marginTop: "1vw" }}>
+                        <Form.Label style={{ display: 'block' }}>
+                            <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                            Прикрепить файлы
+                        </Form.Label>
+                        <Form.Control
+                            type="file"
+                            name="file"
+                            onChange={handleChangeFile}
+                            multiple
+                            style={{ display: "none" }}
+                        />
+
+                        {addAct.file && (
+                            <div className='d-flex flex-row gap-1'>
+                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                    <p>{addAct.file.name}</p>
+                            </div>
+                        )}
+
+                    </Form.Group>
                 </Modal.Body>
                 <Modal.Footer>
                     <div style={{
@@ -212,6 +273,8 @@ const Virification = () => {
                         width: '100%'
                     }}>
                         <p>(будет отправлен на почту)</p>
+
+
                         <Button variant="danger" size="sm" onClick={handleCloseModal}>
                             Деактивировать
                         </Button>

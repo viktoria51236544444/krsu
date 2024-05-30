@@ -4,7 +4,7 @@ import {Button, Form, Modal, Table} from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import Sidebar from './Sidebar';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {BsPaperclip} from "react-icons/bs";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import {Power} from "phosphor-react";
@@ -363,6 +363,20 @@ const Participants = () => {
 
     const userRole = localStorage.getItem('role');
 
+    const navigate = useNavigate()
+    const signout = () => {
+        const confirmed = window.confirm("Вы уверены, что хотите выйти из аккаунта?");
+        if (confirmed) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('codeid');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('role');
+            console.log('User signed out');
+            navigate('/');
+        }
+    };
+
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -402,8 +416,8 @@ const Participants = () => {
                     }}>
 
                         <div>{userEmail}</div>
-                        <Link to={"/"}>
                             <button
+                                onClick={signout}
                                 className="btn"
                                 style={{
                                     display: 'flex',
@@ -414,8 +428,6 @@ const Participants = () => {
                             >
                                 <Power size={30} color="red"/>
                             </button>
-
-                        </Link>
                     </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">
@@ -559,14 +571,11 @@ const Participants = () => {
                     />
 
                     {addAct.file && (
-                        <div>
-                            <p>Выбранные файлы:</p>
-                            <ul>
-                                <li>{addAct.file.name}</li>
-                            </ul>
+                        <div className='d-flex flex-row gap-1' style={{margin:" 0 15px"}}>
+                            <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                            <p>{addAct.file.name}</p>
                         </div>
                     )}
-
                 </Form.Group>
                 <Modal.Footer>
                     <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between", padding: '0 20px', width: '100%'}}>

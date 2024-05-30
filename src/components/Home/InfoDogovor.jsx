@@ -14,7 +14,7 @@ const InfoDogovor = () => {
 
             if(responce.status === 200) {
                 console.log(responce.data.result.data)
-               setData(responce.data.result.data)
+               setData(responce.data.result)
             }else{
                 alert('произошла ошибка')
             }
@@ -45,7 +45,7 @@ const InfoDogovor = () => {
                             </tr>
                             </thead>
                             <tbody>
-                            {data.winner?.map((item, index) => (
+                            {data.winners?.map((item, index) => (
                                 <tr key={index}>
                                     <td>{index+1}</td>
                                     <td>{item.codeid + item.year + index + 1}</td>

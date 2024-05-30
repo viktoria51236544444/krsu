@@ -3,7 +3,7 @@ import './concurs.css';
 import {Button, Modal, Table} from 'react-bootstrap';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import Sidebar from './Sidebar';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {Power} from "phosphor-react";
 import {BsPaperclip} from "react-icons/bs";
 
@@ -52,6 +52,20 @@ const Deactivazion = () => {
         setComment('');
     }
 
+    const navigate = useNavigate()
+    const signout = () => {
+        const confirmed = window.confirm("Вы уверены, что хотите выйти из аккаунта?");
+        if (confirmed) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('codeid');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('role');
+            console.log('User signed out');
+            navigate('/');
+        }
+    };
+
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -80,8 +94,8 @@ const Deactivazion = () => {
                         alignItems: "center"
                     }}>
                         <div>{userEmail}</div>
-                        <Link to={"/"}>
                             <button
+                                onClick={signout}
                                 className="btn"
                                 style={{
                                     display: 'flex',
@@ -92,8 +106,6 @@ const Deactivazion = () => {
                             >
                                 <Power size={30} color="red" />
                             </button>
-
-                        </Link>
                     </div>
                 </div>
                 <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12 col-12">

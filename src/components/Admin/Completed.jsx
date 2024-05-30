@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Button, Table, Modal } from "react-bootstrap";
 import { UseRegister } from "../../Context/ContextProviderRegister";
-import { Link } from "react-router-dom";
+import {Link, useNavigate} from "react-router-dom";
 import Sidebar from "./Sidebar";
 import DetailModal from "../Home/DetailModal";
 import { Power } from "phosphor-react";
+import {BsPaperclip} from "react-icons/bs";
 
 const Completed = () => {
   const {
@@ -60,6 +61,20 @@ const Completed = () => {
     getOrderDetails(codeid);
     setSelectedContestId(codeid);
     setShowDetailModal(true);
+  };
+
+  const navigate = useNavigate()
+  const signout = () => {
+    const confirmed = window.confirm("Вы уверены, что хотите выйти из аккаунта?");
+    if (confirmed) {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('userEmail');
+      localStorage.removeItem('codeid');
+      localStorage.removeItem('userInfo');
+      localStorage.removeItem('role');
+      console.log('User signed out');
+      navigate('/');
+    }
   };
 
   return (
@@ -132,8 +147,8 @@ const Completed = () => {
             alignItems: "center"
           }}>
               <div>{userEmail}</div>
-            <Link to={"/"}>
               <button
+                  onClick={signout}
                   className="btn"
                   style={{
                     display: 'flex',
@@ -145,7 +160,6 @@ const Completed = () => {
                 <Power size={30} color="red" />
               </button>
 
-            </Link>
           </div>
         </div>
         <div>
@@ -218,9 +232,10 @@ const Completed = () => {
                                       marginRight: "10px",
                                       display: "flex",
                                       flexDirection: "row",
-                                      gap: 10,
+                                      gap: 5,
                                     }}
                                   >
+                                    <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                     <a
                                       href={`${file.path}`}
                                       target="_blank"
@@ -228,7 +243,6 @@ const Completed = () => {
                                       download
                                       style={{
                                         textDecoration: "none",
-                                        color: "inherit",
                                         display: "inline-block",
                                       }}
                                     >

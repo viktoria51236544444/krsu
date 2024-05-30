@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button, Nav, NavItem, NavLink, Table } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
@@ -31,6 +31,19 @@ const Archive = () => {
             setContestList(contests);
         } catch (error) {
             console.log('Ошибка при получении списка конкурсов:', error);
+        }
+    };
+    const navigate = useNavigate()
+    const signout = () => {
+        const confirmed = window.confirm("Вы уверены, что хотите выйти из аккаунта?");
+        if (confirmed) {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userEmail');
+            localStorage.removeItem('codeid');
+            localStorage.removeItem('userInfo');
+            localStorage.removeItem('role');
+            console.log('User signed out');
+            navigate('/');
         }
     };
 
@@ -65,8 +78,8 @@ const Archive = () => {
                         alignItems: "center"
                     }}>
                         <div>{userEmail}</div>
-                        <Link to={"/"}>
                             <button
+                                onClick={signout}
                                 className="btn"
                                 style={{
                                     display: 'flex',
@@ -78,7 +91,6 @@ const Archive = () => {
                                 <Power size={30} color="red" />
                             </button>
 
-                        </Link>
                     </div>
                 </div>
                 <div >
