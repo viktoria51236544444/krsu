@@ -5,6 +5,7 @@ import axios from "axios";
 import { CloudArrowDown } from "@phosphor-icons/react";
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import DetailModal from "./DetailModal";
+import { API } from '../../helpers/const';
 
 const DetailPage = () => {
     const { id } = useParams();
@@ -27,7 +28,7 @@ const DetailPage = () => {
 
     const getContestDetails = async () => {
         try {
-            const response = await axios.get(`http://212.112.105.196:3457/api/contest/getContestDetails/${id}`);
+            const response = await axios.get(`${API}api/contest/getContestDetails/${id}`);
             if (response.status === 200) {
                 const result = response.data.result.data;
                 setContestDetails(result);
@@ -41,7 +42,7 @@ const DetailPage = () => {
 
     const getOrdersByContest = async () => {
         try {
-            const response = await axios.get(`http://212.112.105.196:3457/api/orders/getOrderDetails/${id}`);
+            const response = await axios.get(`${API}api/orders/getOrderDetails/${id}`);
             if (response.status === 200) {
                 const result = response.data.result.data;
                 setDetailUsers(result);
@@ -197,7 +198,7 @@ const DetailPage = () => {
             </div>
 
 
-            <Modal show={showModal} onHide={() => setShowModal(false)}>
+            <Modal backdrop="static" show={showModal} onHide={() => setShowModal(false)}>
                 <Modal.Header closeButton>
                     <Modal.Title>Назначение победителя</Modal.Title>
                 </Modal.Header>

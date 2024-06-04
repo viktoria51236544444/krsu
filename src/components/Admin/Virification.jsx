@@ -7,6 +7,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {Power} from "phosphor-react";
 import {BsPaperclip} from "react-icons/bs";
 import axios from "axios";
+import { API } from '../../helpers/const';
 
 
 const Virification = () => {
@@ -74,7 +75,7 @@ const Virification = () => {
         formData.append('userId', userId)
 
         try {
-            const { data } = await axios.post(`http://212.112.105.196:3457/api/users/updateUserStatus`, formData);
+            const { data } = await axios.post(`${API}api/users/updateUserStatus`, formData);
             console.log(data)
             setShowModal(false);
             diactiveContest(data);
@@ -228,7 +229,7 @@ const Virification = () => {
                 </div>
             </div>
 
-            <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal backdrop="static" show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title style={{fontSize: "18px"}}>Протокол</Modal.Title>
                 </Modal.Header>

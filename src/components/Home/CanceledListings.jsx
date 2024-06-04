@@ -6,6 +6,7 @@ import {useNavigate} from "react-router-dom";
 import './Info.css'
 import Footer from "./Footer";
 import DetailModal from "./DetailModal";
+import { API } from '../../helpers/const';
 
 const CanceledListings = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -56,7 +57,7 @@ const CanceledListings = () => {
 
     const getCanceledData = async () => {
         try {
-            const responce = await axios.get('http://212.112.105.196:3457/api/contest/contestFilter/4')
+            const responce = await axios.get(`${API}api/contest/contestFilter/4`)
 
             const result = responce.data.result.data
             console.log(result)

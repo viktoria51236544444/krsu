@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import logo from "./image/кнау.png"
+import logo from "./image/кнау.png";
+import { API } from '../../helpers/const';
+
 
 function NavScrollExample() {
     const [activeTab, setActiveTab] = useState("");
@@ -19,7 +21,7 @@ function NavScrollExample() {
         const token = localStorage.getItem('authToken');
         if (token) {
             const codeid = localStorage.getItem('codeid');
-            setCodeid(codeid)
+            setCodeid(codeid);
             const userEmail = localStorage.getItem('userEmail');
             if (userEmail && !codeid) {
                 setEmail(userEmail);
@@ -53,7 +55,7 @@ function NavScrollExample() {
         try {
             const storedUserInfo = JSON.parse(localStorage.getItem('userInfo'));
             if (!storedUserInfo) {
-                const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeid}`);
+                const { data } = await axios.get(`${API}api/users/getUserInfo/${codeid}`);
                 console.log(data.user.user);
                 localStorage.setItem('userInfo', JSON.stringify(data.user.user));
                 setIsAdmin(data.user.user.role === 'Администратор');
@@ -65,13 +67,13 @@ function NavScrollExample() {
 
     const handlePersonaClick = () => {
         const userInfo = localStorage.getItem('userInfo');
-        console.log(userInfo)
+        console.log(userInfo);
         if (userInfo) {
             navigate('/persona');
         } else {
             const codeid = localStorage.getItem('codeid');
             if (codeid) {
-                console.log(codeid)
+                console.log(codeid);
                 getUserInfo(codeid);
                 navigate('/persona');
             }
@@ -85,20 +87,19 @@ function NavScrollExample() {
         }
     };
 
-
     const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act", "/verf", "/deac"].includes(activeTab);
 
     return (
         !isNavBarHidden && (
-            <Navbar expand="lg" className="bg-light border-bottom shadow-none" style={{ padding: "10px 15px", height: "3.5rem" }}>
+            <Navbar expand="lg" className="bg-light border-bottom shadow-none" style={{ padding: "10px 15px", height: "5rem" }}>
                 <Container fluid>
                     <Navbar.Brand as={Link} to="/" className="text-dark">
                         <img style={{ width: "30px" }} src={logo} alt="logo" />
                         <span>КНАУ им. К.И. Скрябина</span>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
-                    <Navbar.Collapse id="navbarScroll">
-                        <Nav className="me-auto my-2 my-lg-0" style={{ maxHeight: '100px' }} navbarScroll>
+                    <Navbar.Collapse id="navbarScroll" >
+                        <Nav className="me-auto my-2 my-lg-0 custom-dropdown-menu"  navbarScroll>
                             <NavDropdown title="Объявления" id="navbarScrollingDropdown">
                                 <NavDropdown.Item
                                     as={Link}
@@ -114,7 +115,7 @@ function NavScrollExample() {
                                 <NavDropdown.Item
                                     as={Link}
                                     to="/cancele"
-                                    className={`nav-link ${activeTab === "/cancele" ? "active" : ""}`}
+                                    className={`nav-link  ${activeTab === "/cancele" ? "active" : ""}`}
                                     style={{
                                         color: activeTab === "/cancele" ? '#0D6EFD' : 'black',
                                         backgroundColor: 'white'

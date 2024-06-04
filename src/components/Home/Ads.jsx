@@ -8,6 +8,7 @@ import axios from "axios";
 import DetailModal from "./DetailModal";
 import debounce from "lodash.debounce";
 import {BsPaperclip} from "react-icons/bs";
+import { API } from "../../helpers/const";
 
 const Ads = () => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -152,7 +153,7 @@ const Ads = () => {
 
   const [searchText, setSearchText] = useState("");
   const [searchResults, setSearchResults] = useState([]);
-  const apiUrl = "http://212.112.105.196:3457/api/contest/getSearchContest";
+  const apiUrl = `${API}api/contest/getSearchContest`;
 
   const handleSubmit2 = async (value) => {
     try {
@@ -174,7 +175,7 @@ const Ads = () => {
   const getData = async () => {
     try {
       const res = await axios.get(
-        "http://212.112.105.196:3457/api/contest/getPublicatedContest"
+      `${API}api/contest/getPublicatedContest`
       );
       console.log(res.data.result?.contestList);
       SetPublic(res.data.result.contestList);
@@ -423,7 +424,7 @@ const Ads = () => {
         contestId={selectedContestId}
       />
 
-     <Modal show={showModal} onHide={() => setShowModal(false)}>
+     <Modal backdrop="static" show={showModal} onHide={() => setShowModal(false)}>
         <Modal.Header closeButton>
           <Modal.Title>Подача заявки на конкурс</Modal.Title>
         </Modal.Header>

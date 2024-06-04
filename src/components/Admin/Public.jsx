@@ -256,7 +256,7 @@ const Public = () => {
             </div>
             <DetailModal show={showDetailModal} onHide={handleCloseDetails} contestId={selectedContestId} />
 
-            <Modal show={showModal} onHide={handleCloseModal} centered>
+            <Modal backdrop="static" show={showModal}  onHide={handleCloseModal} centered>
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Протокол</Modal.Title>
                 </Modal.Header>
@@ -301,7 +301,8 @@ const Public = () => {
             </Modal>
 
 
-            <Modal show={finalContestModal} onHide={handleCloseFinalModal} centered>
+            <Modal backdrop="static" show={finalContestModal}  onHide={handleCloseFinalModal} centered>
+                
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Подтверждение</Modal.Title>
                 </Modal.Header>

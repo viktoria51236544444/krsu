@@ -4,6 +4,8 @@ import './Info.css';
 import Footer from './Footer';
 import axios from 'axios';
 import { FileArrowDown } from '@phosphor-icons/react';
+import { API } from '../../helpers/const'
+
 
 const RegulatoryLegalAct = () => {
   const [files, setFiles] = useState([]);
@@ -14,7 +16,7 @@ const RegulatoryLegalAct = () => {
 
   const getDataFiles = async () => {
     try {
-      const response = await axios.get('http://212.112.105.196:3457/api/files/getFiles/1');
+      const response = await axios.get(`${API}api/files/getFiles/1`);
 
       if (response.status === 200) {
         const data = response.data.result.updateFiles;

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { UseRegister } from '../../Context/ContextProviderRegister';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
-import {Button} from "react-bootstrap";
-import {BsPaperclip} from "react-icons/bs";
+import { Button } from "react-bootstrap";
+import { BsPaperclip } from "react-icons/bs";
 
 const Register = () => {
     const navigate = useNavigate();
@@ -15,7 +15,7 @@ const Register = () => {
         inn: '',
         name_organization: '',
         pin_manager: '',
-        fio_manager: '',
+        fio: '',
         position_manager: '',
         ur_address: '',
         fact_address: '',
@@ -25,7 +25,7 @@ const Register = () => {
         bik: '',
         web_site: '',
         pin_sales_manager: '',
-        fio: '',
+        fio_manager: '',
         position: '',
         phone_manager: '',
         work_phone_number_manager: '',
@@ -42,7 +42,7 @@ const Register = () => {
         inn: '',
         name_organization: '',
         pin_manager: '',
-        fio_manager: '',
+        fio: '',
         position_manager: '',
         ur_address: '',
         fact_address: '',
@@ -52,7 +52,7 @@ const Register = () => {
         bik: '',
         web_site: '',
         pin_sales_manager: '',
-        fio: '',
+        fio_manager: '',
         position: '',
         phone_manager: '',
         work_phone_number_manager: '',
@@ -67,9 +67,9 @@ const Register = () => {
             ...prevState,
             [name]: value
         }));
-        console.log(`Field changed: ${name} = ${value}`); // Debugging line
-    };
 
+        validateField(name, value);
+    };
     const handleFileChange = (e) => {
         const files = Array.from(e.target.files);
         setFormState((prevState) => ({
@@ -112,7 +112,7 @@ const Register = () => {
                 console.log('Данные успешно отправлены на сервер!');
                 navigate('/password');
             } catch (error) {
-                console.log('Ошибка при отправке данных на сервер:', error.message);
+                alert("Такой пользователь уже существует, попробуйте войти");
             }
         }
     };
@@ -151,12 +151,10 @@ const Register = () => {
         const updatedErrors = {};
 
         Object.keys(formState).forEach((fieldName) => {
-            if (!formState[fieldName]) {
-                console.log(`Field "${fieldName}" is empty.`);
-                updatedErrors[fieldName] = 'Это поле не может быть пустым';
+            const error = validateField(fieldName, formState[fieldName]);
+            if (error) {
+                updatedErrors[fieldName] = error;
                 isValid = false;
-            } else {
-                updatedErrors[fieldName] = '';
             }
         });
 
@@ -166,6 +164,45 @@ const Register = () => {
         }));
 
         return isValid;
+    };
+
+    const validateField = (name, value) => {
+        let error = '';
+        switch (name) {
+            case 'inn':
+                if (!/^\d{12}$/.test(value)) {
+                    error = 'ИНН должен содержать ровно 12 цифр';
+                }
+                break;
+            case 'bik':
+                if (!/^\d{9}$/.test(value)) {
+                    error = 'БИК должен содержать ровно 9 цифр';
+                }
+                break;
+            case 'deposot_account':
+                if (!/^\d{20}$/.test(value)) {
+                    error = 'Расчетный счет должен содержать ровно 20 цифр';
+                }
+                break;
+            case 'phone_manager':
+            case 'work_phone_number_manager':
+                if (!/^\d{14}$/.test(value)) {
+                    error = 'Телефон не должен превышать 14 цифр';
+                }
+                break;
+            case 'password':
+            case 'password_manager':
+                if (!/(?=.*[A-Za-z])(?=.*\d)(?=.*[A-Z]).{6,}/.test(value)) {
+                    error = 'Пароль должен содержать цифры, буквы латиницы и хотя бы одну заглавную букву';
+                }
+                break;
+            default:
+                break;
+        }
+        setErrors((prevState) => ({
+            ...prevState,
+            [name]: error
+        }));
     };
 
 
@@ -188,7 +225,7 @@ const Register = () => {
                     'inn',
                     'name_organization',
                     'pin_manager',
-                    'fio_manager',
+                    'fio',
                     'position_manager',
                     'address',
                     'ur_address',
@@ -200,7 +237,7 @@ const Register = () => {
                 return [
                     'web_site',
                     'pin_sales_manager',
-                    'fio',
+                    'fio_manager',
                     'position',
                     'phone_manager',
                     'work_phone_number_manager',
@@ -212,6 +249,7 @@ const Register = () => {
                 return [];
         }
     };
+    console.log(formState);
 
     return (
         <div className="container mt-5">
@@ -318,16 +356,16 @@ const Register = () => {
                                     )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">ФИО руководителя</label>
+                                    <label className="form-label">ФИО</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        name="fio_manager"
-                                        value={formState.fio_manager}
+                                        name="fio"
+                                        value={formState.fio}
                                         onChange={handleChange}
                                     />
-                                    {errors.fio_manager && (
-                                        <div className="text-danger">{errors.fio_manager}</div>
+                                    {errors.fio && (
+                                        <div className="text-danger">{errors.fio}</div>
                                     )}
                                 </div>
                                 <div className="col-md-6">
@@ -452,16 +490,16 @@ const Register = () => {
                                     )}
                                 </div>
                                 <div className="col-md-6">
-                                    <label className="form-label">ФИО</label>
+                                    <label className="form-label">ФИО руководителя</label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        name="fio"
-                                        value={formState.fio}
+                                        name="fio_manager"
+                                        value={formState.fio_manager}
                                         onChange={handleChange}
                                     />
-                                    {errors.fio && (
-                                        <div className="text-danger">{errors.fio}</div>
+                                    {errors.fio_manager && (
+                                        <div className="text-danger">{errors.fio_manager}</div>
                                     )}
                                 </div>
                                 <div className="col-md-6">
@@ -533,7 +571,7 @@ const Register = () => {
                                     <label className="form-label">Загрузить файлы</label>
                                     <div className="input-group">
                                         <span className="input-group-text">
-                                              <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                            <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                         </span>
                                         <input
                                             type="file"
@@ -553,14 +591,14 @@ const Register = () => {
                                             <ul className="list-group">
                                                 {selectedFiles.map((file, index) => (
                                                     <>
-                                                        <div style={{display: "flex", flexDirection: 'row', gap: 10, margin: '10px 0'}}>
-                                                    <li key={index} className="list-group-item">
-                                                        {file.name}
-                                                    </li>
-                                                    <Button variant="danger" size="sm" onClick={() => onRemove2(index)}>X</Button>
+                                                        <div style={{ display: "flex", flexDirection: 'row', gap: 10, margin: '10px 0' }}>
+                                                            <li key={index} className="list-group-item">
+                                                                {file.name}
+                                                            </li>
+                                                            <Button variant="danger" size="sm" onClick={() => onRemove2(index)}>X</Button>
                                                         </div>
                                                     </>
-                                            ))}
+                                                ))}
                                             </ul>
                                         </div>
                                     )}
@@ -572,7 +610,7 @@ const Register = () => {
                             </div>
                         )}
 
-                        <div className="mt-4"  style={{width: 300, margin: '0 auto', display: "flex", flexDirection: 'row', gap: 15, alignItems: "center", justifyContent: 'center'}}>
+                        <div className="mt-4" style={{ width: 300, margin: '0 auto', display: "flex", flexDirection: 'row', gap: 15, alignItems: "center", justifyContent: 'center' }}>
                             {currentStep > 1 && (
                                 <button
                                     type="button"
@@ -593,7 +631,7 @@ const Register = () => {
                             )}
                             {currentStep === 3 && (
                                 <button type="submit" className="btn btn-success">
-                                    Зарегистрироваться
+                                    Геристрация
                                 </button>
                             )}
                         </div>

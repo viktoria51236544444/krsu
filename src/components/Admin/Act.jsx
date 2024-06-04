@@ -8,6 +8,7 @@ import { CloudArrowDown, FileArrowDown, FilePdf } from "@phosphor-icons/react";
 import { BsPaperclip } from 'react-icons/bs';
 import {Link, useNavigate} from 'react-router-dom';
 import {Power} from "phosphor-react";
+import { API } from '../../helpers/const';
 
 const Act = () => {
     const { getFiles, actt } = UseRegister();
@@ -43,7 +44,7 @@ const Act = () => {
 
     const fetchData = async () => {
         try {
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/files`);
+            const { data } = await axios.get(`${API}api/files`);
         } catch (error) {
             console.log(error);
         }
@@ -69,9 +70,10 @@ const Act = () => {
         formData.append("file", addAct.file);
 
         try {
-            const { data } = await axios.post(`http://212.112.105.196:3457/api/files/upload`, formData);
+            const { data } = await axios.post(`${API}api/files/upload`, formData);
 
             handleClose();
+            getFiles(1)
         } catch (error) {
             console.log(error);
         }
@@ -82,7 +84,7 @@ const Act = () => {
             const data = {
                 codeFile: selectedFileCodeId
             }
-            const response = await axios.post('http://212.112.105.196:3457/api/files/deleteFile', data)
+            const response = await axios.post(`${API}api/files/deleteFile`, data)
             handleClose2()
             getFiles(1)
             fetchData()
@@ -203,7 +205,7 @@ const Act = () => {
                 </div>
             </div>
 
-            <Modal show={show2} onHide={handleClose2}>
+            <Modal show={show2} backdrop="static" onHide={handleClose2}>
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Вы действительно хотите удалить нормативно правовой акт?</Modal.Title>
                 </Modal.Header>
@@ -217,7 +219,7 @@ const Act = () => {
                 </Modal.Footer>
             </Modal>
 
-            <Modal show={show} onHide={handleClose} className="custom-modal ">
+            <Modal show={show} onHide={handleClose} backdrop="static" className="custom-modal ">
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: '18px' }}>Добавление нормативно правового акта</Modal.Title>
                 </Modal.Header>

@@ -4,6 +4,7 @@ import axios from "axios";
 import {UseRegister} from '../../Context/ContextProviderRegister';
 import "./detailStyle.css"
 import {BsPaperclip} from "react-icons/bs";
+import { API } from '../../helpers/const';
 
 const DetailModal = ({show, onHide, contestId, comment, winner}) => {
     const {wonContest} = UseRegister();
@@ -27,7 +28,7 @@ const DetailModal = ({show, onHide, contestId, comment, winner}) => {
 
     const getContestDetails = async () => {
         try {
-            const response = await axios.get(`http://212.112.105.196:3457/api/contest/getContestDetails/${contestId}`);
+            const response = await axios.get(`${API}api/contest/getContestDetails/${contestId}`);
             if (response.status === 200) {
                 const result = response.data.result.data;
                 setContestDetails(result);
@@ -41,7 +42,7 @@ const DetailModal = ({show, onHide, contestId, comment, winner}) => {
 
     const getOrdersByContest = async () => {
         try {
-            const response = await axios.get(`http://212.112.105.196:3457/api/orders/getOrderDetails/${contestId}`);
+            const response = await axios.get(`${API}api/orders/getOrderDetails/${contestId}`);
             console.log(response)
             if (response.status === 200) {
                 const result = response.data.result.data;
@@ -79,7 +80,7 @@ const DetailModal = ({show, onHide, contestId, comment, winner}) => {
     console.log(contestDetails, "contestDetails");
 
     return (
-        <Modal show={show} onHide={onHide} size="xl" className='parentModal'>
+        <Modal backdrop="static" show={show} onHide={onHide} size="xl" className='parentModal'>
             <Modal.Header closeButton className='closeModal'/>
             <Modal.Body className='parentModal__inner'>
                 <Container fluid className="mt-4">

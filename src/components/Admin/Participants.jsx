@@ -8,6 +8,7 @@ import {Link, useNavigate} from 'react-router-dom';
 import {BsPaperclip} from "react-icons/bs";
 import Breadcrumb from "react-bootstrap/Breadcrumb";
 import {Power} from "phosphor-react";
+import { API } from '../../helpers/const';
 
 const Participants = () => {
     const { users2, getUserList, updateUserStatus, getByStatus, getByStatus2, diactiveContest, organizationType, } = UseRegister();
@@ -18,7 +19,7 @@ const Participants = () => {
     const [userId, setUserId] = useState(0);
     const [userEmail, setUserEmail] = useState('');
 
-    /// ------------------------ addd User _-------------------------------------
+    /// ------------------------ add User _-------------------------------------
     const [selectedFiles, setSelectedFiles] = useState([]);
     const [formState, setFormState] = useState({
             organization_type_id: '',
@@ -271,7 +272,7 @@ const Participants = () => {
         formData.append('userId', userId)
 
         try {
-            const { data } = await axios.post(`http://212.112.105.196:3457/api/users/updateUserStatus`, formData);
+            const { data } = await axios.post(`${API}api/users/updateUserStatus`, formData);
             console.log(data)
             handleCloseVerifyModal();
         } catch (error) {
@@ -281,7 +282,7 @@ const Participants = () => {
 
     const getUserInfo = async (codeId, index) => {
         try {
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeId}`);
+            const { data } = await axios.get(`${API}api/users/getUserInfo/${codeId}`);
             setSelectedIndex(index);
         } catch (error) {
             console.log(error);
@@ -333,7 +334,7 @@ const Participants = () => {
         try {
             const response = await axios({
                 method: "POST",
-                url: `http://212.112.105.196:3457/api/users/signup`,
+                url: `${API}api/users/signup`,
                 data: userData,
                 headers: { "Content-Type": "multipart/form-data" },
             });
@@ -520,7 +521,7 @@ const Participants = () => {
                     </div>
                 </div>
             </div>
-            <Modal show={showVerifyModal} onHide={handleCloseVerifyModal} className='modalVerification'>
+            <Modal backdrop="static"  show={showVerifyModal} onHide={handleCloseVerifyModal} className='modalVerification'>
                 <Modal.Header closeButton>
                     <Modal.Title style={{fontSize: "18px"}}>Подтверждение </Modal.Title>
                 </Modal.Header>
@@ -543,7 +544,7 @@ const Participants = () => {
                     </div>
                 </Modal.Footer>
             </Modal>
-            <Modal show={showDeactivateModal} onHide={handleCloseDeactivateModal} className='modalVerification'>
+            <Modal backdrop="static" show={showDeactivateModal} onHide={handleCloseDeactivateModal} className='modalVerification'>
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Протокол </Modal.Title>
                 </Modal.Header>
@@ -587,7 +588,7 @@ const Participants = () => {
                 </Modal.Footer>
             </Modal>
 
-            <Modal show={show} onHide={handleClose} className="custom-modal" >
+            <Modal backdrop="static" show={show} onHide={handleClose} className="custom-modal" >
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Добавление контрагента</Modal.Title>
                 </Modal.Header>

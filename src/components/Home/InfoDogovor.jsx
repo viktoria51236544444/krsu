@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import axios from "axios";
+import { API } from '../../helpers/const';
 
 const InfoDogovor = () => {
 
@@ -10,7 +11,7 @@ const InfoDogovor = () => {
     }, [] )
     const getFilterData = async () => {
         try {
-            const responce = await axios('http://212.112.105.196:3457/api/contest/contestFilter/3')
+            const responce = await axios(`${API}api/contest/contestFilter/3`)
 
             if(responce.status === 200) {
                 console.log(responce.data.result.data)

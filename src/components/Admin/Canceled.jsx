@@ -192,7 +192,7 @@ const Canceled = () => {
             <DetailModal show={showDetailModal} onHide={handleCloseDetails} contestId={selectedContestId}
                          comment={comment}/>
 
-            <Modal show={finalContestModal} onHide={handleCloseFinalModal} centered>
+            <Modal backdrop="static" show={finalContestModal} onHide={handleCloseFinalModal} centered>
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Подтверждение</Modal.Title>
                 </Modal.Header>

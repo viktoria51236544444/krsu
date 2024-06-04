@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API } from '../helpers/const';
 
 const contextProviderRegister = createContext();
 export const UseRegister = () => useContext(contextProviderRegister);
@@ -30,7 +31,7 @@ const ContextProviderRegister = ({ children }) => {
         try {
             const response = await axios({
                 method: "POST",
-                url: `http://212.112.105.196:3457/api/users/signup`,
+                url: `${API}api/users/signup`,
                 data: userData,
                 headers: { "Content-Type": "multipart/form-data" },
             });
@@ -38,9 +39,11 @@ const ContextProviderRegister = ({ children }) => {
             console.log(response.data?.user.email);
             console.log(response.data?.user);
             navigate("/password");
+            console.log(response);
 
         } catch (error) {
             console.log('Error registering user:', error.message);
+            console.log(error);
             throw error;
         }
     };
@@ -49,7 +52,7 @@ const ContextProviderRegister = ({ children }) => {
     useEffect(() => {
         const fetchOrganizationType = async () => {
             try {
-                const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getSpOrgazationType`);
+                const { data } = await axios.get(`${API}api/users/getSpOrgazationType`);
                 setOrganizationType(data.result.org);
             } catch (error) {
                 console.error('Error fetching organization type:', error.message);
@@ -63,7 +66,7 @@ const ContextProviderRegister = ({ children }) => {
     // * подтверждение почты
     const sendVerificationEmail = async (data) => {
         try {
-            const response = await axios.post(`http://212.112.105.196:3457/api/users/verifi_email`, data);
+            const response = await axios.post(`${API}api/users/verifi_email`, data);
             // console.log('Email verification request sent successfully:', response.data);
             // console.log(response.data.codeid);
             // localStorage.setItem('authToken', response.data.result.accessToken);
@@ -79,7 +82,7 @@ const ContextProviderRegister = ({ children }) => {
     // !* Авторизация
     const signin = async (signinData) => {
         try {
-            const res = await axios.post(`http://212.112.105.196:3457/api/users/signin`, signinData);
+            const res = await axios.post(`${API}api/users/signin`, signinData);
             console.log(res);
 
             localStorage.setItem('authToken', res.data.token);
@@ -102,7 +105,7 @@ const ContextProviderRegister = ({ children }) => {
 
     const getUserInfo = async (codeId) => {
         try {
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserInfo/${codeId}`)
+            const { data } = await axios.get(`${API}api/users/getUserInfo/${codeId}`)
             console.log(data);
         } catch (error) {
             console.log(error);
@@ -112,7 +115,7 @@ const ContextProviderRegister = ({ children }) => {
 
     const getUserList = async () => {
         try {
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getUserList`)
+            const { data } = await axios.get(`${API}api/users/getUserList`)
             SetUsers(data.users.users);
         } catch (error) {
             console.log(error);
@@ -125,7 +128,7 @@ const ContextProviderRegister = ({ children }) => {
     //* добавление конкурса
     const addConcurs = async (formData) => {
         try {
-            const res = await axios.post(`http://212.112.105.196:3457/api/contest/createContest`, formData);
+            const res = await axios.post(`${API}api/contest/createContest`, formData);
             console.log(res.data.result.status);
 
 
@@ -139,12 +142,12 @@ const ContextProviderRegister = ({ children }) => {
     //     getCounts()
     // }, []);
 
-    const getCounts = async()  => {
+    const getCounts = async () => {
         try {
-            const res = await axios.get(`http://212.112.105.196:3457/api/contest/getCount`);
+            const res = await axios.get(`${API}api/contest/getCount`);
             console.log(res.data.result.data)
             setCounts(res.data.result.data)
-        }catch (error){
+        } catch (error) {
             console.log(error)
         }
     }
@@ -153,7 +156,7 @@ const ContextProviderRegister = ({ children }) => {
     useEffect(() => {
         const getSpPurchase = async () => {
             try {
-                const { data } = await axios.get(`http://212.112.105.196:3457/api/contest/getSpPurchase`);
+                const { data } = await axios.get(`${API}api/contest/getSpPurchase`);
                 setSpPurchase(data.result.data)
                 // console.log(spPurchase);
             } catch (error) {
@@ -168,7 +171,7 @@ const ContextProviderRegister = ({ children }) => {
     useEffect(() => {
         const getContestList = async () => {
             try {
-                const response = await axios.get('http://212.112.105.196:3457/api/contest/getContestList');
+                const response = await axios.get(`${API}api/contest/getContestList`);
                 const data = response.data;
                 SetConcurs(data.result.data);
                 // console.log(data.result.data);
@@ -187,7 +190,7 @@ const ContextProviderRegister = ({ children }) => {
     // * фильтрация конкурсов по статусу
     const updateContestStatus = async (Public) => {
         try {
-            const res = await axios.post(`http://212.112.105.196:3457/api/contest/updateContestStatus`, Public);
+            const res = await axios.post(`${API}api/contest/updateContestStatus`, Public);
             console.log(res.data);
         } catch (error) {
             console.log('Error during sign-in:', error.message);
@@ -197,7 +200,7 @@ const ContextProviderRegister = ({ children }) => {
     //* ДЕАКТИВИРОВАНИЕ
     const diactiveContest = async (Public) => {
         try {
-            const res = await axios.post(`http://212.112.105.196:3457/api/contest/diactiveContest`, Public);
+            const res = await axios.post(`${API}api/contest/diactiveContest`, Public);
             console.log(res.data);
         } catch (error) {
             console.log('Error during sign-in:', error.message);
@@ -208,7 +211,7 @@ const ContextProviderRegister = ({ children }) => {
     useEffect(() => {
         const getPublicatedContest = async () => {
             try {
-                const res = await axios.get('http://212.112.105.196:3457/api/contest/getPublicatedContest');
+                const res = await axios.get(`${API}api/contest/getPublicatedContest`)
                 SetPublic(res.data.result.contestList);
                 // console.log(res.data.result);
             } catch (error) {
@@ -224,7 +227,7 @@ const ContextProviderRegister = ({ children }) => {
     const contestFilter = async (codeId) => {
         console.log('contestFilter', codeId)
         try {
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/contest/contestFilter/${codeId}`)
+            const { data } = await axios.get(`${API}api/contest/contestFilter/${codeId}`)
             SetCompled(data.result.data);
             console.log(data.result.data);
         } catch (error) {
@@ -235,7 +238,7 @@ const ContextProviderRegister = ({ children }) => {
     //* отправка данных при подачи заявки пользоватлем
     const createOrder = async (User) => {
         try {
-            const res = await axios.post(`http://212.112.105.196:3457/api/orders/createOrder`, User);
+            const res = await axios.post(`${API}api/orders/createOrder`, User);
             SetMessage(res.data.result.message);
         } catch (error) {
             console.log('Error during sign-in:', error);
@@ -245,7 +248,7 @@ const ContextProviderRegister = ({ children }) => {
     //* детальный просмотр конкурса
     const getOrderDetails = async (codeId) => {
         try {
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/orders/getOrderDetails/${codeId}`)
+            const { data } = await axios.get(`${API}api/orders/getOrderDetails/${codeId}`)
             SetDetailUsers(data.result.data);
         } catch (error) {
             console.log(error);
@@ -254,8 +257,8 @@ const ContextProviderRegister = ({ children }) => {
 
     const getByStatus = async (status) => {
         try {
-            console.log(`http://212.112.105.196:3457/api/users/getByStatus/${status}`)
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getByStatus/${status}`)
+            console.log(`${API}api/users/getByStatus/${status}`)
+            const { data } = await axios.get(`${API}api/users/getByStatus/${status}`)
             SetUsers2(data.result.result);
             console.log(data);
         } catch (error) {
@@ -264,7 +267,7 @@ const ContextProviderRegister = ({ children }) => {
     }
     const getByStatus2 = async (status) => {
         try {
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/users/getByStatus/${status}`)
+            const { data } = await axios.get(`${API}api/users/getByStatus/${status}`)
             SetUsers3(data.result.result);
             console.log(data);
         } catch (error) {
@@ -275,7 +278,7 @@ const ContextProviderRegister = ({ children }) => {
 
     const updateUserStatus = async (UserData) => {
         try {
-            const { data } = await axios.post(`http://212.112.105.196:3457/api/users/updateUserStatus`, UserData);
+            const { data } = await axios.post(`${API}api/users/updateUserStatus`, UserData);
             console.log(data);
         } catch (error) {
             console.log('Error during sign-in:', error);
@@ -283,7 +286,7 @@ const ContextProviderRegister = ({ children }) => {
     };
     const wonContest = async (ConcursData) => {
         try {
-            const { data } = await axios.post(`http://212.112.105.196:3457/api/orders//wonContest`, ConcursData);
+            const { data } = await axios.post(`${API}api/orders//wonContest`, ConcursData);
             console.log(data);
         } catch (error) {
             console.log('Error during sign-in:', error);
@@ -292,7 +295,7 @@ const ContextProviderRegister = ({ children }) => {
 
     const getFiles = async (status) => {
         try {
-            const { data } = await axios.get(`http://212.112.105.196:3457/api/files/getFiles/${status}`)
+            const { data } = await axios.get(`${API}api/files/getFiles/${status}`)
             setActt(data.result.updateFiles);
             console.log(data.result.updateFiles);
 
@@ -300,6 +303,17 @@ const ContextProviderRegister = ({ children }) => {
             console.log(error);
         }
     }
+
+    // * редактирование данных пользователя
+
+    const updateUserData = async (userData) => {
+        try {
+            const res = await axios.post(`${API}api/contest/updateUserData`, userData);
+            console.log(res);
+        } catch (error) {
+            console.log('Error during sign-in:', error.message);
+        }
+    };
 
 
 
@@ -334,7 +348,8 @@ const ContextProviderRegister = ({ children }) => {
         count,
         getCounts,
         diactiveContest,
-        SetPublic
+        SetPublic,
+        updateUserData
     };
     return (
         <contextProviderRegister.Provider value={values}>

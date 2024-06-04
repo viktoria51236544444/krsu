@@ -30,6 +30,7 @@ const Completed = () => {
     setSelectedCodeid(codeid)
     setShow2(true);
   }
+  contestFilter(3)
 
 
   const handleCloseDetails = () => {
@@ -272,7 +273,7 @@ const Completed = () => {
         </div>
       </div>
 
-      <Modal show={show2} onHide={handleClose2}>
+      <Modal backdrop="static" show={show2} onHide={handleClose2}>
         <Modal.Header closeButton>
           <Modal.Title style={{ fontSize: "18px" }}>
             Вы действительно хотите добавить в архив

@@ -7,6 +7,7 @@ import { UseRegister } from '../../Context/ContextProviderRegister';
 import { FileArrowDown } from "@phosphor-icons/react";
 import {Power} from "phosphor-react";
 import {BsPaperclip} from "react-icons/bs";
+import { API } from '../../helpers/const';
 
 const Archive = () => {
     const { contestFilter, count, getCounts } = UseRegister()
@@ -26,7 +27,7 @@ const Archive = () => {
 
     const getContestList = async () => {
         try {
-            const response = await axios.get('http://212.112.105.196:3457/api/contest/contestFilter/5');
+            const response = await axios.get(`${API}api/contest/contestFilter/5`);
             const contests = response.data.result.data;
             setContestList(contests);
         } catch (error) {

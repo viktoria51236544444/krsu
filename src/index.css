@@ -296,3 +296,22 @@ Button{
   font-size: 12px !important;
   /* color: #fff !important; */
 }
+
+@media (max-width: 990px) {
+  .custom-dropdown-menu {
+    z-index: 1050 !important;  
+    position: relative !important;
+  }
+  
+  .navbar {
+    z-index: 1000 !important; 
+  }
+  .navbar-collapse{
+    background-color: white;
+    padding: 10px;
+  }
+  .text-dark span{
+    font-size: 12px;
+  }
+}
+
