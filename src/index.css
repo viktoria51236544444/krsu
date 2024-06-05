@@ -8,7 +8,7 @@ body {
 }
 
 
-.nav-link{
+.nav-link {
   font-weight: 400 !important;
 }
 
@@ -16,13 +16,13 @@ body {
   color: blue !important;
 }
 
-.text-dark{
+.text-dark {
   display: flex;
   gap: 10px;
 }
 
-.logoText{
-  font-weight:500;
+.logoText {
+  font-weight: 500;
 }
 
 
@@ -258,7 +258,8 @@ body {
 
 .map-container {
   position: relative;
-  padding-bottom: 75%; /* Измените это значение по вашему усмотрению */
+  padding-bottom: 75%;
+  /* Измените это значение по вашему усмотрению */
   height: 0;
   overflow: hidden;
 }
@@ -272,16 +273,16 @@ body {
 }
 
 
-.personal-area-data{
+.personal-area-data {
   display: flex;
   align-items: center;
   gap: 1vw;
   margin-top: 1.5vw;
-  
+
 }
 
 .modalact .modal-dialog {
-  max-width: 30%; 
+  max-width: 30%;
   margin: auto;
   margin-top: 2vw;
 }
@@ -292,26 +293,40 @@ body {
 
 
 
-Button{
+Button {
   font-size: 12px !important;
   /* color: #fff !important; */
 }
 
 @media (max-width: 990px) {
   .custom-dropdown-menu {
-    z-index: 1050 !important;  
+    z-index: 1050 !important;
     position: relative !important;
   }
-  
+
   .navbar {
-    z-index: 1000 !important; 
+    z-index: 1000 !important;
   }
-  .navbar-collapse{
+
+  .navbar-collapse {
     background-color: white;
     padding: 10px;
   }
-  .text-dark span{
+
+  .text-dark span {
     font-size: 12px;
   }
 }
 
+.navbar_titile {
+  color: white !important;
+}
+.navbar-nav {
+  --bs-nav-link-padding-x: 0;
+  --bs-nav-link-padding-y: 0.5rem;
+  --bs-nav-link-font-weight: ;
+  --bs-nav-link-color: white !important;
+}
+.nav-link:focus{
+  color: #0D6EFD  !important;
+}

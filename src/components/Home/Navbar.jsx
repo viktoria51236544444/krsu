@@ -99,13 +99,13 @@ function NavScrollExample() {
                     <Navbar.Toggle aria-controls="navbarScroll" />
                     <Navbar.Collapse id="navbarScroll">
                         <Nav className="me-auto my-2 my-lg-0 custom-dropdown-menu" navbarScroll>
-                            <NavDropdown title="Объявления" id="navbarScrollingDropdown">
+                            <NavDropdown title="Объявления" id="navbarScrollingDropdown" className='navbar_titile'>
                                 <NavDropdown.Item
                                     as={Link}
                                     to="/ads"
                                     className={`nav-link ${activeTab === "/ads" ? "active" : ""}`}
                                     style={{
-                                        color: activeTab === "/ads" ? '#0D6EFD' : 'white',
+                                        color: activeTab === "/ads" ? '#0D6EFD' : 'gray',
                                         backgroundColor: 'transparent'
                                     }}
                                 >
@@ -116,7 +116,7 @@ function NavScrollExample() {
                                     to="/cancele"
                                     className={`nav-link  ${activeTab === "/cancele" ? "active" : ""}`}
                                     style={{
-                                        color: activeTab === "/cancele" ? '#0D6EFD' : 'white',
+                                        color: activeTab === "/cancele" ? '#0D6EFD' : 'gray',
                                         backgroundColor: 'transparent'
                                     }}
                                 >
