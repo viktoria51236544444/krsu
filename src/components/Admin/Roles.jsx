@@ -9,7 +9,7 @@ import { BsPaperclip } from "react-icons/bs";
 import { API } from '../../helpers/const';
 
 const Roles = () => {
-    const { organizationType, updateUserData } = UseRegister();
+    const { organizationType, updateUserData, deleteUser2 } = UseRegister();
     const [users, setUsers] = useState([]);
     const [selectedRolID, setSelectedRoleID] = useState(1);
     const [spRoles, setSpRoles] = useState([]);
@@ -183,7 +183,7 @@ const Roles = () => {
         fact_address: '',
         address: '',
         banc: '',
-        deposot_account: '',
+        deposit_account: '',
         bik: '',
         web_site: '',
         pin_sales_manager: '',
@@ -196,37 +196,47 @@ const Roles = () => {
         files: []
     }); // Состояние для формы редактирования
 
-
+    const getUserInfo = async (codeid) => {
+        try {
+            const { data } = await axios.get(`${API}api/users/getUserInfo/${codeid}`);
+            const user = data.user.user;
+            user.map((user) => {
+                setEditFormState({
+                    organization_type_id: user.organization_type_id || 0,
+                    email: user.email || '',
+                    password: user.password || '',
+                    inn: user.inn || '',
+                    name_organization: user.name_organization || '',
+                    pin_manager: user.pin_manager || '',
+                    fio_manager: user.fio_manager || '',
+                    position_manager: user.position_manager || '',
+                    ur_address: user.ur_address || '',
+                    fact_address: user.fact_address || '',
+                    address: user.address || '',
+                    banc: user.banc || '',
+                    deposit_account: user.deposit_account || '',
+                    bik: user.bik || '',
+                    web_site: user.web_site || '',
+                    pin_sales_manager: user.pin_manager || '',
+                    fio: user.fio || '',
+                    position: user.position || '',
+                    phone_manager: user.phone_manager || '',
+                    work_phone_number_manager: user.work_phone_number_manager || '',
+                    email_manager: user.email_manager || '',
+                    password_manager: user.password_manager || '',
+                    files: user.files || []
+                })
+            })
+            setEditModalShow(true);
+        } catch (error) {
+            console.log('Ошибка при получении информации о пользователе:', error);
+        }
+    };
 
     // Функция для открытия модального окна редактирования
     const handleEditModalOpen = (user) => {
         setSelectedUser(user);
-        setEditFormState({
-            organization_type_id: user.organization_type_id || '',
-            email: user.email || '',
-            password: user.password || '',
-            inn: user.inn || '',
-            name_organization: user.name_organization || '',
-            pin_manager: user.pin_manager || '',
-            fio_manager: user.fio_manager || '',
-            position_manager: user.position_manager || '',
-            ur_address: user.ur_address || '',
-            fact_address: user.fact_address || '',
-            address: user.address || '',
-            banc: user.banc || '',
-            deposot_account: user.deposot_account || '',
-            bik: user.bik || '',
-            web_site: user.web_site || '',
-            pin_sales_manager: user.pin_sales_manager || '',
-            fio: user.fio || '',
-            position: user.position || '',
-            phone_manager: user.phone_manager || '',
-            work_phone_number_manager: user.work_phone_number_manager || '',
-            email_manager: user.email_manager || '',
-            password_manager: user.password_manager || '',
-            files: user.files || []
-        });
-        setEditModalShow(true);
+        getUserInfo(user.codeid);
     };
 
     // Функция для закрытия модального окна редактирования
@@ -234,27 +244,58 @@ const Roles = () => {
         setEditModalShow(false);
     };
 
-    // Функция для обновления данных пользователя
-    const handleEditUser = async () => {
+    const handleEditUser = async (event) => {
+        event.preventDefault();
         try {
-            // Передача данных в функцию updateUserData
             const updatedUserData = {
                 ...editFormState,
-                code_user: selectedUser.codeid // Добавляем код пользователя
+                code_user: selectedUser.codeid
             };
-            updateUserData(updatedUserData);
+            await updateUserData(updatedUserData);
 
             alert('Данные пользователя успешно обновлены!');
             setEditModalShow(false);
-            // Обновление списка пользователей после успешного обновления данных
             addUsersByRole();
         } catch (error) {
             console.error('Ошибка при обновлении данных пользователя:', error.message);
             alert('Произошла ошибка при обновлении данных пользователя. Пожалуйста, попробуйте ещё раз.');
         }
     };
+    const handleInputChange = (event) => {
+        const { name, value } = event.target;
+        setEditFormState(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
 
-    // !edit end 
+
+    // !edit end
+    // !delete end
+    const [deleteUserData, setDeleteUserData] = useState({
+        code_user: 0,
+        role_id: 0
+    });
+
+    const handleRoleClick2 = (roleId) => {
+        setActiveRole(roleId);
+        getUsersAndRoles(roleId);
+        addUsersByRole(selectedRolID)
+    };
+
+    const handleDeleteClick = (user) => {
+        setDeleteUserData({
+            code_user: user.codeid,
+            role_id: user.role_id
+        });
+        deleteUser2({
+            code_user: user.codeid,
+            role_id: user.role_id
+        });
+        addUsersByRole(selectedRolID)
+    };
+
+    // !delete end
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -448,6 +489,10 @@ const Roles = () => {
     const deleteUser = (codeid) => {
 
     };
+    const handleRoleClick = (roleId) => {
+        setActiveRole(roleId);
+        getUsersAndRoles(roleId);
+    };
 
     return (
         <div className="oll_sistem">
@@ -458,19 +503,19 @@ const Roles = () => {
                         <ListGroup.Item disabled>Роли</ListGroup.Item>
                         <ListGroup.Item
                             active={activeRole === 1}
-                            onClick={() => getUsersAndRoles(1)}
+                            onClick={() => handleRoleClick(1)}
                         >
                             Администраторы
                         </ListGroup.Item>
                         <ListGroup.Item
                             active={activeRole === 6}
-                            onClick={() => getUsersAndRoles(6)}
+                            onClick={() => handleRoleClick(6)}
                         >
                             Операторы
                         </ListGroup.Item>
                         <ListGroup.Item
                             active={activeRole === 5}
-                            onClick={() => getUsersAndRoles(5)}
+                            onClick={() => handleRoleClick(5)}
                         >
                             Контрагенты
                         </ListGroup.Item>
@@ -543,8 +588,9 @@ const Roles = () => {
                                                             >
                                                                 Редактировать
                                                             </button>
-
-                                                            <button type='button' className='btn btn-danger' onClick={() => { deleteUser(user.codeid) }}>Удалить </button>
+                                                            {activeRole !== 5 && (
+                                                                <button type='button' className='btn btn-danger' onClick={() => handleDeleteClick(user)}>Удалить</button>
+                                                            )}
                                                         </div>
                                                     </td>
                                                 </tr>
@@ -578,26 +624,27 @@ const Roles = () => {
                     </Breadcrumb>
                     {currentStep === 1 && (
                         <div className="row g-3">
-                            {/* <div className="col-md-6">
+                            <div className="col-md-6">
                                 <label className="form-label">Форма собственности</label>
-                                <select
-                                    name="organization_type_id"
-                                    value={editFormState.organization_type_id}
-                                    onChange={handleChange}
-                                    className="form-select"
-                                >
-                                    <option value="">Выберите форму собственности</option>
-                                    {organizationType.map((option) => (
-                                        <option key={option.codeid} value={option.codeid}>
-                                            {option.name}
-                                        </option>
-                                    ))}
-                                </select>
+                                {organizationType && (
+                                    <select
+                                        name="organization_type_id"
+                                        value={formState.organization_type_id}
+                                        onChange={handleInputChange}
+                                        className="form-select"
+                                    >
+                                        <option value="">Выберите форму собственности</option>
+                                        {organizationType.map((option) => (
+                                            <option  key={option.codeid} value={option.codeid}>
+                                                {option.name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                )}
                                 {errors.organization_type_id && (
                                     <div className="text-danger">{errors.organization_type_id}</div>
                                 )}
-                            </div> */}
-
+                            </div>
                             <div className="col-md-6">
                                 <label className="form-label">Электронная почта</label>
                                 <input
@@ -605,7 +652,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="email"
                                     value={editFormState.email}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.email && (
                                     <div className="text-danger">{errors.email}</div>
@@ -618,7 +665,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="password"
                                     value={editFormState.password}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.password && <div className="text-danger">{errors.password}</div>}
                             </div>
@@ -629,7 +676,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="inn"
                                     value={editFormState.inn}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.inn && <div className="text-danger">{errors.inn}</div>}
                             </div>
@@ -640,7 +687,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="name_organization"
                                     value={editFormState.name_organization}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.name_organization && (
                                     <div className="text-danger">{errors.name_organization}</div>
@@ -653,7 +700,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="pin_manager"
                                     value={editFormState.pin_manager}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.pin_manager && (
                                     <div className="text-danger">{errors.pin_manager}</div>
@@ -666,7 +713,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="fio_manager"
                                     value={editFormState.fio_manager}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.fio_manager && (
                                     <div className="text-danger">{errors.fio_manager}</div>
@@ -679,7 +726,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="position_manager"
                                     value={editFormState.position_manager}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.position_manager && (
                                     <div className="text-danger">{errors.position_manager}</div>
@@ -692,7 +739,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="ur_address"
                                     value={editFormState.ur_address}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.ur_address && (
                                     <div className="text-danger">{errors.ur_address}</div>
@@ -705,7 +752,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="fact_address"
                                     value={editFormState.fact_address}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.fact_address && (
                                     <div className="text-danger">{errors.fact_address}</div>
@@ -718,7 +765,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="address"
                                     value={editFormState.address}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.address && (
                                     <div className="text-danger">{errors.address}</div>
@@ -729,24 +776,26 @@ const Roles = () => {
                     {currentStep === 2 && (
                         <div className="row g-3">
                             <div className="col-md-6">
-                                <label className="form-label">Название банка</label>
+                                <label className="form-label">Банк</label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     name="banc"
                                     value={editFormState.banc}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
-                                {errors.banc && <div className="text-danger">{errors.banc}</div>}
+                                {errors.banc && (
+                                    <div className="text-danger">{errors.banc}</div>
+                                )}
                             </div>
                             <div className="col-md-6">
-                                <label className="form-label">Расчётный счёт</label>
+                                <label className="form-label">Расчетный счет</label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     name="deposit_account"
                                     value={editFormState.deposit_account}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.deposit_account && (
                                     <div className="text-danger">{errors.deposit_account}</div>
@@ -759,14 +808,10 @@ const Roles = () => {
                                     className="form-control"
                                     name="bik"
                                     value={editFormState.bik}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.bik && <div className="text-danger">{errors.bik}</div>}
                             </div>
-                        </div>
-                    )}
-                    {currentStep === 3 && (
-                        <div className="row g-3">
                             <div className="col-md-6">
                                 <label className="form-label">Веб-сайт</label>
                                 <input
@@ -774,37 +819,39 @@ const Roles = () => {
                                     className="form-control"
                                     name="web_site"
                                     value={editFormState.web_site}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.web_site && (
                                     <div className="text-danger">{errors.web_site}</div>
                                 )}
                             </div>
+                        </div>
+                    )}
+                    {currentStep === 3 && (
+                        <div className="row g-3">
                             <div className="col-md-6">
-                                <label className="form-label">ПИН</label>
+                                <label className="form-label">ПИН менеджера по продажам</label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     name="pin_sales_manager"
                                     value={editFormState.pin_sales_manager}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.pin_sales_manager && (
                                     <div className="text-danger">{errors.pin_sales_manager}</div>
                                 )}
                             </div>
                             <div className="col-md-6">
-                                <label className="form-label">ФИО</label>
+                                <label className="form-label">ФИО менеджера по продажам</label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     name="fio"
                                     value={editFormState.fio}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
-                                {errors.fio && (
-                                    <div className="text-danger">{errors.fio}</div>
-                                )}
+                                {errors.fio && <div className="text-danger">{errors.fio}</div>}
                             </div>
                             <div className="col-md-6">
                                 <label className="form-label">Должность</label>
@@ -813,20 +860,20 @@ const Roles = () => {
                                     className="form-control"
                                     name="position"
                                     value={editFormState.position}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.position && (
                                     <div className="text-danger">{errors.position}</div>
                                 )}
                             </div>
                             <div className="col-md-6">
-                                <label className="form-label">Телефон руководителя отдела</label>
+                                <label className="form-label">Телефон руководителя</label>
                                 <input
                                     type="text"
                                     className="form-control"
                                     name="phone_manager"
                                     value={editFormState.phone_manager}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.phone_manager && (
                                     <div className="text-danger">{errors.phone_manager}</div>
@@ -839,7 +886,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="work_phone_number_manager"
                                     value={editFormState.work_phone_number_manager}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.work_phone_number_manager && (
                                     <div className="text-danger">{errors.work_phone_number_manager}</div>
@@ -852,7 +899,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="email_manager"
                                     value={editFormState.email_manager}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.email_manager && (
                                     <div className="text-danger">{errors.email_manager}</div>
@@ -865,7 +912,7 @@ const Roles = () => {
                                     className="form-control"
                                     name="password_manager"
                                     value={editFormState.password_manager}
-                                    onChange={handleChange}
+                                    onChange={handleInputChange}
                                 />
                                 {errors.password_manager && (
                                     <div className="text-danger">{errors.password_manager}</div>
@@ -875,10 +922,10 @@ const Roles = () => {
                     )}
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleEditModalClose}>
-                            Закрыть
+                            Отмена
                         </Button>
                         <Button variant="primary" type="submit">
-                            Сохранить изменения
+                            Сохранить
                         </Button>
                     </Modal.Footer>
                 </Form>

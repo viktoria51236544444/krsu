@@ -19,6 +19,7 @@ const ContextProviderRegister = ({ children }) => {
     const [users2, SetUsers2] = useState(null);
     const [users3, SetUsers3] = useState(null);
     const [actt, setActt] = useState(null);
+    const [reports, setReports] = useState(null);
     const [count, setCounts] = useState(0)
     const navigate = useNavigate()
 
@@ -308,14 +309,28 @@ const ContextProviderRegister = ({ children }) => {
 
     const updateUserData = async (userData) => {
         try {
-            const res = await axios.post(`${API}api/contest/updateUserData`, userData);
+            const res = await axios.post(`${API}api/users/updateUserData`, userData);
             console.log(res);
         } catch (error) {
             console.log('Error during sign-in:', error.message);
         }
     };
+    const deleteUser2 = async (deleteData) => {
+        try {
+            const res = await axios.post(`${API}api/users/deleteUser`, deleteData);
+        } catch (error) {
+            console.log('Error during sign-in:', error.message);
+        }
+    };
 
-
+    const getReports = async (repostData) => {
+        try {
+            const {data} = await axios.post(`${API}api/contest/getReports`, repostData);
+            setReports(data.result.data);
+        } catch (error) {
+            console.log('Error during sign-in:', error.message);
+        }
+    };
 
 
     const values = {
@@ -349,7 +364,10 @@ const ContextProviderRegister = ({ children }) => {
         getCounts,
         diactiveContest,
         SetPublic,
-        updateUserData
+        updateUserData,
+        deleteUser2,
+        getReports, 
+        reports
     };
     return (
         <contextProviderRegister.Provider value={values}>

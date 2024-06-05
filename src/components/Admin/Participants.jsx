@@ -362,7 +362,7 @@ const Participants = () => {
     }
 
 
-    const userRole = localStorage.getItem('role');
+    
 
     const navigate = useNavigate()
     const signout = () => {
@@ -495,7 +495,7 @@ const Participants = () => {
                                                 </td>
                                                 <td>
                                                     <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
-                                                        {userRole !== 'Оператор' && (
+                                                        
                                                             <>
                                                                 <Button variant="success" size="sm" onClick={(e) => {
                                                                     e.stopPropagation();
@@ -506,7 +506,7 @@ const Participants = () => {
                                                                     handleDeactivate(user.codeid);
                                                                 }}>Деактивировать</Button>
                                                             </>
-                                                        )}
+                                                        
                                                     </div>
                                                 </td>
                                             </tr>

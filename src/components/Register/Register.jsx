@@ -186,8 +186,8 @@ const Register = () => {
                 break;
             case 'phone_manager':
             case 'work_phone_number_manager':
-                if (!/^\d{14}$/.test(value)) {
-                    error = 'Телефон не должен превышать 14 цифр';
+                if (!/^\d{12}$/.test(value)) {
+                    error = 'Телефон не должен превышать 12 цифр';
                 }
                 break;
             case 'password':
@@ -523,6 +523,7 @@ const Register = () => {
                                         name="phone_manager"
                                         value={formState.phone_manager}
                                         onChange={handleChange}
+                                        placeholder='996501123321'
                                     />
                                     {errors.phone_manager && (
                                         <div className="text-danger">{errors.phone_manager}</div>
@@ -536,6 +537,7 @@ const Register = () => {
                                         name="work_phone_number_manager"
                                         value={formState.work_phone_number_manager}
                                         onChange={handleChange}
+                                        placeholder='996501123321'
                                     />
                                     {errors.work_phone_number_manager && (
                                         <div className="text-danger">{errors.work_phone_number_manager}</div>

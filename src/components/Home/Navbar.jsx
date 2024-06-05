@@ -13,7 +13,6 @@ function NavScrollExample() {
     const [isAdmin, setIsAdmin] = useState(false);
     const location = useLocation();
     const navigate = useNavigate();
-    console.log(isAdmin);
 
     useEffect(() => {
         setActiveTab(location.pathname);
@@ -87,27 +86,27 @@ function NavScrollExample() {
         }
     };
 
-    const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act", "/verf", "/deac"].includes(activeTab);
+    const isNavBarHidden = ["/concurs", "/participants", "/roles", "/public", "/completed", "/canceled", "/archive", "/act", "/verf", "/deac", "/reports"].includes(activeTab);
 
     return (
         !isNavBarHidden && (
-            <Navbar expand="lg" className="bg-light border-bottom shadow-none" style={{ padding: "10px 15px", height: "5rem" }}>
+            <Navbar expand="lg" className="border-bottom shadow-none" style={{ padding: "10px 15px", height: "5rem", backgroundColor: "#9b9b9b9b" }}>
                 <Container fluid>
-                    <Navbar.Brand as={Link} to="/" className="text-dark">
+                    <Navbar.Brand as={Link} to="/" className="text-white">
                         <img style={{ width: "30px" }} src={logo} alt="logo" />
                         <span>КНАУ им. К.И. Скрябина</span>
                     </Navbar.Brand>
                     <Navbar.Toggle aria-controls="navbarScroll" />
-                    <Navbar.Collapse id="navbarScroll" >
-                        <Nav className="me-auto my-2 my-lg-0 custom-dropdown-menu"  navbarScroll>
+                    <Navbar.Collapse id="navbarScroll">
+                        <Nav className="me-auto my-2 my-lg-0 custom-dropdown-menu" navbarScroll>
                             <NavDropdown title="Объявления" id="navbarScrollingDropdown">
                                 <NavDropdown.Item
                                     as={Link}
                                     to="/ads"
                                     className={`nav-link ${activeTab === "/ads" ? "active" : ""}`}
                                     style={{
-                                        color: activeTab === "/ads" ? '#0D6EFD' : 'black',
-                                        backgroundColor: 'white'
+                                        color: activeTab === "/ads" ? '#0D6EFD' : 'white',
+                                        backgroundColor: 'transparent'
                                     }}
                                 >
                                     Все объявления
@@ -117,8 +116,8 @@ function NavScrollExample() {
                                     to="/cancele"
                                     className={`nav-link  ${activeTab === "/cancele" ? "active" : ""}`}
                                     style={{
-                                        color: activeTab === "/cancele" ? '#0D6EFD' : 'black',
-                                        backgroundColor: 'white'
+                                        color: activeTab === "/cancele" ? '#0D6EFD' : 'white',
+                                        backgroundColor: 'transparent'
                                     }}
                                 >
                                     Деактивированные объявления
@@ -128,6 +127,7 @@ function NavScrollExample() {
                                 as={Link}
                                 to="/info"
                                 className={`nav-link ${activeTab === "/info" ? "active" : ""}`}
+                                style={{ color: 'white' }}
                             >
                                 Информация о заключенных договорах
                             </Nav.Link>
@@ -135,6 +135,7 @@ function NavScrollExample() {
                                 as={Link}
                                 to="/contact"
                                 className={`nav-link ${activeTab === "/contact" ? "active" : ""}`}
+                                style={{ color: 'white' }}
                             >
                                 Контакты и реквизиты
                             </Nav.Link>
@@ -142,11 +143,12 @@ function NavScrollExample() {
                                 as={Link}
                                 to="/regulatory"
                                 className={`nav-link ${activeTab === "/regulatory" ? "active" : ""}`}
+                                style={{ color: 'white' }}
                             >
                                 Нормативно правовые акты
                             </Nav.Link>
                             {email && +id !== 1 && (
-                                <Nav.Link onClick={handlePersonaClick} className="nav-link">
+                                <Nav.Link onClick={handlePersonaClick} className="nav-link" style={{ color: 'white' }}>
                                     Личный кабинет
                                 </Nav.Link>
                             )}
@@ -154,15 +156,15 @@ function NavScrollExample() {
                         <Form className="d-flex align-items-center">
                             {email ? (
                                 <>
-                                    <span style={{ marginRight: "10px", cursor: "pointer" }} onClick={handleEmailClick}>{email}</span>
+                                    <span style={{ marginRight: "10px", cursor: "pointer", color: 'white' }} onClick={handleEmailClick}>{email}</span>
                                     <Button variant="primary" className="rounded-pill" onClick={signout}>Выход</Button>
                                 </>
                             ) : (
                                 <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-                                    <Link to="/auth" style={{ textDecoration: "none", color: 'black' }}>
+                                    <Link to="/auth" style={{ textDecoration: "none", color: 'white' }}>
                                         <Button variant="outline-primary" className="rounded-pill">Войти</Button>
                                     </Link>
-                                    <Link to="/register" style={{ textDecoration: "none", color: 'black' }}>
+                                    <Link to="/register" style={{ textDecoration: "none", color: 'white' }}>
                                         <Button variant="primary" className="rounded-pill">Регистрация</Button>
                                     </Link>
                                 </div>

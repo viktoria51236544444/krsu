@@ -25,6 +25,7 @@ const Footer = () => {
     "/register",
     "/auth",
     "/deac",
+    "/reports"
   ];
   const isFooterHidden = hiddenFooterRoutes.includes(location.pathname);
 

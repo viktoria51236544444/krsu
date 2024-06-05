@@ -42,6 +42,7 @@ function ResponsiveDrawer(props) {
             setMobileOpen(!mobileOpen);
         }
     };
+    const userRole = localStorage.getItem('role');
 
     const drawer = (
         <div>
@@ -71,23 +72,25 @@ function ResponsiveDrawer(props) {
                         </ListItemButton>
                     </ListItem>
                 </Link>
-                <Link style={{ textDecoration: "none", color: location.pathname === "/roles" ? "#0D6EFD" : "black" }} to={"/roles"}>
-                    <ListItem disablePadding>
-                        <ListItemButton>
-                            <ListItemIcon style={{ minWidth: 40 }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-sliders" viewBox="0 0 16 16">
-                                    <path fillRule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h2.05a2.5 2.5 0 0 1 4.9 0H16V2h-3.05zm2.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V8h3.05z" />
-                                </svg>
-                            </ListItemIcon>
-                            <ListItemText primary="Роли" />
-                        </ListItemButton>
-                    </ListItem>
-                </Link>
+                {userRole !== 'Оператор' && (
+                    <Link style={{ textDecoration: "none", color: location.pathname === "/roles" ? "#0D6EFD" : "black" }} to={"/roles"}>
+                        <ListItem disablePadding>
+                            <ListItemButton>
+                                <ListItemIcon style={{ minWidth: 40 }}>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" className="bi bi-sliders" viewBox="0 0 16 16">
+                                        <path fillRule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h2.05a2.5 2.5 0 0 1 4.9 0H16V2h-3.05zm2.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V8h3.05z" />
+                                    </svg>
+                                </ListItemIcon>
+                                <ListItemText primary="Роли" />
+                            </ListItemButton>
+                        </ListItem>
+                    </Link>
+                )}
                 <Link style={{ textDecoration: "none", color: location.pathname === "/act" ? "#0D6EFD" : "black" }} to={"/act"}>
                     <ListItem disablePadding>
                         <ListItemButton>
                             <ListItemIcon style={{ minWidth: 40 }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-files-alt" viewBox="0 0 16 16">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-files-alt" viewBox="0 0 16 16">
                                     <path d="M11 0H3a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2 2 2 0 0 0 2-2V4a2 2 0 0 0-2-2m2 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1zM2 2a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z" />
                                 </svg>
                             </ListItemIcon>
@@ -95,19 +98,19 @@ function ResponsiveDrawer(props) {
                         </ListItemButton>
                     </ListItem>
                 </Link>
-                {/* <Link style={{ textDecoration: "none", color: location.pathname === "/" ? "#0D6EFD" : "black" }} to={"/"}>
+                <Link style={{ textDecoration: "none", color: location.pathname === "/reports" ? "#0D6EFD" : "black" }} to={"/reports"}>
                     <ListItem disablePadding>
                         <ListItemButton >
                             <ListItemIcon style={{ minWidth: 40 }}>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
-                                    <path fill-rule="evenodd" d="M10.5 12.5a.5.5 0 0 0 1 0v-9a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5v3a.5.5 0 0 0 1 0V4h6v6H4v-1a.5.5 0 0 0-1 0v2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5v-.5Zm2.354-5.354a.5.5 0 0 0-.708-.708l-2 2a.5.5 0 0 0 0 .708l2 2a.5.5 0 0 0 .708-.708L11.207 9.5H5.5a.5.5 0 0 0 0 1H11.21l-1.354-1.354Z" />
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-list-check" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M5 11.5a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5m0-4a.5.5 0 0 1 .5-.5h9a.5.5 0 0 1 0 1h-9a.5.5 0 0 1-.5-.5M3.854 2.146a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 3.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 1 1 .708-.708L2 7.293l1.146-1.147a.5.5 0 0 1 .708 0m0 4a.5.5 0 0 1 0 .708l-1.5 1.5a.5.5 0 0 1-.708 0l-.5-.5a.5.5 0 0 1 .708-.708l.146.147 1.146-1.147a.5.5 0 0 1 .708 0" />
                                 </svg>
                             </ListItemIcon>
-                            <ListItemText primary="Выход" />
+                            <ListItemText primary="Отчеты" />
                         </ListItemButton>
                     </ListItem>
 
-                </Link> */}
+                </Link>
             </List>
         </div>
     );

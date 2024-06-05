@@ -213,10 +213,8 @@ const Virification = () => {
                                             </td>
                                             <td>
                                                 <div style={{display: 'flex', flexDirection: 'row', gap: 10}}>
-                                                    {userRole !== 'Оператор' && (
                                                         <Button variant="danger" size="sm"
                                                                 onClick={() => handleVerify(user.codeid)}>Деактивировать</Button>
-                                                    )}
                                                 </div>
                                             </td>
                                         </tr>
