@@ -494,6 +494,48 @@ const Roles = () => {
         getUsersAndRoles(roleId);
     };
 
+    //! начало редактирование админов и операторов  
+    const [editUserData, setEditUserData] = useState({
+        email: '',
+        password: '',
+        fio: '',
+        role_id: 0,
+        codeid: 0
+    });
+
+    const [showEditModal, setShowEditModal] = useState(false);
+
+    const handleEditChange = (e) => {
+        const { name, value } = e.target;
+        setEditUserData((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+        console.log(`Field changed: ${name} = ${value}`);
+    };
+
+    const openEditModal = (user) => {
+        setEditUserData({
+            email: user.email,
+            password: user.password,
+            fio: user.fio,
+            role_id: user.role_id,
+            codeid: user.codeid
+        });
+        setShowEditModal(true);
+    };
+
+    const updateUser2 = () => {
+        // Обновляем данные пользователя 
+        updateUserData(editUserData);
+        setShowEditModal(false);
+    };
+
+    const handleCloseEditModal = () => {
+        setShowEditModal(false);
+    };
+    //! конец редактирования админов и операторовЫ
+
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -604,6 +646,55 @@ const Roles = () => {
                 </div>
             </div>
 
+            <Modal show={showEditModal} onHide={handleCloseEditModal} backdrop="static" keyboard={false}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Редактирование пользователя</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Электронная почта</Form.Label>
+                            <Form.Control
+                                type="email"
+                                name="email"
+                                value={editUserData.email}
+                                onChange={handleEditChange}
+                                required
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>Пароль</Form.Label>
+                            <Form.Control
+                                type="password"
+                                name="password"
+                                value={editUserData.password}
+                                onChange={handleEditChange}
+                                required
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-3">
+                            <Form.Label>ФИО</Form.Label>
+                            <Form.Control
+                                type="text"
+                                name="fio"
+                                value={editUserData.fio}
+                                onChange={handleEditChange}
+                                required
+                            />
+                        </Form.Group>
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleCloseEditModal}>
+                        Закрыть
+                    </Button>
+                    <Button variant="primary" onClick={updateUser}>
+                        Сохранить изменения
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
+
             <Modal backdrop="static" show={editModalShow} onHide={handleEditModalClose} className="custom-modal">
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>
@@ -635,7 +726,7 @@ const Roles = () => {
                                     >
                                         <option value="">Выберите форму собственности</option>
                                         {organizationType.map((option) => (
-                                            <option  key={option.codeid} value={option.codeid}>
+                                            <option key={option.codeid} value={option.codeid}>
                                                 {option.name}
                                             </option>
                                         ))}
