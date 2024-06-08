@@ -537,116 +537,104 @@ const Roles = () => {
     //! конец редактирования админов и операторовЫ
 
     return (
-        <div className="oll_sistem">
-            <Sidebar />
-            <div className="navbar_container">
-                <div style={{ display: 'flex' }}>
-                    <ListGroup style={{ width: '25%', borderRight: '1px solid gray', height: '100vh' }}>
-                        <ListGroup.Item disabled>Роли</ListGroup.Item>
-                        <ListGroup.Item
-                            active={activeRole === 1}
-                            onClick={() => handleRoleClick(1)}
-                        >
-                            Администраторы
-                        </ListGroup.Item>
-                        <ListGroup.Item
-                            active={activeRole === 6}
-                            onClick={() => handleRoleClick(6)}
-                        >
-                            Операторы
-                        </ListGroup.Item>
-                        <ListGroup.Item
-                            active={activeRole === 5}
-                            onClick={() => handleRoleClick(5)}
-                        >
-                            Контрагенты
-                        </ListGroup.Item>
-                    </ListGroup>
-                    <ListGroup style={{ width: '35%', borderRight: '1px solid gray', height: '100vh' }}
-                        className='action_save'>
-                        <div>
-                            <ListGroup.Item>
-                                <div className='action_save'>
-                                    <div className='action-center'>
-                                        <p>Права роли</p>
-                                    </div>
-                                    <div className='action-center'>
-                                        <Button variant="success" onClick={() => {
-                                            saveRolesAccess()
-                                        }}>Сохранить</Button>
-                                    </div>
-                                </div>
-                            </ListGroup.Item>
-                            {spRoles && spRoles.map((role, index) => (
-                                <div key={index} style={{ padding: '5px 10px' }}>
-                                    <FormCheck
-                                        label={role.function_name}
-                                        name="addUsers"
-                                        checked={selectedRoles.some(selectedRole => selectedRole.functuin_id === parseInt(role.codeid) && selectedRole.role_id === selectedRolID)}
-                                        onChange={() => handleCheckboxChange(role.codeid)}
-                                    />
-                                </div>
-                            ))}
-                        </div>
-                    </ListGroup>
-                    <ListGroup style={{ width: '40%', borderRight: '1px solid gray', height: '100vh' }}
-                        className='action_save'>
-                        <div>
-                            <ListGroup.Item>
-                                <div className='action_save'>
-                                    <div className='action-center'>
-                                        <p>Список пользователей</p>
-                                    </div>
-                                    <div className='action-center'>
-                                        <Button variant="success" onClick={() => {
-                                            addUser()
-                                        }}>Добавить пользователя</Button>
-                                    </div>
-                                </div>
-                            </ListGroup.Item>
-                            {users && (
-                                <div className="table-responsive">
-                                    <table className="table table-striped">
-                                        <thead>
-                                            <tr>
-                                                <th>№</th>
-                                                <th>Электронная почта</th>
-                                                <th>Пароль</th>
-                                                <th>Действие</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className='main-table'>
-                                            {users.map((user, index) => (
-                                                <tr key={index} style={{ cursor: 'pointer' }}>
-                                                    <td>{index + 1}</td>
-                                                    <td>{user.email}</td>
-                                                    <td>{user.password}</td>
-                                                    <td>
-                                                        <div style={{ display: "flex", gap: 10, alignItems: "center" }}>
-                                                            <button
-                                                                type="button"
-                                                                className="btn btn-warning"
-                                                                onClick={() => handleEditModalOpen(user)}
-                                                            >
-                                                                Редактировать
-                                                            </button>
-                                                            {activeRole !== 5 && (
-                                                                <button type='button' className='btn btn-danger' onClick={() => handleDeleteClick(user)}>Удалить</button>
-                                                            )}
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
-                            )}
-                        </div>
-                    </ListGroup>
-                </div>
-            </div>
+        <div>
+            <div className="oll_sistem">
+                <Sidebar />
+                <div class="navbar_container">
+                    <div class="flex-container">
 
-            <Modal show={showEditModal} onHide={handleCloseEditModal} backdrop="static" keyboard={false}>
+                        <div class="list-group-container">
+                            <ListGroup style={{ borderRight: '1px solid gray', marginBottom: "1vh" }}>
+                                <ListGroup.Item disabled>Роли</ListGroup.Item>
+                                <ListGroup.Item active={activeRole === 1} onClick={() => handleRoleClick(1)}>
+                                    Администраторы
+                                </ListGroup.Item>
+                                <ListGroup.Item active={activeRole === 6} onClick={() => handleRoleClick(6)}>
+                                    Операторы
+                                </ListGroup.Item>
+                                <ListGroup.Item active={activeRole === 5} onClick={() => handleRoleClick(5)}>
+                                    Контрагенты
+                                </ListGroup.Item>
+                            </ListGroup>
+                        </div>
+
+                        <div class="list-group-container">
+                            <ListGroup style={{ borderRight: '1px solid gray', marginBottom: "1vh" }}>
+                                <ListGroup.Item>
+                                    <div class='action_save'>
+                                        <div class='action-center'>
+                                            <p>Права роли</p>
+                                        </div>
+                                        <div class='action-center'>
+                                            <Button variant="success" onClick={saveRolesAccess}>Сохранить</Button>
+                                        </div>
+                                    </div>
+                                </ListGroup.Item>
+                                {spRoles && spRoles.map((role, index) => (
+                                    <ListGroup.Item key={index}>
+                                        <FormCheck
+                                            label={role.function_name}
+                                            name="addUsers"
+                                            checked={selectedRoles.some(selectedRole => selectedRole.functuin_id === parseInt(role.codeid) && selectedRole.role_id === selectedRolID)}
+                                            onChange={() => handleCheckboxChange(role.codeid)}
+                                        />
+                                    </ListGroup.Item>
+                                ))}
+                            </ListGroup>
+                        </div>
+
+                        <div class="list-group-container">
+                            <ListGroup>
+                                <ListGroup.Item>
+                                    <div class='action_save'>
+                                        <div class='action-center'>
+                                            <p>Список пользователей</p>
+                                        </div>
+                                        <div class='action-center'>
+                                            <Button variant="success" size='sm' onClick={addUser}>Добавить пользователя</Button>
+                                        </div>
+                                    </div>
+                                </ListGroup.Item>
+                                {users && (
+                                    <div class="table-responsive">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>№</th>
+                                                    <th>Электронная почта</th>
+                                                    <th>Пароль</th>
+                                                    <th>Действие</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {users.map((user, index) => (
+                                                    <tr key={index}>
+                                                        <td>{index + 1}</td>
+                                                        <td>{user.email}</td>
+                                                        <td>{user.password}</td>
+                                                        <td>
+                                                            <div class="btn-group" role="group">
+                                                                <button type="button" class="btn btn-warning" onClick={() => handleEditModalOpen(user)}>Редактировать</button>
+                                                                {activeRole !== 5 && (
+                                                                    <button type='button' class='btn btn-danger' onClick={() => handleDeleteClick(user)}>Удалить</button>
+                                                                )}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                )}
+                            </ListGroup>
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div >
+            <Modal show={showEditModal} onHide={handleCloseEditModal} backdrop="static" keyboard={false}  style={{ marginTop: "1vw", width: "100%" }}>
                 <Modal.Header closeButton>
                     <Modal.Title>Редактирование пользователя</Modal.Title>
                 </Modal.Header>
@@ -695,7 +683,7 @@ const Roles = () => {
             </Modal>
 
 
-            <Modal backdrop="static" show={editModalShow} onHide={handleEditModalClose} className="custom-modal">
+            <Modal backdrop="static" show={editModalShow} onHide={handleEditModalClose} className="custom-modal"  style={{ marginTop: "1vw", width: "100%" }}>
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>
                         {selectedUser ? 'Редактирование контрагента' : 'Добавление контрагента'}
@@ -1022,7 +1010,7 @@ const Roles = () => {
                 </Form>
             </Modal>
 
-            <Modal backdrop="static" show={addContrAgent} onHide={handleClose} className="custom-modal">
+            <Modal backdrop="static" show={addContrAgent} onHide={handleClose} className="custom-modal"  style={{ marginTop: "1vw", width: "100%" }}>
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Добавление контрагента</Modal.Title>
                 </Modal.Header>
@@ -1425,7 +1413,7 @@ const Roles = () => {
             </Modal>
 
             <Modal backdrop="static" show={addBaseUser} onHide={handleClose2} className="custom-modal modalact"
-                style={{ marginTop: "1vw" }}>
+                style={{ marginTop: "1vw", width: "100%" }}>
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Добавление пользователя</Modal.Title>
                 </Modal.Header>
@@ -1481,7 +1469,7 @@ const Roles = () => {
                     </div>
                 </Form>
             </Modal>
-        </div >
+        </div>
     );
 };
 

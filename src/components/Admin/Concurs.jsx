@@ -345,7 +345,7 @@ const Concurs = () => {
                             <Button variant="success" size="sm" onClick={handleShow}> + Добавить конкурс</Button>
                         </div>
                         <div className="card-body">
-                            <div className="table-responsive">
+                            <div className="table-responsive mt-4">
                                 <table className="table table-striped table-bordered first">
                                     <thead>
                                         <tr>

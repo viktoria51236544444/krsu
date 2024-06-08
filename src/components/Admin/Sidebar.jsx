@@ -122,7 +122,7 @@ function ResponsiveDrawer(props) {
         <Box sx={{ display: 'flex' }}>
             <CssBaseline />
             <div className='navbar__sidebar-open'>
-                <AppBar position="fixed" style={{ width: "10vw", height: "10vw", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: 'white' }}>
+                <AppBar position="fixed" style={{ width: "10vw", height: "5vw", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: 'white' }}>
                     <Toolbar>
                         <IconButton
                             color="inherit"
