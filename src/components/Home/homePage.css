@@ -55,13 +55,15 @@
 
 @media (max-width: 992px) {
 
-    .description-card h6{
+    .description-card h6 {
         font-size: 13px;
     }
-    .cardtext-p{
+
+    .cardtext-p {
         font-size: 12px;
     }
-    .home-title{
+
+    .home-title {
         font-size: 20px;
     }
 }
@@ -84,19 +86,19 @@
     border-radius: 5px;
 }
 
-.searchInput{
+.searchInput {
     margin-top: 12px !important;
 }
 
-.cancel{
+.cancel {
     color: red !important;
 }
 
-.good{
+.good {
     color: green !important;
 }
 
-.arrowPagination{
+.arrowPagination {
     display: flex;
     align-items: center;
 }
@@ -113,4 +115,28 @@
 
 .cursor {
     cursor: pointer;
+}
+
+.home-container {
+    padding: 20px;
+}
+
+.home-title {
+    margin-bottom: 20px;
+}
+
+.map-card iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.description-card {
+    margin-bottom: 20px;
+}
+
+@media (max-width: 767px) {
+    .map-card iframe {
+        height: 300px;
+    }
 }
