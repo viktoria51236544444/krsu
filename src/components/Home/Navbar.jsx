@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { Button, Container, Form, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import logo from "./image/кнау.png";
+import logo from "./image/knau.png";
 import { API } from '../../helpers/const';
 
 

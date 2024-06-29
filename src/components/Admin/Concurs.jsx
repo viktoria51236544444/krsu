@@ -12,9 +12,11 @@ import { FileArrowDown, FileX, PencilSimpleLine } from "@phosphor-icons/react";
 import { BsPaperclip } from 'react-icons/bs';
 import { Power } from "phosphor-react";
 import { API } from '../../helpers/const';
+import {useToast} from "../../Context/ToastContext";
 // import "./concurs.css"
 
 const Concurs = () => {
+    const { successToast, errorToast } = useToast();
     const { addConcurs, spPurchase, updateContestStatus, contestFilter, count, getCounts } = UseRegister();
     const [userEmail, setUserEmail] = useState('');
     useEffect(() => {
@@ -24,11 +26,11 @@ const Concurs = () => {
         }
     }, []);
     const [formData, setFormData] = useState({
-        year: 0,
+        year: 2024,
         purchase_format_id: 0,
         purchase_type_id: 0,
         purchase_method_id: 0,
-        end_date: "",
+        end_date: new Date().toISOString(),
         planned_summ: 0,
         contest_name: "",
         contest_description: "",
@@ -60,11 +62,16 @@ const Concurs = () => {
 
     const handleChangeUpdateDate = (e) => {
         const { name, value, files } = e.target;
+
         if (name === "files") {
-            const fileList = Array.from(files);
+            const newFiles = Array.from(files).map(file => ({
+                file_name: file.name,
+                path: URL.createObjectURL(file),
+                file
+            }));
             setUpdateFormData(prevState => ({
                 ...prevState,
-                files: fileList
+                files: [...prevState.files, ...newFiles]
             }));
         } else {
             setUpdateFormData(prevState => ({
@@ -72,6 +79,38 @@ const Concurs = () => {
                 [name]: value
             }));
         }
+    };
+
+
+    const handleChange = (e) => {
+        const { name, files } = e.target;
+        if (name === "files") {
+            const newFiles = Array.from(files);
+            const newFileNames = newFiles.map(file => file.name);
+
+            setFormData(prevState => ({
+                ...prevState,
+                files: [...prevState.files, ...newFiles],
+                fileNames: [...prevState.fileNames, ...newFileNames]
+            }));
+        } else {
+            const { value } = e.target;
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
+    };
+
+    const formatDateTimeForBackend = (date) => {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
+        const seconds = String(date.getSeconds()).padStart(2, '0');
+
+        return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`;
     };
 
     const handleSave = async () => {
@@ -83,7 +122,7 @@ const Concurs = () => {
                     formDataToSend.append('files', formData.files[i]);
                 }
             } else if (key === 'end_date') {
-                formDataToSend.append('end_date', endDate.toISOString());
+                formDataToSend.append('end_date',  formatDateTimeForBackend(endDate));
             } else {
                 formDataToSend.append(key, formData[key]);
             }
@@ -100,22 +139,27 @@ const Concurs = () => {
         }
     };
 
-    const handleChange = (e) => {
-        const { name, value, files } = e.target;
-        if (name === "files") {
-            const fileNames = Array.from(files).map(file => file.name);
-            setFormData(prevState => ({
+
+    const onRemove2 = (index) => {
+        setFormData(prevState => {
+            const files = [...prevState.files];
+            const fileNames = [...prevState.fileNames];
+
+            files.splice(index, 1);
+            fileNames.splice(index, 1);
+
+            return {
                 ...prevState,
                 files,
                 fileNames
-            }));
-        } else {
-            setFormData(prevState => ({
-                ...prevState,
-                [name]: value
-            }));
-        }
+            };
+        });
     };
+
+    const triggerFileInput = () => {
+        document.getElementById('fileInput').click();
+    };
+
 
     const handleBlur = (e) => {
         const { name, value } = e.target;
@@ -128,11 +172,14 @@ const Concurs = () => {
     };
 
     const formatLocalDateTime = (date) => {
-        const tzOffset = date.getTimezoneOffset() * 60000; // offset in milliseconds
-        const localISOTime = new Date(date - tzOffset).toISOString().slice(0, 16);
-        return localISOTime;
-    };
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        const hours = String(date.getHours()).padStart(2, '0');
+        const minutes = String(date.getMinutes()).padStart(2, '0');
 
+        return `${year}-${month}-${day}T${hours}:${minutes}`;
+    };
 
     const handlePublish = async (contestId) => {
         const publicData = {
@@ -153,7 +200,7 @@ const Concurs = () => {
 
     const resetForm = () => {
         setFormData({
-            year: 0,
+            year: 2024,
             purchase_format_id: 0,
             purchase_type_id: 0,
             purchase_method_id: 0,
@@ -174,7 +221,6 @@ const Concurs = () => {
     const closeUpdateModal = () => setUpdateModal(false)
     const closeModalHide = () => setCloseModal(false)
     const [show2, setShow2] = useState(false);
-    console.log(show2);
 
     const handleClose2 = () => setShow2(false);
     const handleShow2 = () => setShow2(true);
@@ -201,26 +247,10 @@ const Concurs = () => {
             return {
                 ...prevState,
                 files: updatedFiles,
-                deleted_files: [...deletedFiles, removedFile.codeid]
+                deleted_files: removedFile.codeid ? [...deletedFiles, removedFile.codeid] : deletedFiles
             };
         });
     };
-
-
-    const onRemove2 = (index) => {
-        const updated = [...formData.files];
-        const updatedFileName = [...formData.fileNames]
-        updated.splice(index, 1);
-        updatedFileName.splice(index, 1);
-
-        setFormData(prevState => ({
-            ...prevState,
-            files: updated,
-            fileNames: updatedFileName
-        }));
-    };
-
-
 
     const handleOpenModal = async (codeid) => {
         setUpdateModal(true)
@@ -228,7 +258,11 @@ const Concurs = () => {
 
         if (response.status === 200) {
             const data = response.data.result.data[0]
-            setUpdateFormData(data)
+            setUpdateFormData(prevState => ({
+                ...prevState,
+                ...data,
+                files: [...data.files]
+            }));
         } else {
             alert('Произошла ошибка при загрузке данных')
         }
@@ -239,26 +273,31 @@ const Concurs = () => {
             const endDate = new Date(updateFormData.end_date);
             const formDataToSend = new FormData();
 
-            console.log(formDataToSend)
             for (const key in updateFormData) {
                 if (key === 'files') {
                     for (let i = 0; i < updateFormData.files.length; i++) {
                         formDataToSend.append('files', updateFormData.files[i])
                     }
                 } else if (key === 'end_date') {
-                    formDataToSend.append('end_date', endDate.toISOString());
+                    formDataToSend.append('end_date', formatDateTimeForBackend(endDate));
                 } else {
                     formDataToSend.append(key, updateFormData[key]);
                 }
             }
             await axios.post(`${API}api/contest/updateContest`, formDataToSend)
+            successToast('Успех', 'Данные конкурса были обновлены!');
+            getContestList();
+            contestFilter(1)
             setUpdateModal(false)
 
         } catch (error) {
+            errorToast('Ошибка', 'Не удалось обновить данные конкурса!');
             console.log(error)
         }
     }
+
     const navigate = useNavigate()
+
     const signout = () => {
         const confirmed = window.confirm("Вы уверены, что хотите выйти из аккаунта?");
         if (confirmed) {
@@ -272,7 +311,7 @@ const Concurs = () => {
         }
     };
 
-    console.log(formData)
+
     return (
         <div className="oll_sistem">
             <Sidebar />
@@ -560,12 +599,13 @@ const Concurs = () => {
                         </Form.Group>
 
                         <Form.Group className="mb-3" controlId="files">
-                            <Form.Label style={{ display: 'block' }}>
+                            <Form.Label style={{ display: 'block' }} onClick={triggerFileInput}>
                                 <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                 Прикрепить файлы
                             </Form.Label>
                             <Form.Control
                                 type="file"
+                                id="fileInput"
                                 name="files"
                                 onChange={handleChange}
                                 multiple
@@ -577,19 +617,17 @@ const Concurs = () => {
                             <div>
                                 <ul>
                                     {formData.fileNames.map((fileName, index) => (
-                                        <>
-                                            <div key={index} style={{
-                                                display: "flex",
-                                                flexDirection: "row",
-                                                gap: 10,
-                                                margin: '10px 0'
-                                            }}>
-                                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
-                                                <p key={index}>{fileName}</p>
-                                                <Button variant="danger" size="sm"
+                                        <div key={index} style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            gap: 10,
+                                            margin: '10px 0'
+                                        }}>
+                                            <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                            <p>{fileName}</p>
+                                            <Button variant="danger" size="sm"
                                                     onClick={() => onRemove2(index)}>X</Button>
-                                            </div>
-                                        </>
+                                        </div>
                                     ))}
                                 </ul>
                             </div>
@@ -674,14 +712,9 @@ const Concurs = () => {
                                         <Form.Control
                                             type="datetime-local"
                                             name="end_date"
-                                            value={
-                                                updateFormData.end_date
-                                                    ? new Date(updateFormData.end_date).toISOString().slice(0, 16)
-                                                    : new Date().toISOString().slice(0, 16)
-                                            }
+                                            value={updateFormData?.end_date}
                                             onChange={handleChangeUpdateDate}
                                         />
-
                                     </Form.Group>
 
                                     <Form.Group className="mb-3" controlId="purchaseType">
@@ -725,12 +758,13 @@ const Concurs = () => {
                             </Form.Group>
 
                             <Form.Group className="mb-3" controlId="files">
-                                <Form.Label style={{ display: 'block' }}>
+                                <Form.Label style={{ display: 'block' }} onClick={triggerFileInput}>
                                     <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
                                     Прикрепить файлы
                                 </Form.Label>
                                 <Form.Control
                                     type="file"
+                                    id="fileInput"
                                     name="files"
                                     onChange={handleChangeUpdateDate}
                                     multiple
@@ -741,17 +775,13 @@ const Concurs = () => {
                             {updateFormData.files.length !== 0
                                 ? updateFormData.files.map((file, index) => (
                                     <Form.Group key={index} className="mb-3">
-                                        <div className="d-flex align-items-center"
-                                            style={{ display: 'flex', alignItems: 'center', gap: 15 }}>
+                                        <div className="d-flex align-items-center" style={{ gap: 15 }}>
                                             <Form.Label type="checkbox" className="me-3" />
                                             <div className='d-flex flex-row gap-1'>
                                                 <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
-                                                <a target="_blank" rel="noopener noreferrer" href={file.path}
-                                                    download>{file.file_name}</a>
+                                                <a target="_blank" rel="noopener noreferrer" href={file.path} download>{file.file_name}</a>
                                             </div>
-                                            <Button variant="danger" size='sm' style={{ height: 10 }} onClick={() => onRemove(index)}>
-                                                X
-                                            </Button>
+                                            <Button variant="danger" size='sm' onClick={() => onRemove(index)}>X</Button>
                                         </div>
                                     </Form.Group>
                                 ))

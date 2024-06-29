@@ -87,6 +87,7 @@ const Roles = () => {
 
     const [addContrAgent, setContrAgent] = useState(false)
     const [addBaseUser, setBaseUser] = useState(false)
+    const [editBaseUser, setEditBaseUser] = useState(false)
 
     /// ------------------------ addd User _-------------------------------------
     const [selectedFiles, setSelectedFiles] = useState([]);
@@ -200,34 +201,48 @@ const Roles = () => {
         try {
             const { data } = await axios.get(`${API}api/users/getUserInfo/${codeid}`);
             const user = data.user.user;
-            user.map((user) => {
-                setEditFormState({
-                    organization_type_id: user.organization_type_id || 0,
-                    email: user.email || '',
-                    password: user.password || '',
-                    inn: user.inn || '',
-                    name_organization: user.name_organization || '',
-                    pin_manager: user.pin_manager || '',
-                    fio_manager: user.fio_manager || '',
-                    position_manager: user.position_manager || '',
-                    ur_address: user.ur_address || '',
-                    fact_address: user.fact_address || '',
-                    address: user.address || '',
-                    banc: user.banc || '',
-                    deposit_account: user.deposit_account || '',
-                    bik: user.bik || '',
-                    web_site: user.web_site || '',
-                    pin_sales_manager: user.pin_manager || '',
-                    fio: user.fio || '',
-                    position: user.position || '',
-                    phone_manager: user.phone_manager || '',
-                    work_phone_number_manager: user.work_phone_number_manager || '',
-                    email_manager: user.email_manager || '',
-                    password_manager: user.password_manager || '',
-                    files: user.files || []
+            if(user[0].role_id === 1 || user[0].role_id === 6 ) {
+                user.map((user)=> {
+                    setEditBaseUserData({
+                        email: user.email,
+                        password: user.password,
+                        fio: user.fio,
+                        role_id: user.role_id,
+                        code_user: user.codeid
+                    })
                 })
-            })
-            setEditModalShow(true);
+
+                setEditBaseUser(true)
+            }else {
+                user.map((user) => {
+                    setEditFormState({
+                        organization_type_id: user.organization_type_id || 0,
+                        email: user.email || '',
+                        password: user.password || '',
+                        inn: user.inn || '',
+                        name_organization: user.name_organization || '',
+                        pin_manager: user.pin_manager || '',
+                        fio_manager: user.fio_manager || '',
+                        position_manager: user.position_manager || '',
+                        ur_address: user.ur_address || '',
+                        fact_address: user.fact_address || '',
+                        address: user.address || '',
+                        banc: user.banc || '',
+                        deposit_account: user.deposit_account || '',
+                        bik: user.bik || '',
+                        web_site: user.web_site || '',
+                        pin_sales_manager: user.pin_manager || '',
+                        fio: user.fio || '',
+                        position: user.position || '',
+                        phone_manager: user.phone_manager || '',
+                        work_phone_number_manager: user.work_phone_number_manager || '',
+                        email_manager: user.email_manager || '',
+                        password_manager: user.password_manager || '',
+                        files: user.files || []
+                    })
+                })
+                setEditModalShow(true);
+            }
         } catch (error) {
             console.log('Ошибка при получении информации о пользователе:', error);
         }
@@ -235,8 +250,15 @@ const Roles = () => {
 
     // Функция для открытия модального окна редактирования
     const handleEditModalOpen = (user) => {
-        setSelectedUser(user);
-        getUserInfo(user.codeid);
+        if(user.role_id === 6 || user.role_id === 1) {
+            setSelectedUser(user);
+            getUserInfo(user.codeid);
+            openEditModal(user)
+            setEditUserData(user)
+        }else{
+            setSelectedUser(user);
+            getUserInfo(user.codeid);
+        }
     };
 
     // Функция для закрытия модального окна редактирования
@@ -270,8 +292,7 @@ const Roles = () => {
     };
 
 
-    // !edit end
-    // !delete end
+
     const [deleteUserData, setDeleteUserData] = useState({
         code_user: 0,
         role_id: 0
@@ -442,6 +463,10 @@ const Roles = () => {
         setBaseUser(false)
     }
 
+    const handleCloseEdit = () => {
+        setEditBaseUser(false)
+    }
+
     /// ------------------------ addd User end_-------------------------------------
 
     const [addUserData, setUserData] = useState({
@@ -449,6 +474,15 @@ const Roles = () => {
         password: '',
         fio: '',
         role_id: selectedRolID
+    })
+
+
+    const [editBaseUserData, setEditBaseUserData] = useState({
+        email: '',
+        password: '',
+        fio: '',
+        role_id: selectedRolID,
+        code_user: 0
     })
 
     const saveUser = async (e) => {
@@ -466,9 +500,20 @@ const Roles = () => {
         }
     }
 
+
     const handleChangeUser = (e) => {
         const { name, value } = e.target;
         setUserData((prevState) => ({
+            ...prevState,
+            [name]: value
+        }));
+        console.log(`Field changed: ${name} = ${value}`);
+    };
+
+
+    const handleChangeUserData = (e) => {
+        const { name, value } = e.target;
+        setEditBaseUserData((prevState) => ({
             ...prevState,
             [name]: value
         }));
@@ -494,7 +539,7 @@ const Roles = () => {
         getUsersAndRoles(roleId);
     };
 
-    //! начало редактирование админов и операторов  
+    //! начало редактирование админов и операторов
     const [editUserData, setEditUserData] = useState({
         email: '',
         password: '',
@@ -525,25 +570,24 @@ const Roles = () => {
         setShowEditModal(true);
     };
 
-    const updateUser2 = () => {
-        // Обновляем данные пользователя 
-        updateUserData(editUserData);
-        setShowEditModal(false);
+    const updateUser2 = (event) => {
+        event.preventDefault();
+        updateUserData(editBaseUserData);
+        setEditBaseUser(false);
     };
 
     const handleCloseEditModal = () => {
         setShowEditModal(false);
     };
-    //! конец редактирования админов и операторовЫ
 
     return (
         <div>
             <div className="oll_sistem">
                 <Sidebar />
-                <div class="navbar_container">
-                    <div class="flex-container">
+                <div className="navbar_container">
+                    <div className="flex-container">
 
-                        <div class="list-group-container">
+                        <div className="list-group-container">
                             <ListGroup style={{ borderRight: '1px solid gray', marginBottom: "1vh" }}>
                                 <ListGroup.Item disabled>Роли</ListGroup.Item>
                                 <ListGroup.Item active={activeRole === 1} onClick={() => handleRoleClick(1)}>
@@ -558,14 +602,14 @@ const Roles = () => {
                             </ListGroup>
                         </div>
 
-                        <div class="list-group-container">
-                            <ListGroup style={{ borderRight: '1px solid gray', marginBottom: "1vh" }}>
+                        <div className="list-group-container">
+                            <ListGroup style={{ borderRight: '1px solid gray', marginBottom: "1vh", height: '100%' }}>
                                 <ListGroup.Item>
-                                    <div class='action_save'>
-                                        <div class='action-center'>
+                                    <div className='action_save'>
+                                        <div className='action-center'>
                                             <p>Права роли</p>
                                         </div>
-                                        <div class='action-center'>
+                                        <div className='action-center'>
                                             <Button variant="success" onClick={saveRolesAccess}>Сохранить</Button>
                                         </div>
                                     </div>
@@ -583,21 +627,21 @@ const Roles = () => {
                             </ListGroup>
                         </div>
 
-                        <div class="list-group-container">
+                        <div className="list-group-container">
                             <ListGroup>
                                 <ListGroup.Item>
-                                    <div class='action_save'>
-                                        <div class='action-center'>
+                                    <div className='action_save'>
+                                        <div className='action-center'>
                                             <p>Список пользователей</p>
                                         </div>
-                                        <div class='action-center'>
+                                        <div className='action-center'>
                                             <Button variant="success" size='sm' onClick={addUser}>Добавить пользователя</Button>
                                         </div>
                                     </div>
                                 </ListGroup.Item>
                                 {users && (
-                                    <div class="table-responsive">
-                                        <table class="table table-striped">
+                                    <div className="table-responsive">
+                                        <table className="table table-striped">
                                             <thead>
                                                 <tr>
                                                     <th>№</th>
@@ -613,10 +657,10 @@ const Roles = () => {
                                                         <td>{user.email}</td>
                                                         <td>{user.password}</td>
                                                         <td>
-                                                            <div class="btn-group" role="group">
-                                                                <button type="button" class="btn btn-warning" onClick={() => handleEditModalOpen(user)}>Редактировать</button>
+                                                            <div className="btn-groups">
+                                                                <button type="button" className="btn btn-warning" onClick={() => handleEditModalOpen(user)}>Редактировать</button>
                                                                 {activeRole !== 5 && (
-                                                                    <button type='button' class='btn btn-danger' onClick={() => handleDeleteClick(user)}>Удалить</button>
+                                                                    <button type='button' className='btn btn-danger' onClick={() => handleDeleteClick(user)}>Удалить</button>
                                                                 )}
                                                             </div>
                                                         </td>
@@ -634,55 +678,6 @@ const Roles = () => {
 
 
             </div >
-            <Modal show={showEditModal} onHide={handleCloseEditModal} backdrop="static" keyboard={false}  style={{ marginTop: "1vw", width: "100%" }}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Редактирование пользователя</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <Form>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Электронная почта</Form.Label>
-                            <Form.Control
-                                type="email"
-                                name="email"
-                                value={editUserData.email}
-                                onChange={handleEditChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>Пароль</Form.Label>
-                            <Form.Control
-                                type="password"
-                                name="password"
-                                value={editUserData.password}
-                                onChange={handleEditChange}
-                                required
-                            />
-                        </Form.Group>
-                        <Form.Group className="mb-3">
-                            <Form.Label>ФИО</Form.Label>
-                            <Form.Control
-                                type="text"
-                                name="fio"
-                                value={editUserData.fio}
-                                onChange={handleEditChange}
-                                required
-                            />
-                        </Form.Group>
-                    </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                    <Button variant="secondary" onClick={handleCloseEditModal}>
-                        Закрыть
-                    </Button>
-                    <Button variant="primary" onClick={updateUser}>
-                        Сохранить изменения
-                    </Button>
-                </Modal.Footer>
-            </Modal>
-
-
             <Modal backdrop="static" show={editModalShow} onHide={handleEditModalClose} className="custom-modal"  style={{ marginTop: "1vw", width: "100%" }}>
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>
@@ -1469,6 +1464,66 @@ const Roles = () => {
                     </div>
                 </Form>
             </Modal>
+
+
+            <Modal backdrop="static" show={editBaseUser} onHide={handleCloseEdit} className="custom-modal modalact"
+                   style={{ marginTop: "1vw", width: "100%" }}>
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ fontSize: "18px" }}>Редактирование пользователя</Modal.Title>
+                </Modal.Header>
+                <Form style={{ padding: '1vw' }} onSubmit={updateUser2}>
+                    <div className="card-body">
+                        <div className="row g-3">
+                            <div className="col-md-6">
+                                <label className="form-label">Электронная почта</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="email"
+                                    placeholder='Введите email'
+                                    value={editBaseUserData.email}
+                                    onChange={handleChangeUserData}
+                                />
+                            </div>
+                            <div className="col-md-6">
+                                <label className="form-label">Пароль</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="password"
+                                    placeholder='Введите пароль'
+                                    value={editBaseUserData.password}
+                                    onChange={handleChangeUserData}
+                                />
+                            </div>
+
+                            <div className="col-md-6">
+                                <label className="form-label">ФИО</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    name="fio"
+                                    placeholder='Введите ФИО пользователя'
+                                    value={editBaseUserData.fio}
+                                    onChange={handleChangeUserData}
+                                />
+                            </div>
+                        </div>
+                        <div style={{
+                            margin: '0 auto',
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            marginTop: 20
+                        }}>
+                            <button type="submit" className="btn btn-success">
+                                Сохранить
+                            </button>
+                        </div>
+                    </div>
+                </Form>
+            </Modal>
+
         </div>
     );
 };

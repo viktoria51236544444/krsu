@@ -21,6 +21,31 @@
     margin: auto;
     margin-top: 2vw;
 }
+.flex-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+}
+.list-group-container {
+    width: 35%;
+    height: 100%;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.navbar_container{
+    height: 100%;
+}
+
+.btn-groups{
+    display: flex;
+    gap: 10px
+}
+
+.btn-groups > button {    
+    border-radius: 5px;
+}
 
 .modalact .modal-content {
     padding: 20px;
@@ -46,8 +71,6 @@
 
     .list-group-container {
         width: 100%;
-        
-   
         overflow-y: auto;
         margin-bottom: 10px;
     }

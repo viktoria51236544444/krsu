@@ -7,7 +7,7 @@ import {
   TelegramLogo,
   YoutubeLogo,
 } from "@phosphor-icons/react";
-import logo from "./image/кнау.png";
+import logo from "./image/knau.png";
 
 const Footer = () => {
   const location = useLocation();

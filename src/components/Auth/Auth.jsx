@@ -65,7 +65,7 @@ const Auth = () => {
             </div>
           </form>
 
-          <p className="text-center mt-4">Нет аккаунта? <Link to="/register">Геристрация</Link></p>
+          <p className="text-center mt-4">Нет аккаунта? <Link to="/register">Регистрация</Link></p>
         </div>
       </div>
     </div>

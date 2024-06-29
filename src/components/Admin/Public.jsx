@@ -3,13 +3,18 @@ import { Button, Table, Modal, Form } from 'react-bootstrap';
 import {Link, useNavigate} from 'react-router-dom';
 import Sidebar from './Sidebar';
 import { UseRegister } from '../../Context/ContextProviderRegister';
-import { FileArrowDown } from "@phosphor-icons/react";
+import {FileArrowDown, PencilSimpleLine} from "@phosphor-icons/react";
 import DetailModal from "../Home/DetailModal";
 import { BsPaperclip } from "react-icons/bs";
 import {Power} from "phosphor-react";
+import axios from "axios";
+import {API} from "../../helpers/const";
+import {useToast} from "../../Context/ToastContext";
 
 const Public = () => {
-    const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts, diactiveContest } = UseRegister();
+
+    const { successToast, errorToast } = useToast();
+    const { compled, contestFilter, updateContestStatus, getOrderDetails, count, getCounts, diactiveContest,spPurchase } = UseRegister();
     const [showModal, setShowModal] = useState(false);
     const [finalContestModal, setFinalContestModal] = useState(false);
     const [reason, setReason] = useState('');
@@ -41,6 +46,34 @@ const Public = () => {
             setAddAct({ ...addAct, [name]: value });
         }
     };
+
+
+    const updateContestData = async () => {
+        try {
+            const endDate = new Date(updateFormData.end_date);
+            const formDataToSend = new FormData();
+
+            console.log(formDataToSend)
+            for (const key in updateFormData) {
+                if (key === 'files') {
+                    for (let i = 0; i < updateFormData.files.length; i++) {
+                        formDataToSend.append('files', updateFormData.files[i])
+                    }
+                } else if (key === 'end_date') {
+                    formDataToSend.append('end_date', endDate.toISOString());
+                } else {
+                    formDataToSend.append(key, updateFormData[key]);
+                }
+            }
+            await axios.post(`${API}api/contest/updateContest`, formDataToSend)
+            successToast('Успех', 'Данные конкурса были обновлены!');
+            setUpdateModal(false)
+
+        } catch (error) {
+            errorToast('Ошибка', 'Не удалось обновить данные конкурса!');
+            console.log(error)
+        }
+    }
 
     const handlePublish = async () => {
         const publicData = {
@@ -98,6 +131,10 @@ const Public = () => {
         }
     };
 
+    const triggerFileInput = () => {
+        document.getElementById('fileInput').click();
+    };
+
 
     const watchDetails = (codeid) => {
         getOrderDetails(codeid)
@@ -117,6 +154,66 @@ const Public = () => {
         getCounts()
     };
 
+
+    const [updateFormData, setUpdateFormData] = useState({
+        codeid: 0,
+        contest_description: '',
+        contest_name: '',
+        end_date: '',
+        files: [],
+        purchase_format_id: 1,
+        purchase_method_id: 1,
+        planned_summ: 0,
+        purchase_type_id: 1,
+        year: 2024,
+        deleted_files: []
+    })
+
+    const handleChangeUpdateDate = (e) => {
+        const { files } = e.target;
+        const newFiles = Array.from(files).map(file => ({
+            file_name: file.name,
+            path: URL.createObjectURL(file),
+            file
+        }));
+        setUpdateFormData(prevState => ({
+            ...prevState,
+            files: [...prevState.files, ...newFiles]
+        }));
+    };
+
+    const onRemove = (index) => {
+        const updatedFiles = [...updateFormData.files];
+        const removedFile = updatedFiles.splice(index, 1)[0];
+        setUpdateFormData(prevState => {
+            const deletedFiles = Array.isArray(prevState.deleted_files) ? prevState.deleted_files : [];
+            return {
+                ...prevState,
+                files: updatedFiles,
+                deleted_files: removedFile.codeid ? [...deletedFiles, removedFile.codeid] : deletedFiles
+            };
+        });
+    };
+
+
+    const closeUpdateModal = () => setUpdateModal(false)
+    const [updateModal, setUpdateModal] = useState(false);
+
+    const handleOpenModal = async (codeid) => {
+        setUpdateModal(true)
+        const response = await axios.get(`${API}api/contest/getContestDetails/${codeid}`)
+
+        if (response.status === 200) {
+            const data = response.data.result.data[0]
+            setUpdateFormData(prevState => ({
+                ...prevState,
+                ...data,
+                files: [...prevState.files, ...data.files] // добавляем файлы из данных к уже существующим
+            }));
+        } else {
+            alert('Произошла ошибка при загрузке данных')
+        }
+    }
 
     const navigate = useNavigate()
     const signout = () => {
@@ -231,12 +328,24 @@ const Public = () => {
                                                     <td>
                                                         <div style={{
                                                             display: "flex",
-                                                            justifyContent: "space-around",
                                                             alignItems: "center",
-                                                            gap: "0.5vw"
+                                                            flexWrap: "wrap",
+                                                            gap: 10
                                                         }}>
                                                             <Button variant="success" size="sm"
                                                                     onClick={() => handleFinalContest(contest.codeid)}>Завершить</Button>
+
+                                                            <Button variant='warning' size='sm'
+                                                                    onClick={() => handleOpenModal(contest.codeid)} style={{
+                                                                display: "flex",
+                                                                flexDirection: 'row',
+                                                                alignItems: 'center',
+                                                                gap: 5,
+                                                                color: "#fff"
+                                                            }}>
+                                                                Редактировать
+                                                            </Button>
+
                                                             {userRole !== 'Оператор' && (
 
                                                                 <Button variant="danger" size="sm"
@@ -302,7 +411,7 @@ const Public = () => {
 
 
             <Modal backdrop="static" show={finalContestModal}  onHide={handleCloseFinalModal} centered>
-                
+
                 <Modal.Header closeButton>
                     <Modal.Title style={{ fontSize: "18px" }}>Подтверждение</Modal.Title>
                 </Modal.Header>
@@ -315,6 +424,172 @@ const Public = () => {
                     </Button>
                 </Modal.Footer>
             </Modal>
+
+            <Modal backdrop="static" show={updateModal} onHide={closeUpdateModal} className="custom-modal modalConcurs">
+                <Modal.Header closeButton>
+                    <Modal.Title style={{ fontSize: "18px" }}>Редактировать данные конкурса</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <Form>
+                        <div className="row">
+                            <div className="col-md-6">
+                                <div style={{ display: "flex", flexDirection: 'row', width: '100%', gap: 10 }}>
+                                    <Form.Group className="mb-3" controlId="year" style={{ width: '50%' }}>
+                                        <Form.Label>Год</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            placeholder="Год"
+                                            name="year"
+                                            value={updateFormData.year}
+                                            onChange={handleChangeUpdateDate}
+                                            style={{ width: '100%' }}
+                                        />
+                                    </Form.Group>
+                                    <Form.Group className="mb-3" controlId="planned_summ"
+                                                style={{ width: '50%' }}>
+                                        <Form.Label>Планируемая сумма</Form.Label>
+                                        <Form.Control
+                                            type="number"
+                                            placeholder="сумма"
+                                            name="planned_summ"
+                                            value={updateFormData.planned_summ}
+                                            onChange={handleChangeUpdateDate}
+                                            style={{ width: '100%' }}
+                                        />
+                                    </Form.Group>
+                                </div>
+                                <Form.Group className="mb-3" controlId="purchaseFormat">
+                                    <Form.Select
+                                        name="purchase_format_id"
+                                        value={updateFormData.purchase_format_id}
+                                        onChange={handleChangeUpdateDate}
+                                    >
+                                        <option value={0}>Выберите формат закупок</option>
+                                        {spPurchase?.format &&
+                                            Object.keys(spPurchase.format).map((key) => (
+                                                <option key={key} value={spPurchase.format[key].codeid}>
+                                                    {spPurchase.format[key].format_purchase}
+                                                </option>
+                                            ))}
+                                    </Form.Select>
+                                </Form.Group>
+                                <Form.Group className="mb-3" controlId="purchaseMethod">
+                                    <Form.Select
+                                        name="purchase_method_id"
+                                        value={updateFormData.purchase_method_id}
+                                        onChange={handleChangeUpdateDate}
+                                    >
+                                        <option value={0}>Выберите метод закупки</option>
+                                        {spPurchase?.method &&
+                                            Object.keys(spPurchase.method).map((key) => (
+                                                <option key={key} value={spPurchase.method[key].codeid}>
+                                                    {spPurchase.method[key].method_purchase}
+                                                </option>
+                                            ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            </div>
+
+                            <div className="col-md-6">
+                                <Form.Group className="mb-3">
+                                    <Form.Label>Срок окончания (дата, время)</Form.Label>
+                                    <Form.Control
+                                        type="datetime-local"
+                                        name="end_date"
+                                        value={
+                                            updateFormData.end_date
+                                                ? new Date(updateFormData.end_date).toISOString().slice(0, 16)
+                                                : new Date().toISOString().slice(0, 16)
+                                        }
+                                        onChange={handleChangeUpdateDate}
+                                    />
+
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="purchaseType">
+                                    <Form.Select
+                                        name="purchase_type_id"
+                                        value={updateFormData.purchase_type_id}
+                                        onChange={handleChange}
+                                    >
+                                        <option value={0}>Выберите тип закупки</option>
+                                        {spPurchase?.type &&
+                                            Object.keys(spPurchase.type).map((key) => (
+                                                <option key={key} value={spPurchase.type[key].codeid}>
+                                                    {spPurchase.type[key].type_purchase}
+                                                </option>
+                                            ))}
+                                    </Form.Select>
+                                </Form.Group>
+
+                                <Form.Group className="mb-3" controlId="contestName">
+                                    <Form.Control
+                                        as="textarea"
+                                        rows={3}
+                                        placeholder="Название организации"
+                                        name="contest_name"
+                                        value={updateFormData.contest_name}
+                                        onChange={handleChangeUpdateDate}
+                                    />
+                                </Form.Group>
+                            </div>
+                        </div>
+                        <Form.Group className="mb-4" controlId="contestDescription">
+                            <Form.Control
+                                as="textarea"
+                                rows={3}
+                                placeholder="Наименование закупки"
+                                name="contest_description"
+                                value={updateFormData.contest_description}
+                                onChange={handleChangeUpdateDate}
+                                style={{ height: 250 }}
+                            />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="files">
+                            <Form.Label style={{ display: 'block' }} onClick={triggerFileInput}>
+                                <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                Прикрепить файлы
+                            </Form.Label>
+                            <Form.Control
+                                type="file"
+                                id="fileInput"
+                                name="files"
+                                onChange={handleChangeUpdateDate}
+                                multiple
+                                style={{ display: "none" }}
+                            />
+                        </Form.Group>
+
+                        {updateFormData.files.length !== 0 ? (
+                            updateFormData.files.map((file, index) => (
+                                <Form.Group key={index} className="mb-3">
+                                    <div className="d-flex align-items-center" style={{ gap: 15 }}>
+                                        <div className='d-flex flex-row gap-1'>
+                                            <BsPaperclip style={{ marginRight: '5px', fontSize: '20px' }} />
+                                            {file.path ? (
+                                                <a target="_blank" rel="noopener noreferrer" href={file.path} download>{file.file_name}</a>
+                                            ) : (
+                                                <span>{file.file_name}</span>
+                                            )}
+                                        </div>
+                                        <Button variant="danger" size='sm' onClick={() => onRemove(index)}>X</Button>
+                                    </div>
+                                </Form.Group>
+                            ))
+                        ) : (
+                            <div>Загруженных файлов нет</div>
+                        )}
+                    </Form>
+                </Modal.Body>
+                <Modal.Footer>
+
+                    <Button variant="primary" onClick={updateContestData}>
+                        Сохранить
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
 
         </div>
     );

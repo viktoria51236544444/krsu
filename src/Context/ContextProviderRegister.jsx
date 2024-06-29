@@ -2,32 +2,30 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { API } from '../helpers/const';
+import { useToast } from './ToastContext';
 
 const contextProviderRegister = createContext();
 export const UseRegister = () => useContext(contextProviderRegister);
 
 const ContextProviderRegister = ({ children }) => {
+    const { successToast, errorToast } = useToast();
     const [organizationType, setOrganizationType] = useState(null);
     const [spPurchase, setSpPurchase] = useState(null);
     const [email, setEmail] = useState(null);
-    const [concurs, SetConcurs] = useState(null);
-    const [publick, SetPublic] = useState(null);
-    const [compled, SetCompled] = useState(null);
-    const [message, SetMessage] = useState(null);
-    const [detailUsers, SetDetailUsers] = useState(null);
-    const [users, SetUsers] = useState(null);
-    const [users2, SetUsers2] = useState(null);
-    const [users3, SetUsers3] = useState(null);
+    const [concurs, setConcurs] = useState(null);
+    const [publick, setPublic] = useState(null);
+    const [compled, setCompled] = useState(null);
+    const [message, setMessage] = useState(null);
+    const [detailUsers, setDetailUsers] = useState(null);
+    const [users, setUsers] = useState(null);
+    const [users2, setUsers2] = useState(null);
+    const [users3, setUsers3] = useState(null);
     const [actt, setActt] = useState(null);
     const [reports, setReports] = useState(null);
-    const [count, setCounts] = useState(0)
-    const navigate = useNavigate()
+    const [count, setCounts] = useState(0);
+    const navigate = useNavigate();
 
-    // console.log(concurs);
-    // console.log(publick);
-
-    //! РЕГИСТРАЦИЯ
-    //* Функция для отправки данных пользователя при регистрации
+    // Регистрация
     const registerUser = async (userData) => {
         try {
             const response = await axios({
@@ -37,111 +35,270 @@ const ContextProviderRegister = ({ children }) => {
                 headers: { "Content-Type": "multipart/form-data" },
             });
             setEmail(response.data?.user.email);
-            console.log(response.data?.user.email);
-            console.log(response.data?.user);
             navigate("/password");
-            console.log(response);
-
+            successToast('Успех', 'Пользователь успешно зарегистрирован!');
         } catch (error) {
-            console.log('Error registering user:', error.message);
-            console.log(error);
-            throw error;
+            console.error('Ошибка при регистрации пользователя:', error.message);
+            errorToast('Ошибка', 'Не удалось зарегистрировать пользователя!');
         }
     };
 
-    //* Загрузка типа организации
+    // Отправка письма для подтверждения почты
+    const sendVerificationEmail = async (data) => {
+        try {
+            await axios.post(`${API}api/users/verifi_email`, data);
+            successToast('Успех', 'Письмо для подтверждения почты успешно отправлено!');
+        } catch (error) {
+            console.error('Ошибка при отправке письма для подтверждения почты:', error.message);
+            errorToast('Ошибка', 'Не удалось отправить письмо для подтверждения почты!');
+        }
+    };
+
+    // Вход
+    const signin = async (signinData) => {
+        try {
+            const res = await axios.post(`${API}api/users/signin`, signinData);
+            if (res.status === 200) {
+                localStorage.setItem('authToken', res.data.token);
+                localStorage.setItem('userEmail', res.data.data.fio);
+                localStorage.setItem('codeid', res.data.codeid);
+                localStorage.setItem('role', res.data.data.role_name || '');
+
+                if (res.data.data.role_name === 'Администратор' || res.data.data.role_name === 'Оператор') {
+                    navigate('/concurs');
+                } else {
+                    navigate('/');
+                }
+                successToast('Успех', 'Вход выполнен успешно!');
+            } else {
+                errorToast('Ошибка', 'Неправильное имя пользователя или пароль');
+            }
+        } catch (error) {
+            console.error('Ошибка при входе:', error.message);
+            errorToast('Ошибка', 'Не удалось выполнить вход!');
+        }
+    };
+
+    // Добавление конкурса
+    const addConcurs = async (formData) => {
+        try {
+            const res = await axios.post(`${API}api/contest/createContest`, formData);
+            successToast('Успех', 'Конкурс успешно добавлен!');
+        } catch (error) {
+            console.error('Ошибка при добавлении конкурса:', error.message);
+            errorToast('Ошибка', 'Не удалось добавить конкурс!');
+        }
+    };
+
+    // Обновление статуса конкурса
+    const updateContestStatus = async (Public) => {
+        try {
+            await axios.post(`${API}api/contest/updateContestStatus`, Public);
+            successToast('Успех', 'Статус конкурса успешно обновлен!');
+        } catch (error) {
+            console.error('Ошибка при обновлении статуса конкурса:', error.message);
+            errorToast('Ошибка', 'Не удалось обновить статус конкурса!');
+        }
+    };
+
+    // Деактивация конкурса
+    const diactiveContest = async (Public) => {
+        try {
+            await axios.post(`${API}api/contest/diactiveContest`, Public);
+            successToast('Успех', 'Конкурс успешно деактивирован!');
+        } catch (error) {
+            console.error('Ошибка при деактивации конкурса:', error.message);
+            errorToast('Ошибка', 'Не удалось деактивировать конкурс!');
+        }
+    };
+
+    // Создание заявки
+    const createOrder = async (User) => {
+        try {
+            const res = await axios.post(`${API}api/orders/createOrder`, User);
+            setMessage(res.data.result.message);
+            successToast('Успех', 'Заявка успешно создана!');
+        } catch (error) {
+            console.error('Ошибка при создании заявки:', error.message);
+            errorToast('Ошибка', 'Не удалось создать заявку!');
+        }
+    };
+
+    // Обновление статуса пользователя
+    const updateUserStatus = async (UserData) => {
+        try {
+            await axios.post(`${API}api/users/updateUserStatus`, UserData);
+            successToast('Успех', 'Статус пользователя успешно обновлен!');
+        } catch (error) {
+            console.error('Ошибка при обновлении статуса пользователя:', error.message);
+            errorToast('Ошибка', 'Не удалось обновить статус пользователя!');
+        }
+    };
+
+    // Отметить конкурс как выигранный
+    const wonContest = async (ConcursData) => {
+        try {
+            await axios.post(`${API}api/orders/wonContest`, ConcursData);
+            successToast('Успех', 'Конкурс успешно отмечен как выигранный!');
+        } catch (error) {
+            console.error('Ошибка при отметке конкурса как выигранного:', error.message);
+            errorToast('Ошибка', 'Не удалось отметить конкурс как выигранный!');
+        }
+    };
+
+    // Обновление данных пользователя
+    const updateUserData = async (userData) => {
+        try {
+            const res = await axios.post(`${API}api/users/updateUserData`, userData);
+            if (res.status === 200) {
+                successToast('Успех', 'Данные пользователя успешно обновлены!');
+            } else {
+                errorToast('Ошибка', 'Не удалось обновить данные пользователя!');
+            }
+        } catch (error) {
+            console.error('Ошибка при обновлении данных пользователя:', error.message);
+            errorToast('Ошибка', 'Не удалось обновить данные пользователя!');
+        }
+    };
+
+    // Удаление пользователя
+    const deleteUser2 = async (deleteData) => {
+        try {
+            await axios.post(`${API}api/users/deleteUser`, deleteData);
+            successToast('Успех', 'Пользователь успешно удален!');
+        } catch (error) {
+            console.error('Ошибка при удалении пользователя:', error.message);
+            errorToast('Ошибка', 'Не удалось удалить пользователя!');
+        }
+    };
+
+    // Получение отчетов
+    const getReports = async (repostData) => {
+        try {
+            const { data } = await axios.post(`${API}api/contest/getReports`, repostData);
+            setReports(data.result.data);
+            successToast('Успех', 'Отчеты успешно получены!');
+        } catch (error) {
+            console.error('Ошибка при получении отчетов:', error.message);
+            errorToast('Ошибка', 'Не удалось получить отчеты!');
+        }
+    };
+
     useEffect(() => {
         const fetchOrganizationType = async () => {
             try {
                 const { data } = await axios.get(`${API}api/users/getSpOrgazationType`);
                 setOrganizationType(data.result.org);
             } catch (error) {
-                console.error('Error fetching organization type:', error.message);
+                console.error('Ошибка при получении типа организации:', error.message);
             }
         };
-
-
         fetchOrganizationType();
     }, []);
 
-    // * подтверждение почты
-    const sendVerificationEmail = async (data) => {
-        try {
-            const response = await axios.post(`${API}api/users/verifi_email`, data);
-            // console.log('Email verification request sent successfully:', response.data);
-            // console.log(response.data.codeid);
-            // localStorage.setItem('authToken', response.data.result.accessToken);
-            // localStorage.setItem('userEmail', data.email);
-            // localStorage.setItem('codeid', response.data.result.codeid);
-        } catch (error) {
-            console.error('Ошибка при отправке запроса на верификацию email:', error.message);
-            throw error;
-        }
-    };
-
-
-    // !* Авторизация
-    const signin = async (signinData) => {
-        try {
-            const res = await axios.post(`${API}api/users/signin`, signinData);
-            console.log(res);
-
-            localStorage.setItem('authToken', res.data.token);
-            localStorage.setItem('userEmail', res.data.data.fio);
-            localStorage.setItem('codeid', res.data.codeid);
-            localStorage.setItem('role', res.data.data.role_name || '');
-
-            if (res.data.data.role_name === 'Администратор' || res.data.data.role_name === 'Оператор') {
-                navigate('/concurs');
-            } else {
-                navigate('/');
+    useEffect(() => {
+        const getSpPurchase = async () => {
+            try {
+                const { data } = await axios.get(`${API}api/contest/getSpPurchase`);
+                setSpPurchase(data.result.data);
+            } catch (error) {
+                console.error('Ошибка при получении типов закупок:', error.message);
             }
-        } catch (error) {
-            console.log('Error during sign-in:', error.message);
-        }
-    };
+        };
+        getSpPurchase();
+    }, []);
 
+    useEffect(() => {
+        const getContestList = async () => {
+            try {
+                const response = await axios.get(`${API}api/contest/getContestList`);
+                const data = response.data;
+                setConcurs(data.result.data);
+                if (data.result.data.length > 0) {
+                    const status_contest = data.result.data[0].status_contest;
+                    localStorage.setItem('status_contest', status_contest);
+                }
+            } catch (error) {
+                console.error('Ошибка при получении списка конкурсов:', error);
+            }
+        };
+        getContestList();
+    }, []);
 
-    //* стягивание данных конкретного юзера по codeId
+    useEffect(() => {
+        const getPublicatedContest = async () => {
+            try {
+                const res = await axios.get(`${API}api/contest/getPublicatedContest`);
+                setPublic(res.data.result.contestList);
+            } catch (error) {
+                console.error('Ошибка при получении опубликованных конкурсов:', error);
+            }
+        };
+        getPublicatedContest();
+    }, []);
 
     const getUserInfo = async (codeId) => {
         try {
-            const { data } = await axios.get(`${API}api/users/getUserInfo/${codeId}`)
+            const { data } = await axios.get(`${API}api/users/getUserInfo/${codeId}`);
             console.log(data);
         } catch (error) {
-            console.log(error);
-        }
-    }
-
-
-    const getUserList = async () => {
-        try {
-            const { data } = await axios.get(`${API}api/users/getUserList`)
-            SetUsers(data.users.users);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
-
-    // ! КОНКУРСЫ
-    //* добавление конкурса
-    const addConcurs = async (formData) => {
-        try {
-            const res = await axios.post(`${API}api/contest/createContest`, formData);
-            console.log(res.data.result.status);
-
-
-        } catch (error) {
-            console.log('Error during sign-in:', error.message);
+            console.error('Ошибка при получении информации о пользователе:', error);
         }
     };
 
-    //
-    // useEffect(() => {
-    //     getCounts()
-    // }, []);
+    const getUserList = async () => {
+        try {
+            const { data } = await axios.get(`${API}api/users/getUserList`);
+            setUsers(data.users.users);
+        } catch (error) {
+            console.error('Ошибка при получении списка пользователей:', error);
+        }
+    };
+
+    const contestFilter = async (codeId) => {
+        try {
+            const { data } = await axios.get(`${API}api/contest/contestFilter/${codeId}`);
+            setCompled(data.result.data);
+        } catch (error) {
+            console.error('Ошибка при фильтрации конкурса:', error);
+        }
+    };
+
+    const getOrderDetails = async (codeId) => {
+        try {
+            const { data } = await axios.get(`${API}api/orders/getOrderDetails/${codeId}`);
+            setDetailUsers(data.result.data);
+        } catch (error) {
+            console.error('Ошибка при получении деталей заявки:', error);
+        }
+    };
+
+    const getByStatus = async (status) => {
+        try {
+            const { data } = await axios.get(`${API}api/users/getByStatus/${status}`);
+            setUsers2(data.result.result);
+        } catch (error) {
+            console.error('Ошибка при получении пользователей по статусу:', error);
+        }
+    };
+
+    const getByStatus2 = async (status) => {
+        try {
+            const { data } = await axios.get(`${API}api/users/getByStatus/${status}`);
+            setUsers3(data.result.result);
+        } catch (error) {
+            console.error('Ошибка при получении пользователей по статусу:', error);
+        }
+    };
+
+    const getFiles = async (status) => {
+        try {
+            const { data } = await axios.get(`${API}api/files/getFiles/${status}`);
+            setActt(data.result.updateFiles);
+        } catch (error) {
+            console.error('Ошибка при получении файлов:', error);
+        }
+    };
 
     const getCounts = async () => {
         try {
@@ -152,187 +309,6 @@ const ContextProviderRegister = ({ children }) => {
             console.log(error)
         }
     }
-
-    //* стягивает селекты для конкурсов
-    useEffect(() => {
-        const getSpPurchase = async () => {
-            try {
-                const { data } = await axios.get(`${API}api/contest/getSpPurchase`);
-                setSpPurchase(data.result.data)
-                // console.log(spPurchase);
-            } catch (error) {
-                console.log('Error fetching organization type:', error.message);
-            }
-        };
-        getSpPurchase()
-
-    }, []);
-
-    //* стягивание конкурсов (вывод)
-    useEffect(() => {
-        const getContestList = async () => {
-            try {
-                const response = await axios.get(`${API}api/contest/getContestList`);
-                const data = response.data;
-                SetConcurs(data.result.data);
-                // console.log(data.result.data);
-                if (data.result.data.length > 0) {
-                    const status_contest = data.result.data[0].status_contest;
-                    localStorage.setItem('status_contest', status_contest);
-                }
-            } catch (error) {
-                console.error('Error fetching contest list:', error);
-            }
-        };
-
-        getContestList();
-    }, []);
-
-    // * фильтрация конкурсов по статусу
-    const updateContestStatus = async (Public) => {
-        try {
-            const res = await axios.post(`${API}api/contest/updateContestStatus`, Public);
-            console.log(res.data);
-        } catch (error) {
-            console.log('Error during sign-in:', error.message);
-        }
-    };
-
-    //* ДЕАКТИВИРОВАНИЕ
-    const diactiveContest = async (Public) => {
-        try {
-            const res = await axios.post(`${API}api/contest/diactiveContest`, Public);
-            console.log(res.data);
-        } catch (error) {
-            console.log('Error during sign-in:', error.message);
-        }
-    };
-
-    //* стягивание опубликованных конкурсов
-    useEffect(() => {
-        const getPublicatedContest = async () => {
-            try {
-                const res = await axios.get(`${API}api/contest/getPublicatedContest`)
-                SetPublic(res.data.result.contestList);
-                // console.log(res.data.result);
-            } catch (error) {
-                console.error('Error fetching contest list:', error);
-            }
-        };
-
-        getPublicatedContest();
-    }, []);
-
-
-    //* стягивание конкурсов по id
-    const contestFilter = async (codeId) => {
-        console.log('contestFilter', codeId)
-        try {
-            const { data } = await axios.get(`${API}api/contest/contestFilter/${codeId}`)
-            SetCompled(data.result.data);
-            console.log(data.result.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    //* отправка данных при подачи заявки пользоватлем
-    const createOrder = async (User) => {
-        try {
-            const res = await axios.post(`${API}api/orders/createOrder`, User);
-            SetMessage(res.data.result.message);
-        } catch (error) {
-            console.log('Error during sign-in:', error);
-        }
-    };
-
-    //* детальный просмотр конкурса
-    const getOrderDetails = async (codeId) => {
-        try {
-            const { data } = await axios.get(`${API}api/orders/getOrderDetails/${codeId}`)
-            SetDetailUsers(data.result.data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const getByStatus = async (status) => {
-        try {
-            console.log(`${API}api/users/getByStatus/${status}`)
-            const { data } = await axios.get(`${API}api/users/getByStatus/${status}`)
-            SetUsers2(data.result.result);
-            console.log(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-    const getByStatus2 = async (status) => {
-        try {
-            const { data } = await axios.get(`${API}api/users/getByStatus/${status}`)
-            SetUsers3(data.result.result);
-            console.log(data);
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-
-    const updateUserStatus = async (UserData) => {
-        try {
-            const { data } = await axios.post(`${API}api/users/updateUserStatus`, UserData);
-            console.log(data);
-        } catch (error) {
-            console.log('Error during sign-in:', error);
-        }
-    };
-    const wonContest = async (ConcursData) => {
-        try {
-            const { data } = await axios.post(`${API}api/orders//wonContest`, ConcursData);
-            console.log(data);
-        } catch (error) {
-            console.log('Error during sign-in:', error);
-        }
-    };
-
-    const getFiles = async (status) => {
-        try {
-            const { data } = await axios.get(`${API}api/files/getFiles/${status}`)
-            setActt(data.result.updateFiles);
-            console.log(data.result.updateFiles);
-
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    // * редактирование данных пользователя
-
-    const updateUserData = async (userData) => {
-        try {
-            const res = await axios.post(`${API}api/users/updateUserData`, userData);
-            console.log(res);
-        } catch (error) {
-            console.log('Error during sign-in:', error.message);
-        }
-    };
-    const deleteUser2 = async (deleteData) => {
-        try {
-            const res = await axios.post(`${API}api/users/deleteUser`, deleteData);
-        } catch (error) {
-            console.log('Error during sign-in:', error.message);
-        }
-    };
-
-    const getReports = async (repostData) => {
-        try {
-            const {data} = await axios.post(`${API}api/contest/getReports`, repostData);
-            setReports(data.result.data);
-        } catch (error) {
-            console.log('Error during sign-in:', error.message);
-        }
-    };
-
-
     const values = {
         registerUser,
         organizationType,
@@ -363,12 +339,13 @@ const ContextProviderRegister = ({ children }) => {
         count,
         getCounts,
         diactiveContest,
-        SetPublic,
+        setPublic,
         updateUserData,
         deleteUser2,
-        getReports, 
-        reports
+        getReports,
+        reports,
     };
+
     return (
         <contextProviderRegister.Provider value={values}>
             {children}
@@ -377,5 +354,3 @@ const ContextProviderRegister = ({ children }) => {
 };
 
 export default ContextProviderRegister;
-
-
